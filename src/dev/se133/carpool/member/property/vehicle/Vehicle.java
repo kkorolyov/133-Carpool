@@ -1,5 +1,7 @@
 package dev.se133.carpool.member.property.vehicle;
 
+import dev.se133.carpool.member.property.vehicle.exception.YearOutOfBoundsException;
+
 /**
  * Describes a vehicle.
  */

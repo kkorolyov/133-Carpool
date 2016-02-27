@@ -1,4 +1,4 @@
-package dev.se133.carpool.member.property.vehicle;
+package dev.se133.carpool.member.property.vehicle.exception;
 
 /**
  * Thrown when an invalid vehicle year is input.
