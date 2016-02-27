@@ -1,6 +1,10 @@
 package dev.se133.carpool.member;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import dev.se133.carpool.member.property.Address;
+import dev.se133.carpool.member.property.vehicle.Vehicle;
 import dev.se133.carpool.member.state.MemberState;
 
 /**
@@ -9,6 +13,7 @@ import dev.se133.carpool.member.state.MemberState;
 public class ConcreteMember implements Member {
 	private String name;
 	private Address address;
+	private List<Vehicle> vehicles = new LinkedList<>();
 	
 	private MemberState state;
 	
@@ -31,6 +36,30 @@ public class ConcreteMember implements Member {
 		setState(state);
 	}
 	
+	/**
+	 * Adds a vehicle under this member.
+	 * @param vehicle vehicle to add
+	 */
+	public void addVehicle(Vehicle vehicle) {
+		vehicles.add(vehicle);
+	}
+	/**
+	 * Remove a vehicle.
+	 * @param vehicle vehicle to remove
+	 * @return {@code true} if vehicle removed, {@code false} if no such vehicle
+	 */
+	public boolean removeVehicle(Vehicle vehicle) {
+		return vehicles.remove(vehicle);
+	}
+	/**
+	 * Removes a vehicle at the specified index.
+	 * @param i index of vehicle to remove
+	 * @return removed vehicle
+	 */
+	public Vehicle removeVehicle(int i) {
+		return vehicles.remove(i);
+	}
+	
 	/** @return member's name */
 	public String getName() {
 		return name;
@@ -47,6 +76,11 @@ public class ConcreteMember implements Member {
 	/** @param address new address */
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+	
+	/** @return all member's vehicles */
+	public List<Vehicle> getVehicles() {
+		return vehicles;
 	}
 	
 	/** @return current state */
