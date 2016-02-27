@@ -1,7 +1,7 @@
 package dev.se133.carpool.member;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import dev.se133.carpool.member.property.Address;
 import dev.se133.carpool.member.property.vehicle.Vehicle;
@@ -13,7 +13,7 @@ import dev.se133.carpool.member.state.MemberState;
 public class ConcreteMember implements Member {
 	private String name;
 	private Address address;
-	private List<Vehicle> vehicles = new LinkedList<>();
+	private Map<String, Vehicle> vehicles = new HashMap<>();
 	
 	private MemberState state;
 	
@@ -36,58 +36,43 @@ public class ConcreteMember implements Member {
 		setState(state);
 	}
 	
-	/**
-	 * Adds a vehicle under this member.
-	 * @param vehicle vehicle to add
-	 */
-	public void addVehicle(Vehicle vehicle) {
-		vehicles.add(vehicle);
+	@Override
+	public void addVehicle(String name, Vehicle vehicle) {
+		vehicles.put(name, vehicle);
 	}
-	/**
-	 * Remove a vehicle.
-	 * @param vehicle vehicle to remove
-	 * @return {@code true} if vehicle removed, {@code false} if no such vehicle
-	 */
-	public boolean removeVehicle(Vehicle vehicle) {
-		return vehicles.remove(vehicle);
-	}
-	/**
-	 * Removes a vehicle at the specified index.
-	 * @param i index of vehicle to remove
-	 * @return removed vehicle
-	 */
-	public Vehicle removeVehicle(int i) {
-		return vehicles.remove(i);
+	@Override
+	public Vehicle removeVehicle(String name) {
+		return vehicles.remove(name);
 	}
 	
-	/** @return member's name */
+	@Override
 	public String getName() {
 		return name;
 	}
-	/** @param name new name */
+	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
 	
-	/** @return member address */
+	@Override
 	public Address getAddress() {
 		return address;
 	}
-	/** @param address new address */
+	@Override
 	public void setAddress(Address address) {
 		this.address = address;
 	}
 	
-	/** @return all member's vehicles */
-	public List<Vehicle> getVehicles() {
-		return vehicles;
+	@Override
+	public Vehicle[] getVehicles() {
+		return vehicles.values().toArray(new Vehicle[vehicles.size()]);
 	}
 	
-	/** @return current state */
+	@Override
 	public MemberState getState() {
 		return state;
 	}
-	/** @param state new state */
+	@Override
 	public void setState(MemberState state) {
 		this.state = state;
 	}
