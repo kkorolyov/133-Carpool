@@ -3,6 +3,7 @@ package dev.se133.carpool.member.property.vehicle;
 /**
  * Describes a vehicle manufacturer.
  */
+@SuppressWarnings("javadoc")
 public enum Make {
 	TOYOTA("Toyota"),
 	HONDA("Honda"),

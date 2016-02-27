@@ -1,6 +1,6 @@
 package dev.se133.carpool.member;
 
-import dev.se133.carpool.member.property.Address;
+import dev.se133.carpool.commute.Address;
 import dev.se133.carpool.member.property.vehicle.Vehicle;
 import dev.se133.carpool.member.state.MemberState;
 
