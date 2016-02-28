@@ -12,10 +12,10 @@ public class MemberTester {
 
 	public static void main(String args[]) throws YearOutOfBoundsException {
 		//Must show status, address, vehicles, sharing ride preference)
+		//Still need ride pref and status
 		Scanner in = new Scanner(System.in);
 		String a;
 		String b;
-		String c;
 		String model;
 		int year;
 		String vin;
