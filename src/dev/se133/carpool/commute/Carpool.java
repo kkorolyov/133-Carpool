@@ -8,9 +8,10 @@ import dev.se133.carpool.member.Member;
 /**
  * A one-way trip consisting of a commute and a driver and passengers.
  */
-public class Carpool {
+public class Carpool implements Comparable<Carpool> {
 	private static final int maxPassengers = 4;
 
+	// TODO Identifier
 	private Commute commute;
 	private Member driver;
 	private Set<Member> passengers = new HashSet<>();
@@ -77,5 +78,13 @@ public class Carpool {
 	/** @return {@code true} if the carpool has a driver and max passengers */
 	public boolean isFull() {
 		return ((driver != null) && (passengers.size() == maxPassengers));
+	}
+
+	/**
+	 * Compares strictly based on commute.
+	 */
+	@Override
+	public int compareTo(Carpool o) {
+		return commute.compareTo(o.commute);
 	}
 }
