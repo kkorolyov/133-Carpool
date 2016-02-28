@@ -24,12 +24,14 @@ public class Vehicle {
 	public Vehicle(Make make, String model, int year, String vin) throws YearOutOfBoundsException {
 		this.make = make;
 		this.model = model;
-		this.year = year;	// For validation
+		setYear(year);
 		this.vin = vin;
 	}
-	private static void setYear(int year) throws YearOutOfBoundsException {
+	private void setYear(int year) throws YearOutOfBoundsException {
 		if (year < minYear || year > maxYear)
 			throw new YearOutOfBoundsException(year, minYear, maxYear);
+		
+		this.year = year;
 	}
 	
 	/** @return vehicle make */
