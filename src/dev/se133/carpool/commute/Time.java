@@ -3,24 +3,21 @@ package dev.se133.carpool.commute;
 import dev.se133.carpool.commute.exception.TimeOutOfBoundsException;
 
 /**
- * An immutable fixed point in time within a week.
+ * An immutable fixed point in time within a day.
  */
 public class Time implements Comparable<Time> {
 	private static final int hourMin = 0, hourMax = 23, minuteMin = 0, minuteMax = 59;
 	private static final int minutesPerHour = 60;
 	
-	private Day day;
 	private int totalMinutes;	// Minutes after 00:00
 	
 	/**
 	 * Constructs a new time at the specified point.
-	 * @param day day of the week
 	 * @param hour hour from 0-23
 	 * @param minute minute from 0-59
 	 * @throws TimeOutOfBoundsException if specified hour or minute are out of bounds
 	 */
-	public Time(Day day, int hour, int minute) throws TimeOutOfBoundsException {
-		this.day = day;
+	public Time(int hour, int minute) throws TimeOutOfBoundsException {
 		setHour(hour);
 		setMinute(minute);
 	}
@@ -35,11 +32,6 @@ public class Time implements Comparable<Time> {
 			throw new TimeOutOfBoundsException(minute, minuteMin, minuteMax);
 		
 		totalMinutes += minute;
-	}
-
-	/** @return day of the week */
-	public Day getDay() {
-		return day;
 	}
 	
 	/** @return hour from 0-23 */
@@ -59,5 +51,26 @@ public class Time implements Comparable<Time> {
 	@Override
 	public int compareTo(Time o) {
 		return new Integer(totalMinutes).compareTo(o.totalMinutes);
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + totalMinutes;
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Time))
+			return false;
+		Time other = (Time) obj;
+		if (totalMinutes != other.totalMinutes)
+			return false;
+		return true;
 	}
 }
