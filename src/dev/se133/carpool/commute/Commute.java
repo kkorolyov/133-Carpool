@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Describes a one-way commute.
+ * A one-way commute.
  * Consists of a day of the week, departure, arrival, and stop points and times.
  */
 public class Commute {
@@ -25,6 +25,7 @@ public class Commute {
 	 * @param departure departure address and time
 	 * @param arrival arrival address and time
 	 * @param stops stop addresses and times
+	 * 
 	 */
 	public Commute(Day day, CommutePoint departure, CommutePoint arrival, CommutePoint[] stops) {
 		setDay(day);
