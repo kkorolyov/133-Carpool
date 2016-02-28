@@ -24,7 +24,7 @@ public class Vehicle {
 	public Vehicle(Make make, String model, int year, String vin) throws YearOutOfBoundsException {
 		this.make = make;
 		this.model = model;
-		setYear(year);	// For validation
+		this.year = year;	// For validation
 		this.vin = vin;
 	}
 	private static void setYear(int year) throws YearOutOfBoundsException {
