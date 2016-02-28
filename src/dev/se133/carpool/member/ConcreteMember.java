@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import dev.se133.carpool.commute.Address;
+import dev.se133.carpool.commute.schedule.CommuteSchedule;
+import dev.se133.carpool.commute.schedule.ConcreteCommuteSchedule;
 import dev.se133.carpool.member.property.vehicle.Vehicle;
 import dev.se133.carpool.member.state.MemberState;
 
@@ -14,8 +16,8 @@ public class ConcreteMember implements Member {
 	private String name;
 	private Address address;
 	private Map<String, Vehicle> vehicles = new HashMap<>();
-	
 	private MemberState state;
+	private CommuteSchedule preferredCommutes = new ConcreteCommuteSchedule();
 	
 	/** 
 	 * Constructs a new member without an initial state.

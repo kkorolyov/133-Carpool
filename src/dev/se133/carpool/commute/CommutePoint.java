@@ -33,11 +33,6 @@ public class CommutePoint implements Comparable<CommutePoint> {
 	}
 	
 	@Override
-	public int compareTo(CommutePoint o) {
-		return time.compareTo(o.getTime());
-	}
-	
-	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -65,5 +60,13 @@ public class CommutePoint implements Comparable<CommutePoint> {
 		} else if (!time.equals(other.time))
 			return false;
 		return true;
+	}
+	
+	/**
+	 * Compares the times of this {@code CommutePoint} and a specified {@code CommutePoint}.
+	 */
+	@Override
+	public int compareTo(CommutePoint o) {
+		return time.compareTo(o.getTime());
 	}
 }

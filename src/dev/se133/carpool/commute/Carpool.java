@@ -1,7 +1,7 @@
 package dev.se133.carpool.commute;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import dev.se133.carpool.member.Member;
 
@@ -13,7 +13,7 @@ public class Carpool {
 
 	private Commute commute;
 	private Member driver;
-	private List<Member> passengers = new LinkedList<>();
+	private Set<Member> passengers = new HashSet<>();
 	
 	/**
 	 * Constructs a new round-trip carpool.
@@ -62,7 +62,7 @@ public class Carpool {
 		if (isFull())
 			return false;
 		
-		passengers.add(passenger);	// TODO Validate
+		passengers.add(passenger);	// TODO Validate, unique
 		return true;
 	}
 	/**

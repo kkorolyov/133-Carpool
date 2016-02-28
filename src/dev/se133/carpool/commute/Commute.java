@@ -7,7 +7,7 @@ import java.util.Set;
  * A one-way commute.
  * Consists of a day of the week, departure, arrival, and stop points and times.
  */
-public class Commute {
+public class Commute implements Comparable<Commute> {
 	private Day day;	// Day of commute
 	private CommutePoint departure, arrival;
 	private Set<CommutePoint> stops = new HashSet<>();
@@ -83,5 +83,19 @@ public class Commute {
 	 */
 	public boolean removeStop(CommutePoint stop) {
 		return stops.remove(stop);
+	}
+	
+	/**
+	 * Compares this commute to a specified commute.
+	 * <p>First, compares the days of both commutes.
+	 * If the days are the same, compares the departure times.
+	 * @return a negative integer, zero, or positive integer if this commute's departure occurs earlier, at the same time, or after the compared commute's departure, respectively
+	 */
+	@Override
+	public int compareTo(Commute o) {
+		if (day.compareTo(o.day) != 0)
+			return day.compareTo(o.day);
+		
+		return departure.compareTo(o.departure);
 	}
 }
