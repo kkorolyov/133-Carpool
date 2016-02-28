@@ -1,8 +1,9 @@
 package dev.se133.carpool.member;
 
 import dev.se133.carpool.commute.Address;
+import dev.se133.carpool.commute.schedule.CommuteSchedule;
 import dev.se133.carpool.member.property.vehicle.Vehicle;
-import dev.se133.carpool.member.state.MemberState;
+import dev.se133.carpool.member.state.State;
 
 /**
  * General member interface.
@@ -35,9 +36,11 @@ public interface Member {
 	/** @return all member's vehicles */
 	Vehicle[] getVehicles();
 	
-	/** @return current state */
-	MemberState getState();
+	/** @return schedule of preferred commutes */
+	CommuteSchedule getPreferredCommutes();
 	
+	/** @return current state */
+	State getState();
 	/** @param state new state */
-	void setState(MemberState state);
+	void setState(State state);
 }
