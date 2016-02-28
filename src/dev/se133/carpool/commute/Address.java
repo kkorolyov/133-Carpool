@@ -1,7 +1,7 @@
 package dev.se133.carpool.commute;
 
 /**
- * Describes an address.
+ * Describes an address. Test change
  */
 public class Address {
 	private String address;
