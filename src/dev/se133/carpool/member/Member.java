@@ -8,7 +8,7 @@ import dev.se133.carpool.member.state.State;
 /**
  * General member interface.
  */
-public interface Member {
+public interface Member extends Comparable<Member> {
 	
 	/**
 	 * Adds a vehicle under this member.
@@ -22,6 +22,9 @@ public interface Member {
 	 * @return removed vehicle, or {@code null} if no such vehicle
 	 */
 	Vehicle removeVehicle(String name);
+	
+	/** @return unique member ID */
+	int getId();
 	
 	/** @return member's name */
 	String getName();
@@ -38,6 +41,8 @@ public interface Member {
 	
 	/** @return schedule of preferred commutes */
 	CommuteSchedule getPreferredCommutes();
+	/** @param preferredCommutes new schedule of preferred commutes */
+	void setPreferredCommutes(CommuteSchedule preferredCommutes);
 	
 	/** @return current state */
 	State getState();

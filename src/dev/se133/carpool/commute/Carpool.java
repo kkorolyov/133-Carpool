@@ -81,10 +81,15 @@ public class Carpool implements Comparable<Carpool> {
 	}
 
 	/**
-	 * Compares strictly based on commute.
+	 * Compares this carpool to a specified carpool.
+	 * The comparison is based on a lexicographical ordering on commute, driver.
 	 */
 	@Override
 	public int compareTo(Carpool o) {
-		return commute.compareTo(o.commute);
+		int commuteCompare = commute.compareTo(o.commute);
+		if (commuteCompare != 0)
+			return commuteCompare;
+		
+		return driver.compareTo(o.driver);
 	}
 }

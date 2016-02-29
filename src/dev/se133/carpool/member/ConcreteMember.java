@@ -14,6 +14,7 @@ import dev.se133.carpool.member.state.State;
  * A concrete member implementation
  */
 public class ConcreteMember implements Member {
+	private int id;
 	private String name;
 	private Address address;
 	private Map<String, Vehicle> vehicles = new HashMap<>();
@@ -51,9 +52,6 @@ public class ConcreteMember implements Member {
 		setPreferredCommutes(preferredCommutes);
 		setState(state);
 	}
-	private void setPreferredCommutes(CommuteSchedule preferredCommutes) {
-		this.preferredCommutes = preferredCommutes;
-	}
 	
 	@Override
 	public void addVehicle(String name, Vehicle vehicle) {
@@ -62,6 +60,11 @@ public class ConcreteMember implements Member {
 	@Override
 	public Vehicle removeVehicle(String name) {
 		return vehicles.remove(name);
+	}
+	
+	@Override
+	public int getId() {
+		return id;
 	}
 	
 	@Override
@@ -91,6 +94,10 @@ public class ConcreteMember implements Member {
 	public CommuteSchedule getPreferredCommutes() {
 		return preferredCommutes;
 	}
+	@Override
+	public void setPreferredCommutes(CommuteSchedule preferredCommutes) {
+		this.preferredCommutes = preferredCommutes;
+	}
 	
 	@Override
 	public State getState() {
@@ -99,5 +106,10 @@ public class ConcreteMember implements Member {
 	@Override
 	public void setState(State state) {
 		this.state = state;
+	}
+	
+	@Override
+	public int compareTo(Member o) {
+		return Integer.compare(id, o.getId());
 	}
 }

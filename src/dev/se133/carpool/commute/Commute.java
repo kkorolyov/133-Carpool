@@ -87,15 +87,26 @@ public class Commute implements Comparable<Commute> {
 	
 	/**
 	 * Compares this commute to a specified commute.
-	 * <p>First, compares the days of both commutes.
-	 * If the days are the same, compares the departure times.
-	 * @return a negative integer, zero, or positive integer if this commute's departure occurs earlier, at the same time, or after the compared commute's departure, respectively
+	 * The comparison is based on a lexicographical ordering on day, departure time, arrival time, number of stops, set of stops hash.
 	 */
 	@Override
 	public int compareTo(Commute o) {
-		if (day.compareTo(o.day) != 0)
-			return day.compareTo(o.day);
+		int dayCompare = day.compareTo(o.day);
+		if (dayCompare != 0)
+			return dayCompare;
 		
-		return departure.compareTo(o.departure);
+		int departureCompare = departure.compareTo(o.departure);
+		if (departureCompare != 0)
+			return departureCompare;
+		
+		int arrivalCompare = arrival.compareTo(o.arrival);
+		if (arrivalCompare != 0)
+			return arrivalCompare;
+		
+		int stopSizeCompare = Integer.compare(stops.size(), o.stops.size());
+		if (stopSizeCompare != 0)
+			return stopSizeCompare;
+		
+		return Integer.compare(stops.hashCode(), o.stops.hashCode());
 	}
 }
