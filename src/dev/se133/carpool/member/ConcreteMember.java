@@ -48,6 +48,7 @@ public class ConcreteMember implements Member {
 	 * @param state member's initial state
 	 */
 	public ConcreteMember(int id, String name, Address address, CommuteSchedule preferredCommutes, State state) {
+		this.id = id;
 		setName(name);
 		setAddress(address);
 		setPreferredCommutes(preferredCommutes);
@@ -86,6 +87,7 @@ public class ConcreteMember implements Member {
 		this.address = address;
 	}
 	
+	// TODO getVehicleNames
 	@Override
 	public Vehicle[] getVehicles() {
 		return vehicles.values().toArray(new Vehicle[vehicles.size()]);	// TODO Exception if passenger state?

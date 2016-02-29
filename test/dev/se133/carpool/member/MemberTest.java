@@ -1,26 +1,23 @@
 package dev.se133.carpool.member;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 import dev.se133.carpool.commute.Address;
-import dev.se133.carpool.commute.schedule.ConcreteCommuteSchedule;
 import dev.se133.carpool.member.property.vehicle.Make;
 import dev.se133.carpool.member.property.vehicle.Vehicle;
 import dev.se133.carpool.member.property.vehicle.exception.YearOutOfBoundsException;
 import dev.se133.carpool.member.state.MemberState;
-import dev.se133.carpool.member.state.MemberState.Driver;
 
-public class DriverMember {
+@SuppressWarnings("javadoc")
+public class MemberTest {
 	private Set<Member> members = new HashSet<>();
 	
-	public static void main() throws YearOutOfBoundsException {
-		new DriverMember();
+	public static void main(String[] args) throws YearOutOfBoundsException {
+		new MemberTest();
 	}
-	private static final Make FORD = null;
 
-	DriverMember() throws YearOutOfBoundsException {
+	MemberTest() throws YearOutOfBoundsException {
 		
 		members.add(new ConcreteMember(1, "Bob1", new Address("123 N P St")));
 		members.add(new ConcreteMember(2, "Bob2", new Address("456 S P St")));
@@ -48,10 +45,17 @@ public class DriverMember {
 			System.out.println("Name: " + x.getName());
 			System.out.println("Address: " + x.getAddress().toString());
 			System.out.println("State: " + x.getState().getStateName());
+			
+			for (Vehicle vehicle : x.getVehicles()) {
+				System.out.println("\tMake: " + vehicle.getMake());
+				System.out.println("\tModel: " + vehicle.getModel());
+				System.out.println("\tYear: " + vehicle.getYear());
+				System.out.println("\tVIN: " + vehicle.getVin());
+			}
 		}
 	}
 	
-	private void changeAll() {
+	private void changeAll() throws YearOutOfBoundsException {
 		int i = 0;
 		String[] names = {"Bobby1", "Bobby2", "Bobby3"};
 		String[] addresses = {"5 E St", "6 E St", "7 E St"};
@@ -72,6 +76,10 @@ public class DriverMember {
 		for(Member x : members) {
 			x.setState(new MemberState.Driver());
 		}
+		
+		System.out.println("Adding vehicles to each member");
+		for (Member x : members)
+			x.addVehicle(x.getName() + "'s car", new Vehicle(Make.HONDA, "NOTAMODEL", 2005, String.valueOf(x.hashCode())));
 	}
 	
 	private void newAddition() {
