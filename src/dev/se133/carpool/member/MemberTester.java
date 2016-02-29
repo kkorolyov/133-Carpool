@@ -11,9 +11,10 @@ import dev.se133.carpool.member.property.vehicle.exception.YearOutOfBoundsExcept
 public class MemberTester {
 
 	public static void main(String args[]) throws YearOutOfBoundsException {
+		new DriverMember();
 		//Must show status, address, vehicles, sharing ride preference)
 		//Still need ride pref and status
-		Scanner in = new Scanner(System.in);
+		/*Scanner in = new Scanner(System.in);
 		String a;
 		String b;
 		String model;
@@ -45,7 +46,7 @@ public class MemberTester {
 		System.out.println("Vehicle Make: " + v1.getMake());
 		System.out.println("Vehicle Model: " + v1.getModel());
 		System.out.println("Vehicle Year: " + v1.getYear());
-		System.out.println("Vehicle VIN: " + v1.getVin());
+		System.out.println("Vehicle VIN: " + v1.getVin());*/
 
 	}
 }
