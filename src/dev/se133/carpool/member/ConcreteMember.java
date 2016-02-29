@@ -26,27 +26,28 @@ public class ConcreteMember implements Member {
 	 * Constructs a new member.
 	 * <p> The member has an empty schedule of preferred commutes.
 	 * <br>The member has an initial state of {@code MemberState.Passenger}
-	 * @see #ConcreteMember(String, Address, CommuteSchedule, State)
+	 * @see #ConcreteMember(int, String, Address, CommuteSchedule, State)
 	 */
-	public ConcreteMember(String name, Address address) {
-		this(name, address, null);
+	public ConcreteMember(int id, String name, Address address) {
+		this(id, name, address, null);
 	}
 	/** 
 	 * Constructs a new member.
 	 * <p>The member has an initial state of {@code MemberState.Passenger}
-	 * @see #ConcreteMember(String, Address, CommuteSchedule, State)
+	 * @see #ConcreteMember(int, String, Address, CommuteSchedule, State)
 	 */
-	public ConcreteMember(String name, Address address, CommuteSchedule preferredCommutes) {
-		this(name, address, preferredCommutes, new MemberState.Passenger());
+	public ConcreteMember(int id, String name, Address address, CommuteSchedule preferredCommutes) {
+		this(id, name, address, preferredCommutes, new MemberState.Passenger());
 	}
 	/**
 	 * Constructs a new member.
+	 * @param id member's unique ID
 	 * @param name member's name
 	 * @param address member's address
 	 * @param preferredCommutes schedule of preferred commutes
 	 * @param state member's initial state
 	 */
-	public ConcreteMember(String name, Address address, CommuteSchedule preferredCommutes, State state) {
+	public ConcreteMember(int id, String name, Address address, CommuteSchedule preferredCommutes, State state) {
 		setName(name);
 		setAddress(address);
 		setPreferredCommutes(preferredCommutes);
