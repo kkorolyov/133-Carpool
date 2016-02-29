@@ -26,4 +26,6 @@ public class CommuteScheduleManager {
 	private CommuteScheduleManager() {
 		// Private constructor
 	}
+	
+	// TODO Management methods
 }

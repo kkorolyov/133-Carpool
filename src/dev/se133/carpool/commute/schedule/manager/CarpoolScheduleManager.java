@@ -25,4 +25,6 @@ public class CarpoolScheduleManager {
 	private CarpoolScheduleManager() {
 		// Private constructor
 	}
+	
+	// TODO Management methods
 }
