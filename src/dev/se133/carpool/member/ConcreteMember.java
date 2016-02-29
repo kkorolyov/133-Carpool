@@ -29,11 +29,11 @@ public class ConcreteMember implements Member {
 	 * @see #ConcreteMember(String, Address, CommuteSchedule, State)
 	 */
 	public ConcreteMember(String name, Address address) {
-		this(name, address, new ConcreteCommuteSchedule());
+		this(name, address, null);
 	}
 	/** 
 	 * Constructs a new member.
-	 * <br>The member has an initial state of {@code MemberState.Passenger}
+	 * <p>The member has an initial state of {@code MemberState.Passenger}
 	 * @see #ConcreteMember(String, Address, CommuteSchedule, State)
 	 */
 	public ConcreteMember(String name, Address address, CommuteSchedule preferredCommutes) {
