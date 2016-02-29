@@ -6,7 +6,8 @@ import dev.se133.carpool.commute.exception.TimeOutOfBoundsException;
  * An immutable fixed point in time within a day.
  */
 public class Time implements Comparable<Time> {
-	private static final int hourMin = 0, hourMax = 23, minuteMin = 0, minuteMax = 59;
+	@SuppressWarnings("javadoc")
+	public static final int HOUR_MIN = 0, HOUR_MAX = 23, MINUTE_MIN = 0, MINUTE_MAX = 59;
 	private static final int minutesPerHour = 60;
 	
 	private int totalMinutes;	// Minutes after 00:00
@@ -22,14 +23,14 @@ public class Time implements Comparable<Time> {
 		setMinute(minute);
 	}
 	private void setHour(int hour) throws TimeOutOfBoundsException {
-		if (hour < hourMin || hour > hourMax)
-			throw new TimeOutOfBoundsException(hour, hourMin, hourMax);
+		if (hour < HOUR_MIN || hour > HOUR_MAX)
+			throw new TimeOutOfBoundsException(hour, HOUR_MIN, HOUR_MAX);
 		
 		totalMinutes += (hour * minutesPerHour);
 	}
 	private void setMinute(int minute) throws TimeOutOfBoundsException {
-		if (minute < minuteMin || minute > minuteMax)
-			throw new TimeOutOfBoundsException(minute, minuteMin, minuteMax);
+		if (minute < MINUTE_MIN || minute > MINUTE_MAX)
+			throw new TimeOutOfBoundsException(minute, MINUTE_MIN, MINUTE_MAX);
 		
 		totalMinutes += minute;
 	}
