@@ -36,7 +36,7 @@ public class RideScheduleDriver{
 		}
 		
 		System.out.println("-------------------Deleting a stop---------------------");
-		
+		stops[0] = null;
 		for(int i = 0; i < stops.length; i++){
 			if(stops[i] != null)
 			System.out.println("Stops: " + stops[i].getAddress() + " -- " + stops[i].getTime().getHour() + ":" + stops[i].getTime().getMinute());
