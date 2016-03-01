@@ -15,31 +15,38 @@ public class RideScheduleDriver{
 		stops[0] = new CommutePoint(m3.getAddress(), new Time(9, 45));
 		Commute commute = new Commute(Day.MONDAY, new CommutePoint(m1.getAddress(), new Time(9, 30)), new CommutePoint(m2.getAddress(), new Time(11, 00)), stops);
 		Carpool testPool = new Carpool(commute, m1, passengers);
+		
+		CommutePoint[] stopList = commute.getStops();
+		
 		//Retreive Carpool information
 		System.out.println("Day: " + testPool.getCommute().getDay());
 		System.out.println("Departure: " + commute.getDeparture().getAddress() + " -- " + commute.getDeparture().getTime().getHour() + ":" + commute.getDeparture().getTime().getMinute());
 		
-		for(int i = 0; i < stops.length; i++){
-			if(stops[i] != null)
-			System.out.println("Stops: " + stops[0].getAddress() + " -- " + stops[0].getTime().getHour() + ":" + stops[0].getTime().getMinute());
+		//System.out.println(stopList[1].getAddress());
+
+		for(int i = 0; i < stopList.length; i++){
+			if(stopList[i] != null)
+			System.out.println("Stops: " + stopList[i].getAddress() + " -- " + stopList[i].getTime().getHour() + ":" + stopList[i].getTime().getMinute());
 		}
 		
 		System.out.println("Arrival: " + commute.getArrival().getAddress() + " -- " + commute.getArrival().getTime().getHour() + ":" + commute.getArrival().getTime().getMinute());
 	
 		//Update Information
-		stops[1] = new CommutePoint(m4.getAddress(), new Time(10, 15));
+		commute.addStop(new CommutePoint(m4.getAddress(), new Time(10,15)));
+		stopList = commute.getStops();
 		System.out.println("-------------------Adding a new stop---------------------");
 		
-		for(int i = 0; i < stops.length; i++){
-			if(stops[i] != null)
-			System.out.println("Stops: " + stops[i].getAddress() + " -- " + stops[i].getTime().getHour() + ":" + stops[i].getTime().getMinute());
+		for(int i = 0; i < stopList.length; i++){
+			if(stopList[i] != null)
+			System.out.println("Stops: " + stopList[i].getAddress() + " -- " + stopList[i].getTime().getHour() + ":" + stopList[i].getTime().getMinute());
 		}
 		
 		System.out.println("-------------------Deleting a stop---------------------");
-		stops[0] = null;
-		for(int i = 0; i < stops.length; i++){
-			if(stops[i] != null)
-			System.out.println("Stops: " + stops[i].getAddress() + " -- " + stops[i].getTime().getHour() + ":" + stops[i].getTime().getMinute());
+		commute.removeStop(stopList[1]);
+		stopList = commute.getStops();
+		for(int i = 0; i < stopList.length; i++){
+			if(stopList[i] != null)
+			System.out.println("Stops: " + stopList[i].getAddress() + " -- " + stopList[i].getTime().getHour() + ":" + stopList[i].getTime().getMinute());
 		}
 	}
 	
