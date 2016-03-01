@@ -1,7 +1,7 @@
 package dev.se133.carpool.commute;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * A one-way commute.
@@ -10,7 +10,7 @@ import java.util.Set;
 public class Commute implements Comparable<Commute> {
 	private Day day;	// Day of commute
 	private CommutePoint departure, arrival;
-	private Set<CommutePoint> stops = new HashSet<>();
+	private Set<CommutePoint> stops = new TreeSet<>();
 	
 	/**
 	 * Constructs a new commute with no additional stops.
@@ -65,7 +65,7 @@ public class Commute implements Comparable<Commute> {
 		this.arrival = arrival;	// TODO Validate
 	}
 	
-	/** @return all stops */
+	/** @return all stops, sorted by time ascending */
 	public CommutePoint[] getStops() {
 		return stops.toArray(new CommutePoint[stops.size()]);
 	}
