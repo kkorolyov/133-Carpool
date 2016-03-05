@@ -1,11 +1,14 @@
 package dev.se133.project.commute;
 
+import java.util.HashMap;
+
 /**
  * An immutable fixed location and time of a commute.
  */
 public class CommutePoint implements Comparable<CommutePoint> {
 	private Address address;
 	private Time time;
+	private  HashMap<Address, Double > commuteMap = new HashMap<>();
 	
 	/**
 	 * Constructs a new point at the specified address and time.
@@ -30,6 +33,18 @@ public class CommutePoint implements Comparable<CommutePoint> {
 	/** @return time */
 	public Time getTime() {
 		return time;
+	}
+	/** @return distance to address */
+	private double getCommuteDistance(Address address) {
+		return commuteMap.get(address);
+	}
+	/** Adds a new entry to the commuteMap hash. */
+	private void addCommuteDistance(Address address, double distance) {
+		commuteMap.put(address, distance);
+	}
+	
+	private void removeCommuteDistance(Address address) {
+		commuteMap.remove(address);
 	}
 	
 	@Override
