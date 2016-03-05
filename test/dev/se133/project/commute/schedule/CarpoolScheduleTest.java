@@ -4,10 +4,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 import dev.se133.project.entity.Address;
+import dev.se133.project.entity.Car;
 import dev.se133.project.entity.Carpool;
 import dev.se133.project.entity.Day;
 import dev.se133.project.entity.Time;
 import dev.se133.project.entity.commute.*;
+import dev.se133.project.entity.exception.FullCarException;
 import dev.se133.project.entity.exception.TimeOutOfBoundsException;
 import dev.se133.project.entity.member.BasicMember;
 import dev.se133.project.entity.member.Member;
@@ -16,7 +18,7 @@ import dev.se133.project.entity.member.Member;
 public class CarpoolScheduleTest {
 	private static Set<Carpool> carpools = new HashSet<>();
 	
-	public static void main(String[] args) throws TimeOutOfBoundsException {
+	public static void main(String[] args) throws TimeOutOfBoundsException, FullCarException {
 		populateCarpools();
 		listAll();
 		System.out.println();
@@ -70,7 +72,7 @@ public class CarpoolScheduleTest {
 		Member m1 = new BasicMember(52, "Joe", new Address("23 First St.")),
 				m2 = new BasicMember(34, "Jack", new Address("123 Fake St."));
 				
-		carpools.add(new Carpool(commute, m1, new Member[]{m2}));
+		carpools.add(new Carpool(commute, m1, new Car()));
 	}
 	private static void change() {
 		System.out.println("CHANGING A DRIVER");
@@ -89,12 +91,14 @@ public class CarpoolScheduleTest {
 		carpools.remove(toDelete);
 	}
 	
-	private static void populateCarpools() throws TimeOutOfBoundsException {
+	private static void populateCarpools() throws TimeOutOfBoundsException, FullCarException {
 		Member m1 = new BasicMember(52, "Joe", new Address("23 First St.")),
 				m2 = new BasicMember(34, "Jack", new Address("123 Fake St.")),
 				m3 = new BasicMember(15, "Robert", new Address("52 2nd St.")),
 				m4 = new BasicMember(10, "Wilson", new Address("100 5th Ave."));
-		Member[] passengers = {m2, m3};
+		Car passengers = new Car();
+		passengers.addPassenger(m2);
+		passengers.addPassenger(m3);
 
 		CommutePoint departure = new CommutePoint(new Address("Departure St."), new Time(12, 45)),
 				arrival = new CommutePoint(new Address("Arrival Rd."), new Time(16,30));

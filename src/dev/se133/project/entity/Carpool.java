@@ -14,15 +14,18 @@ public class Carpool implements Comparable<Carpool> {	// TODO Refactor into a Ca
 
 	// TODO Identifier
 	private Commute commute;
+	private Car car;
+	
 	private Member driver;
 	private Set<Member> passengers = new HashSet<>();
 	
 	/**
 	 * Constructs a new round-trip carpool.
 	 */
-	public Carpool(Commute commute, Member driver, Member[] passengers) {
+	public Carpool(Commute commute, Member driver, Car car) {
 		setCommute(commute);
 		setDriver(driver);
+		setCar(car);
 		
 		if (passengers != null) {
 			for (Member passenger : passengers)
@@ -49,6 +52,11 @@ public class Carpool implements Comparable<Carpool> {	// TODO Refactor into a Ca
 	/** @param driver new driver */
 	public void setDriver(Member driver) {
 		this.driver = driver;
+	}
+	
+	/** @param car new car*/
+	public void setCar(Car car) {
+		this.car = car;
 	}
 	
 	/** @return all passengers */
