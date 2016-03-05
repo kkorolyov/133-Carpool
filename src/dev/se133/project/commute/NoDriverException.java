@@ -1,0 +1,8 @@
+package dev.se133.project.commute;
+
+/**
+ * Exception thrown when an operation on a car could result in it being unable to contain at least 1 driver.
+ */
+public class NoDriverException extends Exception {
+	private static final long serialVersionUID = 6418180838810696711L;
+}
