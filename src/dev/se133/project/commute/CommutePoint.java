@@ -55,7 +55,7 @@ public class CommutePoint implements Comparable<CommutePoint> {
 	private double getCommuteDistance(Address address) {
 		return commuteMap.get(address);
 	}
-	private HashMap<Address, Double> getCommuteMap() {
+	public HashMap<Address, Double> getCommuteMap() {
 		return commuteMap;
 	}
 	/** Adds a new entry to the commuteMap hash. */
