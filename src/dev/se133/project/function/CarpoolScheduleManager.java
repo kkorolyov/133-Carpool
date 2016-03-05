@@ -1,4 +1,4 @@
-package dev.se133.project.manager;
+package dev.se133.project.function;
 
 import java.util.Set;
 import java.util.TreeSet;
