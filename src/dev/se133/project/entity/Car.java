@@ -30,6 +30,12 @@ public class Car {
 		isFull = false;
 	}
 	
+	/**
+	 * adds a new inhabitant to the car
+	 * throws exception if the car is full
+	 * @param inhabitant
+	 * @throws FullCarException
+	 */
 	public void addPassenger(Member inhabitant) throws FullCarException {
 		int i, len = inhabitants.length;
 		if(!isFull) {
@@ -43,6 +49,23 @@ public class Car {
 			}
 		}
 		else throw new FullCarException(len);
+	}
+	
+	/**
+	 * finds specified member within inhabitants array
+	 * sets the element to null
+	 * sets isFull to false
+	 * @param inhabitant
+	 */
+	public void removePassenger(Member inhabitant) {
+		int i, len = inhabitants.length;
+		for(i = 0; i < len; i++) {
+			if(inhabitants[i].equals(inhabitant)) {
+				inhabitants[i] = null;
+				isFull = false;
+				return;
+			}
+		}
 	}
 	// TODO Almost everything
 }
