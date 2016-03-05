@@ -1,4 +1,4 @@
-package dev.se133.project.entity.member;
+package dev.se133.project.member;
 
 /**
  * A member-specific state.

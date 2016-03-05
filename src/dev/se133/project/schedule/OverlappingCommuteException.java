@@ -1,4 +1,4 @@
-package dev.se133.project.entity.schedule.exception;
+package dev.se133.project.schedule;
 
 /**
  * Thrown when multiple commutes in a schedule overlap.

@@ -1,10 +1,9 @@
-package dev.se133.project.entity;
+package dev.se133.project.commute;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import dev.se133.project.entity.commute.Commute;
-import dev.se133.project.entity.member.Member;
+import dev.se133.project.member.Member;
 
 /**
  * A one-way trip consisting of a commute and a driver and passengers.

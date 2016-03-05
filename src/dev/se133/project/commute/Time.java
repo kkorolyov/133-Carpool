@@ -1,6 +1,4 @@
-package dev.se133.project.entity;
-
-import dev.se133.project.entity.exception.TimeOutOfBoundsException;
+package dev.se133.project.commute;
 
 /**
  * An immutable fixed point in time within a day.

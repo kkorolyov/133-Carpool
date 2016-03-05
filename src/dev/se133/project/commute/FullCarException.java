@@ -1,4 +1,4 @@
-package dev.se133.project.entity.exception;
+package dev.se133.project.commute;
 
 public class FullCarException extends Exception{
 	//TODO Serial version UID, IDK what that is

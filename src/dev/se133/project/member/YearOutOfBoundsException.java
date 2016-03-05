@@ -1,4 +1,4 @@
-package dev.se133.project.entity.vehicle.exception;
+package dev.se133.project.member;
 
 /**
  * Thrown when an invalid vehicle year is input.

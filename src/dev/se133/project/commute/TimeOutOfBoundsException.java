@@ -1,4 +1,4 @@
-package dev.se133.project.entity.exception;
+package dev.se133.project.commute;
 
 /**
  * Thrown when an input hour or minute is out of bounds.

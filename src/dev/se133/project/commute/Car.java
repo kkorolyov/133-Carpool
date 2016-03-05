@@ -1,11 +1,10 @@
-package dev.se133.project.entity;
+package dev.se133.project.commute;
 
-import dev.se133.project.entity.exception.FullCarException;
-import dev.se133.project.entity.member.Member;
+import dev.se133.project.member.Member;
 
 /**
  * Representation of the inhabitants of a car.
- * Contains exactly a finite number of inhabitants, 1 of which is the designated driver.
+ * Contains a finite number of inhabitants, exactly 1 of which is the designated driver.
  */
 public class Car {
 	/** Default maximum number of inhabitants */

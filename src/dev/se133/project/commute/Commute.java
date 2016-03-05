@@ -1,9 +1,7 @@
-package dev.se133.project.entity.commute;
+package dev.se133.project.commute;
 
 import java.util.Set;
 import java.util.TreeSet;
-
-import dev.se133.project.entity.Day;
 
 /**
  * A one-way commute.

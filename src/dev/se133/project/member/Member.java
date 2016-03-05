@@ -1,8 +1,7 @@
-package dev.se133.project.entity.member;
+package dev.se133.project.member;
 
-import dev.se133.project.entity.Address;
-import dev.se133.project.entity.schedule.CommuteSchedule;
-import dev.se133.project.entity.vehicle.Vehicle;
+import dev.se133.project.commute.Address;
+import dev.se133.project.schedule.CommuteSchedule;
 
 /**
  * General member interface.

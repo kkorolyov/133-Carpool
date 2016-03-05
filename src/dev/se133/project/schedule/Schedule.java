@@ -1,4 +1,4 @@
-package dev.se133.project.entity.schedule;
+package dev.se133.project.schedule;
 
 /**
  * Provides for scheduling of various comparable entities.

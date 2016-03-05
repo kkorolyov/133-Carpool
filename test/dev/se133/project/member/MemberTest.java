@@ -3,13 +3,10 @@ package dev.se133.project.member;
 import java.util.HashSet;
 import java.util.Set;
 
-import dev.se133.project.entity.Address;
-import dev.se133.project.entity.member.BasicMember;
-import dev.se133.project.entity.member.Member;
-import dev.se133.project.entity.member.MemberState;
-import dev.se133.project.entity.vehicle.Make;
-import dev.se133.project.entity.vehicle.Vehicle;
-import dev.se133.project.entity.vehicle.exception.YearOutOfBoundsException;
+import dev.se133.project.commute.Address;
+import dev.se133.project.member.BasicMember;
+import dev.se133.project.member.Member;
+import dev.se133.project.member.MemberState;
 
 @SuppressWarnings("javadoc")
 public class MemberTest {
@@ -81,7 +78,7 @@ public class MemberTest {
 		
 		System.out.println("Adding vehicles to each member");
 		for (Member x : members)
-			x.addVehicle(x.getName() + "'s car", new Vehicle(Make.HONDA, "NOTAMODEL", 2005, String.valueOf(x.hashCode())));
+			x.addVehicle(x.getName() + "'s car", new Vehicle(Vehicle.Make.HONDA, "NOTAMODEL", 2005, String.valueOf(x.hashCode())));
 	}
 	
 	private void newAddition() {

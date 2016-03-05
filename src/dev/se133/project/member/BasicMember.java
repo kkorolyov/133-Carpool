@@ -1,12 +1,11 @@
-package dev.se133.project.entity.member;
+package dev.se133.project.member;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import dev.se133.project.entity.Address;
-import dev.se133.project.entity.schedule.CommuteSchedule;
-import dev.se133.project.entity.schedule.SortedCommuteSchedule;
-import dev.se133.project.entity.vehicle.Vehicle;
+import dev.se133.project.commute.Address;
+import dev.se133.project.schedule.CommuteSchedule;
+import dev.se133.project.schedule.SortedCommuteSchedule;
 
 /**
  * A basis member implementation

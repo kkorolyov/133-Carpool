@@ -3,7 +3,7 @@ package dev.se133.project.manager;
 import java.util.HashMap;
 import java.util.Map;
 
-import dev.se133.project.entity.member.Member;
+import dev.se133.project.member.Member;
 
 /**
  * Centralized manager for all members.

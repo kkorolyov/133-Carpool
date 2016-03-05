@@ -1,7 +1,7 @@
-package dev.se133.project.entity.schedule;
+package dev.se133.project.schedule;
 
-import dev.se133.project.entity.Day;
-import dev.se133.project.entity.commute.Commute;
+import dev.se133.project.commute.Commute;
+import dev.se133.project.commute.Day;
 
 /**
  * General commuting schedule interface.

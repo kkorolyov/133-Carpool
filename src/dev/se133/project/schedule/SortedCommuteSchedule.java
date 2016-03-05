@@ -1,10 +1,10 @@
-package dev.se133.project.entity.schedule;
+package dev.se133.project.schedule;
 
 import java.util.Set;
 import java.util.TreeSet;
 
-import dev.se133.project.entity.Day;
-import dev.se133.project.entity.commute.Commute;
+import dev.se133.project.commute.Commute;
+import dev.se133.project.commute.Day;
 
 /**
  * A commute schedule implementation.

@@ -1,4 +1,4 @@
-package dev.se133.project.entity;
+package dev.se133.project.commute;	// TODO More generic package, used in BasicMember as well
 
 /**
  * An address.

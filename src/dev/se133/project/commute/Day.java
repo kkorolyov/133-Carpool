@@ -1,4 +1,4 @@
-package dev.se133.project.entity;
+package dev.se133.project.commute;
 
 /**
  * A single day of the week.

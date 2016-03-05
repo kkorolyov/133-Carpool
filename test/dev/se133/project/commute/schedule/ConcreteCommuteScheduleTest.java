@@ -5,13 +5,9 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 
-import dev.se133.project.entity.Address;
-import dev.se133.project.entity.Day;
-import dev.se133.project.entity.Time;
-import dev.se133.project.entity.commute.*;
-import dev.se133.project.entity.exception.TimeOutOfBoundsException;
-import dev.se133.project.entity.schedule.CommuteSchedule;
-import dev.se133.project.entity.schedule.SortedCommuteSchedule;
+import dev.se133.project.commute.*;
+import dev.se133.project.schedule.CommuteSchedule;
+import dev.se133.project.schedule.SortedCommuteSchedule;
 
 @SuppressWarnings("javadoc")
 public class ConcreteCommuteScheduleTest {

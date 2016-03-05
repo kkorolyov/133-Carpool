@@ -1,7 +1,4 @@
-package dev.se133.project.entity.commute;
-
-import dev.se133.project.entity.Address;
-import dev.se133.project.entity.Time;
+package dev.se133.project.commute;
 
 /**
  * An immutable fixed location and time of a commute.

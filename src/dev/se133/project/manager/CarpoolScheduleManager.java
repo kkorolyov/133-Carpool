@@ -3,7 +3,7 @@ package dev.se133.project.manager;
 import java.util.Set;
 import java.util.TreeSet;
 
-import dev.se133.project.entity.Carpool;
+import dev.se133.project.commute.Carpool;
 
 /**
  * Centralized manager for carpool scheduling.
