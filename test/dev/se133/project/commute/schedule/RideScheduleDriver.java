@@ -5,7 +5,7 @@ import dev.se133.project.member.BasicMember;
 @SuppressWarnings("javadoc")
 public class RideScheduleDriver{
 
-	RideScheduleDriver() throws TimeOutOfBoundsException, FullCarException {
+	RideScheduleDriver() throws TimeOutOfBoundsException, FullCarException, NoDriverException {
 		//Create initial Carpool
 		BasicMember m1 = new BasicMember(52, "Joe", new Address("23 First St."));
 		BasicMember m2 = new BasicMember(34, "Jack", new Address("123 Fake St."));
@@ -53,7 +53,7 @@ public class RideScheduleDriver{
 		}
 	}
 	
-	public static void main(String args[]) throws TimeOutOfBoundsException, FullCarException {
+	public static void main(String args[]) throws TimeOutOfBoundsException, FullCarException, NoDriverException {
 		new RideScheduleDriver();
 	}
 }

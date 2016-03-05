@@ -11,7 +11,7 @@ import dev.se133.project.member.Member;
 public class CarpoolScheduleTest {
 	private static Set<Carpool> carpools = new HashSet<>();
 	
-	public static void main(String[] args) throws TimeOutOfBoundsException, FullCarException {
+	public static void main(String[] args) throws TimeOutOfBoundsException, FullCarException, NoDriverException {
 		populateCarpools();
 		listAll();
 		System.out.println();
@@ -84,7 +84,7 @@ public class CarpoolScheduleTest {
 		carpools.remove(toDelete);
 	}
 	
-	private static void populateCarpools() throws TimeOutOfBoundsException, FullCarException {
+	private static void populateCarpools() throws TimeOutOfBoundsException, FullCarException, NoDriverException {
 		Member m1 = new BasicMember(52, "Joe", new Address("23 First St.")),
 				m2 = new BasicMember(34, "Jack", new Address("123 Fake St.")),
 				m3 = new BasicMember(15, "Robert", new Address("52 2nd St.")),
