@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class CommutePoint implements Comparable<CommutePoint> {
 	private Address address;
 	private Time time;
-	private  HashMap<Address, Double > commuteMap = new HashMap<>();
+	private  HashMap<Address, Double > commuteMap = new HashMap<>();	// TODO Move to AddressMap object?
 	
 	/**
 	 * Constructs a new point at the specified address and time.
