@@ -29,6 +29,14 @@ public class Time implements Comparable<Time> {
 		setHour(hour);
 		setMinute(minute);
 	}
+	/**
+	 * Constructs a new time which is a copy of another time.
+	 * @param toCopy time to copy
+	 */
+	public Time(Time toCopy) {
+		this.totalMinutes = toCopy.totalMinutes;
+	}
+	
 	private void setHour(int hour) throws TimeOutOfBoundsException {
 		if (hour < HOUR_MIN || hour > HOUR_MAX)
 			throw new TimeOutOfBoundsException(hour, HOUR_MIN, HOUR_MAX);

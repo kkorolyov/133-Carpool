@@ -13,6 +13,13 @@ public class Address {
 	public Address(String address) {
 		this.address = address;
 	}
+	/**
+	 * Constructs a new address which is a copy of another address.
+	 * @param toCopy address to copy
+	 */
+	public Address(Address toCopy) {
+		this.address = toCopy.address;	// Strings immutable, ok to pass ref
+	}
 	
 	/** @return address as a string */
 	@Override

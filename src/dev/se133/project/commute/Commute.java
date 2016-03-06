@@ -7,35 +7,54 @@ import java.util.TreeSet;
  * A one-way commute.
  * Consists of a day of the week, departure, arrival, and stop points and times.
  */
-public class Commute implements Comparable<Commute> {
+public class Commute {
 	private Day day;	// Day of commute
-	private CommutePoint departure, arrival;
-	private Set<CommutePoint> stops = new TreeSet<>();
+	private TreeSet<CommutePoint> stops = new TreeSet<>();	// Ordered by time ascending
 	
 	/**
-	 * Constructs a new commute with no additional stops.
-	 * @see #Commute(Day, CommutePoint, CommutePoint, CommutePoint[])
+	 * Constructs a new commute with no stops.
+	 * @param day day of commute
 	 */
-	public Commute(Day day, CommutePoint departure, CommutePoint arrival) {
-		this(day, departure, arrival, null);
+	public Commute(Day day) {
+		this(day, null);
 	}
 	/**
-	 * Constructs a new commute with additional stops.
-	 * @param day day of the commute
-	 * @param departure departure address and time
-	 * @param arrival arrival address and time
-	 * @param stops stop addresses and times
-	 * 
+	 * Constructs a new commute.
+	 * @param day day of commute
+	 * @param stops all stops in the commute
 	 */
-	public Commute(Day day, CommutePoint departure, CommutePoint arrival, CommutePoint[] stops) {
+	public Commute(Day day, Set<CommutePoint> stops) {
 		setDay(day);
-		setDeparture(departure);
-		setArrival(arrival);
+		setStops(stops);
+	}
+	private void setStops(Set<CommutePoint> stops) {
+		if (stops == null)
+			return;
 		
-		if (stops != null) {
-			for (CommutePoint stop : stops)
-				addStop(stop);
+		for (CommutePoint stop : stops) {
+			if (stop != null)
+				addStop(new CommutePoint(stop));	// To protect against outside access
 		}
+	}
+	
+	/**
+	 * Adds a stop.
+	 * If a stop equivalent to the specified stop is already in this commute, this method does nothing.
+	 * @param stop stop to add
+	 */
+	public void addStop(CommutePoint stop) {
+		if (stop == null)
+			throw new IllegalArgumentException();
+		
+		stops.add(stop);
+	}
+	/**
+	 * Removes a stop.
+	 * @param stop stop to remove
+	 * @return {@code true} if stop removed, {@code false} if no such stop
+	 */
+	public boolean removeStop(CommutePoint stop) {
+		return stops.remove(stop);
 	}
 	
 	/** @return day of commute */
@@ -47,66 +66,49 @@ public class Commute implements Comparable<Commute> {
 		this.day = day;
 	}
 	
-	/** @return departure point and time */
+	/** @return earliest stop in this commute */
 	public CommutePoint getDeparture() {
-		return departure;
+		return stops.first();	// Departure is the earliest
 	}
-	/** @param departure new departure point and time */
-	public void setDeparture(CommutePoint departure) {
-		this.departure = departure;	// TODO Validate
-	}
-	
-	/** @return arrival point and time */
+	/** @return latest stop in this commute */
 	public CommutePoint getArrival() {
-		return arrival;
-	}
-	/** @param arrival new arrival point and time */
-	public void setArrival(CommutePoint arrival) {
-		this.arrival = arrival;	// TODO Validate
+		return stops.last();	// Arrival is the latest
 	}
 	
-	/** @return all stops, sorted by time ascending */
-	public CommutePoint[] getStops() {
-		return stops.toArray(new CommutePoint[stops.size()]);
-	}
-	/**
-	 * Adds a stop.
-	 * @param stop stop to add
-	 */
-	public void addStop(CommutePoint stop) {
-		stops.add(stop);	// TODO Validate
-	}
-	/**
-	 * Removes a stop.
-	 * @param stop stop to remove
-	 * @return {@code true} if stop removed, {@code false} if no such stop
-	 */
-	public boolean removeStop(CommutePoint stop) {
-		return stops.remove(stop);
+	/** @return a copy of all stops, sorted by time ascending */
+	public Set<CommutePoint> getStops() {
+		TreeSet<CommutePoint> returnSet = new TreeSet<>();
+		
+		for (CommutePoint stop : stops)
+			returnSet.add(new CommutePoint(stop));	// Add a copy
+		
+		return returnSet;
 	}
 	
-	/**
-	 * Compares this commute to a specified commute.
-	 * The comparison is based on a lexicographical ordering on day, departure time, arrival time, number of stops, set of stops hash.
-	 */
 	@Override
-	public int compareTo(Commute o) {
-		int dayCompare = day.compareTo(o.day);
-		if (dayCompare != 0)
-			return dayCompare;
-		
-		int departureCompare = departure.compareTo(o.departure);
-		if (departureCompare != 0)
-			return departureCompare;
-		
-		int arrivalCompare = arrival.compareTo(o.arrival);
-		if (arrivalCompare != 0)
-			return arrivalCompare;
-		
-		int stopSizeCompare = Integer.compare(stops.size(), o.stops.size());
-		if (stopSizeCompare != 0)
-			return stopSizeCompare;
-		
-		return Integer.compare(stops.hashCode(), o.stops.hashCode());
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((day == null) ? 0 : day.hashCode());
+		result = prime * result + ((stops == null) ? 0 : stops.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Commute))
+			return false;
+		Commute other = (Commute) obj;
+		if (day != other.day)
+			return false;
+		if (stops == null) {
+			if (other.stops != null)
+				return false;
+		} else if (!stops.equals(other.stops))
+			return false;
+		return true;
 	}
 }
