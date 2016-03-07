@@ -111,4 +111,13 @@ public class Commute {
 			return false;
 		return true;
 	}
+	
+	public String toString() {
+		String returnStatement = "";
+		int i = 0;
+		for(CommutePoint stop : stops) {
+			returnStatement += "Stop " + i++ + ": " + stop.getAddress() + "\n";
+		}
+		return returnStatement;
+	}
 }

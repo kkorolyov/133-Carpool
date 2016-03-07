@@ -47,16 +47,13 @@ public class SimpleScheduler {
 						Member minMember = null;
 						
 						for (Member inhabitant : allInhabitants) {
-							//System.out.println("Member: " + inhabitant.getName() + " Address: " + inhabitant.getAddress());
 							double currentDistance = map.getDistance(lastStop.getAddress(), inhabitant.getAddress());
 							if (currentDistance < minDistance) {
 								minDistance = currentDistance;
 								minMember = inhabitant;
 							}
 						}
-						System.out.println("Distance between " + lastStop.getAddress() + " and " + minMember.getAddress() + " == " + (int) minDistance);
 						commute.addStop(lastStop = new CommutePoint(minMember.getAddress(), lastStop.getDay(), new Time(lastStop.getTime().getTotalMinutes() + (int) minDistance + 1)));
-						System.out.println("Last stop: " + lastStop.getAddress() + " Time: " + lastStop.getTime().getHour() + ":" + lastStop.getTime().getMinute());
 						allInhabitants.remove(minMember);
 					}
 				} catch (Exception e) {

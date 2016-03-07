@@ -26,11 +26,9 @@ public class SimpleSchedulerTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		map = buildMap(6);
-		System.out.println(map);
+		
 		Member[] members = buildMembers(map);
-		for (Member member : members) {
-			System.out.println("Member: " + member.getName() + " Address: " + member.getAddress());
-		}
+		
 		arrival = new CommutePoint(new Address("Address0"), Day.MONDAY, new Time(departure.getTime().getTotalMinutes() + 60));
 		
 		car = buildCar(members);
@@ -48,13 +46,31 @@ public class SimpleSchedulerTest {
 	@Test
 	public void testSchedule() {
 		scheduler.schedule();
-		
+		int i = 0;
 		Commute commute = scheduler.getCommute();
+		System.out.println(map);
+		for(Member member : car.getInhabitants()) {
+			if(member.getState().getStateName().equals("Driver"))
+				System.out.println("Member: " + member.getName() + "\t\t" + member.getState().getStateName() + "   \tAddress: " + member.getAddress().toString());
+			else
+				System.out.println("Member: " + member.getName() + "\t\t" + member.getState().getStateName() + "\tAddress: " + member.getAddress().toString());
+		}
 		
-		System.out.println("Day: " + commute.getDay());
+		System.out.println("\nDay of commute: " + commute.getDay());
 		for (CommutePoint stop : commute.getStops()) {
-			System.out.println("\tTime: " + stop.getTime().getHour() + ":" + stop.getTime().getMinute());
-			System.out.println("\tAddress: " + stop.getAddress().toString());
+			if(i == 0) {
+				System.out.println("\tDeparture time: " + stop.getTime().getHour() + ":" + stop.getTime().getMinute());
+				System.out.println("\tFrom departure address: " + stop.getAddress().toString() + "\n");
+			}
+			else if(i < commute.getStops().size() - 1) {
+				System.out.println("\tStop time: " + stop.getTime().getHour() + ":" + stop.getTime().getMinute());
+				System.out.println("\tAt address: " + stop.getAddress().toString() + "\n");
+			}
+			else {
+				System.out.println("\tDestination time: " + stop.getTime().getHour() + ":" + stop.getTime().getMinute());
+				System.out.println("\tAt final address: " + stop.getAddress().toString() + "\n");
+			}
+			i++;
 		}
 	}
 
@@ -64,7 +80,6 @@ public class SimpleSchedulerTest {
 		
 		int counter = 0;
 		for (Address address : addresses) {
-			System.out.println(address);
 			if (counter < members.length)
 				members[counter++] = new BasicMember(counter, "Member" + (counter - 1), address);
 		}
@@ -92,7 +107,6 @@ public class SimpleSchedulerTest {
 			car.addPassenger(member);
 			
 			car.setDriver();
-			System.out.println("Driver: " + car.getDriver().getName());
 		}
 		return car;
 	}

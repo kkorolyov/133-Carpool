@@ -140,19 +140,44 @@ public class ArrayAddressMap implements AddressMap {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		
+		int longest = 0;
+		for(int i = 0; i < map[0].length; i++) {
+			for(int j = 0; j < map.length; j++) {
+				if(map[i][j] != null && map[i][j].toString().length() > longest) {
+					longest = map[i][j].toString().length();
+				}
+			}
+		}
 		for (int y = 0; y < map[0].length; y++) {
 			for (int x = 0; x < map.length; x++) {
-				builder.append(map[x][y]);
-				if (y < map.length - 1)
+				if(map[x][y] != null)
+					builder.append(center(map[x][y].toString(), longest));
+				else
+					builder.append(center("*", longest));
+				if (y < map.length)
 					builder.append("|");
 			}
 			builder.append("\n");
-			for (int i = 0; i < map.length * 2 - 1; i++) {
-				builder.append("-");
+			for (int i = 0; i < map.length * longest + map.length; i++) {
+				builder.append('-');
 			}
 			builder.append("\n");
 		}
 		return builder.toString();
+	}
+	
+	private static String center(String source, int length) {
+		String expanded = source;
+		boolean addToEnd = true;
+		if (expanded.length() < length) {
+			for (int i = expanded.length(); i < length; i++) {
+				if (addToEnd)	// Add filler to end
+					expanded += " ";	// Fill with spaces
+				else	// Add filler to beginning
+					expanded = " " + expanded;
+				addToEnd = !addToEnd;	// Alternate adding to end and start
+			}
+		}
+		return expanded;
 	}
 }
