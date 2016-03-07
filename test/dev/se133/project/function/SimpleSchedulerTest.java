@@ -1,8 +1,7 @@
 package dev.se133.project.function;
 
-import static org.junit.Assert.fail;
-
 import java.util.Random;
+import java.util.Set;
 
 import org.junit.After;
 import org.junit.Before;
@@ -25,13 +24,17 @@ public class SimpleSchedulerTest {
 	private SimpleScheduler scheduler;
 	
 	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {		
-		Member[] members = buildMembers(5);
+	public static void setUpBeforeClass() throws Exception {
+		Day day = Day.MONDAY;
+		Time departTime = new Time(12, 0), arriveTime = new Time(departTime.getTotalMinutes() + 60);
+		arrival = new CommutePoint(new Address("Arrival"), day, arriveTime);
+
+		map = buildMap(6);
+
+		Member[] members = buildMembers(map);
 		
-		departure = new CommutePoint(members[0].getAddress(), Day.MONDAY, new Time(12, 0));
-		arrival = new CommutePoint(new Address("Arrival"), departure.getDay(), new Time(departure.getTime().getTotalMinutes() + 60));
+		departure = new CommutePoint(members[0].getAddress(), day, departTime);
 		
-		map = buildMap(members, arrival);
 		car = buildCar(members);
 	}
 	
@@ -57,21 +60,25 @@ public class SimpleSchedulerTest {
 		}
 	}
 
-	private static Member[] buildMembers(int numMembers) {
-		Member[] members = new Member[numMembers];
-		for (int i = 0; i < members.length; i++) {
-			members[i] = new BasicMember(i, "Member" + i, new Address("Address" + i));
+	private static Member[] buildMembers(AddressMap map) {
+		Set<Address> addresses = map.getAllAddresses();
+		Member[] members = new Member[addresses.size() - 1];
+		
+		int counter = 0;
+		for (Address address : addresses) {
+			if (counter < members.length)
+				members[counter++] = new BasicMember(counter, "Member" + counter, address);
 		}
 		members[0].setState(new MemberState.Driver());	// 1 driver
 		return members;
 	}
 	
-	private static AddressMap buildMap(Member[] members, CommutePoint arrival) {
+	private static AddressMap buildMap(int numAddress) {
 		ArrayAddressMap map = new ArrayAddressMap(xSize, ySize);
 		
 		Random random = new Random();
-		for (Member member : members) {
-			map.addAddress(member.getAddress(), random.nextInt(xSize), random.nextInt(ySize));
+		for (int i = 0; i < numAddress - 1; i++) {
+			map.addAddress(new Address("Address" + i), random.nextInt(xSize), random.nextInt(ySize));
 		}
 		map.addAddress(arrival.getAddress(), random.nextInt(xSize), random.nextInt(ySize));
 		

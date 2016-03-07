@@ -24,7 +24,7 @@ public class SimpleScheduler {
 		this.arrival = arrival;
 	}
 	
-	public void schedule() {
+	public void schedule() {	// TODO Issue here
 		scheduledCommute = new CommuteBuilder() {
 			@SuppressWarnings("synthetic-access")
 			@Override
@@ -34,9 +34,6 @@ public class SimpleScheduler {
 				try {
 					toReturn.addStop(departure);
 					toReturn.addStop(arrival);
-									
-					int commuteTime = arrival.getTime().getTotalMinutes() - departure.getTime().getTotalMinutes();	// Maximum time for commute
-					int timeBetweenStops = commuteTime / car.getInhabitants().size();
 					
 					Set<Member> copySet = new HashSet<>(car.getInhabitants());
 					
@@ -50,7 +47,7 @@ public class SimpleScheduler {
 								minMember = member;
 							}
 						}
-						lastStop = new CommutePoint(minMember.getAddress(), lastStop.getDay(), new Time(lastStop.getTime().getTotalMinutes() + timeBetweenStops));
+						lastStop = new CommutePoint(minMember.getAddress(), lastStop.getDay(), new Time((int) (lastStop.getTime().getTotalMinutes() + minDistance + 1)));
 						toReturn.addStop(lastStop);
 						
 						copySet.remove(minMember);
