@@ -9,7 +9,7 @@ public class CommutePoint implements Comparable<CommutePoint> {
 	private Address address;
 	private Day day;
 	private Time time;
-	private  HashMap<Address, Double > commuteMap = new HashMap<>();	// TODO Move to AddressMap object?
+	private  HashMap<Address, Double > commuteMap = new HashMap<>();	// Moved to AddressMap
 	
 	/**
 	 * Constructs a new point at the specified address, day, and time.
@@ -51,21 +51,22 @@ public class CommutePoint implements Comparable<CommutePoint> {
 	public Time getTime() {
 		return time;
 	}
-	/** @return distance to address */
+	/*  Moved to AddressMap
+	/** @return distance to address 
 	private double getCommuteDistance(Address address) {
 		return commuteMap.get(address);
 	}
 	public HashMap<Address, Double> getCommuteMap() {
 		return commuteMap;
 	}
-	/** Adds a new entry to the commuteMap hash. */
+	/** Adds a new entry to the commuteMap hash. 
 	private void addCommuteDistance(Address address, double distance) {
 		commuteMap.put(address, distance);
 	}
 	
 	private void removeCommuteDistance(Address address) {
 		commuteMap.remove(address);
-	}
+	} */
 	
 	@Override
 	public int hashCode() {
