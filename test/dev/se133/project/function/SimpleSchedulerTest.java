@@ -29,9 +29,9 @@ public class SimpleSchedulerTest {
 		System.out.println(map);
 		Member[] members = buildMembers(map);
 		for (Member member : members) {
-			System.out.println("Mamber: " + member.getName() + " Address: " + member.getAddress());
+			System.out.println("Member: " + member.getName() + " Address: " + member.getAddress());
 		}
-		arrival = new CommutePoint(new Address("Address5"), Day.MONDAY, new Time(departure.getTime().getTotalMinutes() + 60));
+		arrival = new CommutePoint(new Address("Address0"), Day.MONDAY, new Time(departure.getTime().getTotalMinutes() + 60));
 		
 		car = buildCar(members);
 	}
@@ -64,6 +64,7 @@ public class SimpleSchedulerTest {
 		
 		int counter = 0;
 		for (Address address : addresses) {
+			System.out.println(address);
 			if (counter < members.length)
 				members[counter++] = new BasicMember(counter, "Member" + (counter - 1), address);
 		}
