@@ -8,7 +8,7 @@ import java.util.TreeSet;
  * Consists of a day of the week, departure, arrival, and stop points and times.
  */
 public class Commute {
-	private Day day;	// Day of commute
+	private Day day;	// Day of commute TODO migrated to CommutePoint
 	private TreeSet<CommutePoint> stops = new TreeSet<>();	// Ordered by time ascending
 	
 	/**
