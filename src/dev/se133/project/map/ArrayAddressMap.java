@@ -120,6 +120,7 @@ public class ArrayAddressMap implements AddressMap {
 				distance = Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2));
 			}
 		}
+		//System.out.println("Address1: " + address1 + " Address2: " + address2 + " distance: " + distance);
 		return distance;
 	}
 
@@ -134,5 +135,24 @@ public class ArrayAddressMap implements AddressMap {
 			}
 		}
 		return toReturn;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		
+		for (int y = 0; y < map[0].length; y++) {
+			for (int x = 0; x < map.length; x++) {
+				builder.append(map[x][y]);
+				if (y < map.length - 1)
+					builder.append("|");
+			}
+			builder.append("\n");
+			for (int i = 0; i < map.length * 2 - 1; i++) {
+				builder.append("-");
+			}
+			builder.append("\n");
+		}
+		return builder.toString();
 	}
 }

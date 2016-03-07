@@ -25,15 +25,13 @@ public class SimpleSchedulerTest {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		Day day = Day.MONDAY;
-		Time departTime = new Time(12, 0), arriveTime = new Time(departTime.getTotalMinutes() + 60);
-		arrival = new CommutePoint(new Address("Arrival"), day, arriveTime);
-
 		map = buildMap(6);
-
+		System.out.println(map);
 		Member[] members = buildMembers(map);
-		
-		departure = new CommutePoint(members[0].getAddress(), day, departTime);
+		for (Member member : members) {
+			System.out.println("Mamber: " + member.getName() + " Address: " + member.getAddress());
+		}
+		arrival = new CommutePoint(new Address("Address5"), Day.MONDAY, new Time(departure.getTime().getTotalMinutes() + 60));
 		
 		car = buildCar(members);
 	}
@@ -60,28 +58,29 @@ public class SimpleSchedulerTest {
 		}
 	}
 
-	private static Member[] buildMembers(AddressMap map) {
+	private static Member[] buildMembers(AddressMap map) throws TimeOutOfBoundsException {
 		Set<Address> addresses = map.getAllAddresses();
 		Member[] members = new Member[addresses.size() - 1];
 		
 		int counter = 0;
 		for (Address address : addresses) {
 			if (counter < members.length)
-				members[counter++] = new BasicMember(counter, "Member" + counter, address);
+				members[counter++] = new BasicMember(counter, "Member" + (counter - 1), address);
 		}
 		members[0].setState(new MemberState.Driver());	// 1 driver
+		departure = new CommutePoint(members[0].getAddress(), Day.MONDAY, new Time(12, 10));
+		
 		return members;
 	}
 	
-	private static AddressMap buildMap(int numAddress) {
+	private static AddressMap buildMap(int numAddresses) {
+		int xSize = numAddresses * 2, ySize = xSize;	// Half of map empty
 		ArrayAddressMap map = new ArrayAddressMap(xSize, ySize);
 		
 		Random random = new Random();
-		for (int i = 0; i < numAddress - 1; i++) {
-			map.addAddress(new Address("Address" + i), random.nextInt(xSize), random.nextInt(ySize));
+		for (int i = 0; i < numAddresses; i++) {
+			while (!map.addAddress(new Address("Address" + i), random.nextInt(xSize), random.nextInt(ySize)));	// Keep randomizing until an empty spot found
 		}
-		map.addAddress(arrival.getAddress(), random.nextInt(xSize), random.nextInt(ySize));
-		
 		return map;
 	}
 	
@@ -92,6 +91,7 @@ public class SimpleSchedulerTest {
 			car.addPassenger(member);
 			
 			car.setDriver();
+			System.out.println("Driver: " + car.getDriver().getName());
 		}
 		return car;
 	}

@@ -17,7 +17,7 @@ public class Time implements Comparable<Time> {
 	 */
 	public Time(int totalMinutes) throws TimeOutOfBoundsException {
 		setHour(totalMinutes / minutesPerHour);
-		setMinute(totalMinutes / minutesPerHour);
+		setMinute(totalMinutes % minutesPerHour);
 	}
 	/**
 	 * Constructs a new time at the specified point.

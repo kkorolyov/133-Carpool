@@ -9,6 +9,7 @@ import dev.se133.project.member.Member;
 
 public class SimpleScheduler {
 	private AddressMap map;
+	// TODO Remove these
 	private Car car;
 	private CommutePoint departure, arrival;
 	private Commute scheduledCommute;
@@ -24,40 +25,55 @@ public class SimpleScheduler {
 		this.arrival = arrival;
 	}
 	
-	public void schedule() {	// TODO Issue here
-		scheduledCommute = new CommuteBuilder() {
-			@SuppressWarnings("synthetic-access")
+	public void scheduleByDistance(AddressMap map, Car car, CommutePoint departure, CommutePoint arrival) {
+		schedule(map, car, departure, arrival, new CommuteBuilder() {
 			@Override
 			public Commute buildCommute(Car car, CommutePoint departure, CommutePoint arrival) {
-				Commute toReturn = new Commute(departure.getDay());
+				Commute commute = new Commute(departure.getDay());
 				
 				try {
-					toReturn.addStop(departure);
-					toReturn.addStop(arrival);
+					commute.addStop(departure);	// Add departure point to commute
+					commute.addStop(arrival);	// Add arrival point to commute
 					
-					Set<Member> copySet = new HashSet<>(car.getInhabitants());
+					Set<Member> allInhabitants = car.getInhabitants();	// Returned set is a copy, ok to mutate
 					
-					CommutePoint lastStop = departure;
-					while (!copySet.isEmpty()) {
-						double minDistance = -1, currentDistance = -1;
+					if (car.getDriver().getAddress().equals(departure.getAddress()))	// Driver departing from own address, no need to add
+						allInhabitants.remove(car.getDriver());
+					
+					CommutePoint lastStop = departure;	// Start routing from 1st point = departure
+					
+					while (!allInhabitants.isEmpty()) {
+						double minDistance = Double.MAX_VALUE;	// No distance in commute should be greater than this
 						Member minMember = null;
-						for (Member member : copySet) {
-							if ((currentDistance = map.getDistance(member.getAddress(), lastStop.getAddress())) < minDistance || minDistance < 0) {
+						
+						for (Member inhabitant : allInhabitants) {
+							//System.out.println("Member: " + inhabitant.getName() + " Address: " + inhabitant.getAddress());
+							double currentDistance = map.getDistance(lastStop.getAddress(), inhabitant.getAddress());
+							if (currentDistance < minDistance) {
 								minDistance = currentDistance;
-								minMember = member;
+								minMember = inhabitant;
 							}
 						}
-						lastStop = new CommutePoint(minMember.getAddress(), lastStop.getDay(), new Time((int) (lastStop.getTime().getTotalMinutes() + minDistance + 1)));
-						toReturn.addStop(lastStop);
-						
-						copySet.remove(minMember);
+						System.out.println("Distance between " + lastStop.getAddress() + " and " + minMember.getAddress() + " == " + (int) minDistance);
+						commute.addStop(lastStop = new CommutePoint(minMember.getAddress(), lastStop.getDay(), new Time(lastStop.getTime().getTotalMinutes() + (int) minDistance + 1)));
+						System.out.println("Last stop: " + lastStop.getAddress() + " Time: " + lastStop.getTime().getHour() + ":" + lastStop.getTime().getMinute());
+						allInhabitants.remove(minMember);
 					}
-				} catch (TimeOutOfBoundsException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				return toReturn;
+				return commute;
 			}
-		}.buildCommute(car, departure, arrival);
+		});
+	}
+	
+	private void schedule(AddressMap map, Car car, CommutePoint departure, CommutePoint arrival, CommuteBuilder algorithm) {
+		// TODO Change to add to carpool list
+		scheduledCommute = algorithm.buildCommute(car, departure, arrival);
+	}
+	
+	public void schedule() {	// TODO Issue here
+		scheduleByDistance(map, car, departure, arrival);
 	}
 	
 	public Commute getCommute() {
