@@ -101,6 +101,7 @@ public class SimpleScheduler {
 						commute.addStop(lastStop = new CommutePoint(picked.getAddress(), lastStop.getDay(), new Time(lastStop.getTime().getTotalMinutes() + (int) minDistance + 1)));
 						allInhabitants.remove(picked);
 					}
+					scan.close();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
