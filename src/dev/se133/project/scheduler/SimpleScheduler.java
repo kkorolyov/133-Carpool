@@ -1,4 +1,4 @@
-package dev.se133.project.function;
+package dev.se133.project.scheduler;
 
 import java.util.HashSet;
 import java.util.Scanner;
@@ -7,6 +7,7 @@ import java.util.Set;
 import dev.se133.project.commute.*;
 import dev.se133.project.map.AddressMap;
 import dev.se133.project.member.Member;
+import dev.se133.project.router.CommuteBuilder;
 
 public class SimpleScheduler {
 	private AddressMap map;

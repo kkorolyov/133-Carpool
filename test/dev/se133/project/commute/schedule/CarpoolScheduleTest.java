@@ -35,9 +35,9 @@ public class CarpoolScheduleTest {
 		System.out.println("================================");
 		for (Carpool carpool : carpools) {
 			System.out.println("--------------------------------");
-			System.out.println("Driver: " + carpool.getDriver().getName());
+			System.out.println("Driver: " + carpool.getCar().getDriver().getName());
 			System.out.println("Passengers: ");
-			for (Member member : carpool.getPassengers())
+			for (Member member : carpool.getCar().getInhabitants())
 				System.out.println("\t" + member.getName());
 			
 			Commute commute = carpool.getCommute();

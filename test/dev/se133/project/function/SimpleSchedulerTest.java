@@ -14,6 +14,7 @@ import dev.se133.project.map.ArrayAddressMap;
 import dev.se133.project.member.BasicMember;
 import dev.se133.project.member.Member;
 import dev.se133.project.member.MemberState;
+import dev.se133.project.scheduler.SimpleScheduler;
 
 public class SimpleSchedulerTest {
 	private static final int xSize = 100, ySize = 100;

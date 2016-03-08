@@ -1,4 +1,4 @@
-package dev.se133.project.function;
+package dev.se133.project.scheduler;
 
 import java.util.Set;
 import java.util.TreeSet;
