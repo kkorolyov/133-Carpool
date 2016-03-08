@@ -44,9 +44,9 @@ public class CarpoolScheduleTest {
 			CommutePoint point;
 			System.out.println("Commute:");
 			System.out.println("\tDay: " + commute.getDay());
-			point = commute.getDeparture();
+			point = commute.getStart();
 			System.out.println("\tDeparture: " + point.getAddress() + " -- " + String.valueOf(point.getTime().getHour()) + ":" + String.valueOf(point.getTime().getMinute()));
-			point = commute.getArrival();
+			point = commute.getEnd();
 			System.out.println("\tArrival: " + point.getAddress() + " -- " + String.valueOf(point.getTime().getHour()) + ":" + String.valueOf(point.getTime().getMinute()));
 			
 			System.out.println("\tStops: ");

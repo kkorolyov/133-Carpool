@@ -23,7 +23,7 @@ public class SortedCommuteSchedule implements CommuteSchedule {	// TODO Extend S
 		Set<Commute> dayCommutes = new TreeSet<>();
 		
 		for (Commute commute : commutes) {
-			if (commute.getDay().equals(day))
+			if (commute.getStart().getTime().getDay().equals(day))
 				dayCommutes.add(commute);
 		}
 		return dayCommutes.toArray(new Commute[dayCommutes.size()]);

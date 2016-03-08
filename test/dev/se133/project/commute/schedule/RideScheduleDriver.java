@@ -23,7 +23,7 @@ public class RideScheduleDriver{
 		
 		//Retreive Carpool information
 		System.out.println("Day: " + testPool.getCommute().getDay());
-		System.out.println("Departure: " + commute.getDeparture().getAddress() + " -- " + commute.getDeparture().getTime().getHour() + ":" + commute.getDeparture().getTime().getMinute());
+		System.out.println("Departure: " + commute.getStart().getAddress() + " -- " + commute.getStart().getTime().getHour() + ":" + commute.getStart().getTime().getMinute());
 		
 		//System.out.println(stopList[1].getAddress());
 
@@ -32,7 +32,7 @@ public class RideScheduleDriver{
 			System.out.println("Stops: " + stopList[i].getAddress() + " -- " + stopList[i].getTime().getHour() + ":" + stopList[i].getTime().getMinute());
 		}
 		
-		System.out.println("Arrival: " + commute.getArrival().getAddress() + " -- " + commute.getArrival().getTime().getHour() + ":" + commute.getArrival().getTime().getMinute());
+		System.out.println("Arrival: " + commute.getEnd().getAddress() + " -- " + commute.getEnd().getTime().getHour() + ":" + commute.getEnd().getTime().getMinute());
 	
 		//Update Information
 		commute.addStop(new CommutePoint(m4.getAddress(), new Time(10,15)));

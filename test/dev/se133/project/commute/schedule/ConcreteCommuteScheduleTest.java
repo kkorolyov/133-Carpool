@@ -45,12 +45,12 @@ public class ConcreteCommuteScheduleTest {
 			System.out.println("Commute " + counter++);
 			System.out.println("\tDay: " + commute.getDay());
 			
-			point = commute.getDeparture();
+			point = commute.getStart();
 			System.out.println("\tDeparture");
 			System.out.println("\t\tAddress: " + point.getAddress().toString());
 			System.out.println("\t\tTime: " + point.getTime().getHour() + ":" + point.getTime().getMinute());
 			
-			point = commute.getArrival();
+			point = commute.getEnd();
 			System.out.println("\tArrival");
 			System.out.println("\t\tAddress: " + point.getAddress().toString());
 			System.out.println("\t\tTime: " + point.getTime().getHour() + ":" + point.getTime().getMinute());

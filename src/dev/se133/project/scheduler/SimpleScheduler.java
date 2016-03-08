@@ -1,7 +1,5 @@
 package dev.se133.project.scheduler;
 
-import java.util.HashSet;
-import java.util.Scanner;
 import java.util.Set;
 
 import dev.se133.project.commute.*;
@@ -27,11 +25,11 @@ public class SimpleScheduler {
 		this.arrival = arrival;
 	}
 	
-	public void scheduleByDistance(final AddressMap map, Car car, CommutePoint departure, CommutePoint arrival) {
+	public void scheduleByDistance(final AddressMap map, Car car, CommutePoint departure, CommutePoint arrival) throws NoDriverException {
 		schedule(map, car, departure, arrival, new CommuteBuilder() {
 			@Override
-			public Commute buildCommute(Car car, CommutePoint departure, CommutePoint arrival) {
-				Commute commute = new Commute(departure.getDay());
+			public Commute buildCommute(AddressMap map, Car car, CommutePoint departure, CommutePoint arrival) {
+				Commute commute = new Commute();
 				
 				try {
 					commute.addStop(departure);	// Add departure point to commute
@@ -55,7 +53,7 @@ public class SimpleScheduler {
 								minMember = inhabitant;
 							}
 						}
-						commute.addStop(lastStop = new CommutePoint(minMember.getAddress(), lastStop.getDay(), new Time(lastStop.getTime().getTotalMinutes() + (int) minDistance + 1)));
+						commute.addStop(lastStop = new CommutePoint(minMember.getAddress(), new Time(lastStop.getTime().getDay(), lastStop.getTime().getTotalMinutes() + (int) minDistance + 1)));
 						allInhabitants.remove(minMember);
 					}
 				} catch (Exception e) {
@@ -66,7 +64,7 @@ public class SimpleScheduler {
 		});
 	}
 	
-	public void scheduleByDriver(final AddressMap map, Car car, CommutePoint departure, CommutePoint arrival) {
+	/*public void scheduleByDriver(final AddressMap map, Car car, CommutePoint departure, CommutePoint arrival) {
 		schedule(map, car, departure, arrival, new CommuteBuilder() {
 			public Commute buildCommute(Car car, CommutePoint departure, CommutePoint arrival) {
 				Commute commute = new Commute(departure.getDay());
@@ -109,18 +107,18 @@ public class SimpleScheduler {
 				return commute;
 			}
 		});
-	}
+	}*/
 	
-	private void scheduleDriver() {
+	/*private void scheduleDriver() {
 		scheduleByDriver(map, car, departure, arrival);
-	}
+	}*/
 	
-	private void schedule(AddressMap map, Car car, CommutePoint departure, CommutePoint arrival, CommuteBuilder algorithm) {
+	private void schedule(AddressMap map, Car car, CommutePoint departure, CommutePoint arrival, CommuteBuilder algorithm) throws NoDriverException {
 		// TODO Change to add to carpool list
-		scheduledCommute = algorithm.buildCommute(car, departure, arrival);
+		scheduledCommute = algorithm.buildCommute(map, car, departure, arrival);
 	}
 	
-	public void schedule() {	// TODO Issue here
+	public void schedule() throws NoDriverException {
 		scheduleByDistance(map, car, departure, arrival);
 	}
 	

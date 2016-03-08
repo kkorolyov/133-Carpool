@@ -1,62 +1,67 @@
 package dev.se133.project.commute;
 
 /**
- * An immutable fixed point in time within a day.
+ * An immutable fixed point in time.
  */
 public class Time implements Comparable<Time> {
-	@SuppressWarnings("javadoc")
-	public static final int HOUR_MIN = 0, HOUR_MAX = 23, MINUTE_MIN = 0, MINUTE_MAX = 59;
-	private static final int minutesPerHour = 60;
+	/**	The minimum legal value. */
+	public static final int MIN_VALUE = 0;
+	/**	The maximum legal value. */
+	public static final int MAX_VALUE = 1439;
+	/** The conversion rate between minutes and hours */
+	public static final int MINUTES_TO_HOUR = 60;
+
+	private Day day;
+	private int totalMinutes;	// Minutes after start of day
 	
-	private int totalMinutes;	// Minutes after 00:00
-	
-	/**
-	 * Constructs a new time at a specified point.
-	 * @param totalMinutes total minutes after 00:00
-	 * @throws TimeOutOfBoundsException if specified time is out of bounds
-	 */
-	public Time(int totalMinutes) throws TimeOutOfBoundsException {
-		setHour(totalMinutes / minutesPerHour);
-		setMinute(totalMinutes % minutesPerHour);
-	}
 	/**
 	 * Constructs a new time at the specified point.
-	 * @param hour hour from 0-23
-	 * @param minute minute from 0-59
-	 * @throws TimeOutOfBoundsException if specified hour or minute are out of bounds
+	 * @param day day of time
+	 * @param hour hour of the day
+	 * @param minute minute of the day
+	 * @throws TimeOutOfBoundsException if specified time is out of bounds
 	 */
-	public Time(int hour, int minute) throws TimeOutOfBoundsException {
-		setHour(hour);
-		setMinute(minute);
+	public Time(Day day, int hour, int minute) throws TimeOutOfBoundsException {
+		this(day, hour * MINUTES_TO_HOUR + minute);
+	}
+	/**
+	 * Constructs a new time at a specified point.
+	 * @param day day of time
+	 * @param totalMinutes total minutes after the start of the day
+	 * @throws TimeOutOfBoundsException if specified time is out of bounds
+	 */
+	public Time(Day day, int totalMinutes) throws TimeOutOfBoundsException {
+		this.day = day;
+		setTotalMinutes(totalMinutes);
 	}
 	/**
 	 * Constructs a new time which is a copy of another time.
 	 * @param toCopy time to copy
 	 */
 	public Time(Time toCopy) {
+		this.day = toCopy.day;
 		this.totalMinutes = toCopy.totalMinutes;
 	}
 	
-	private void setHour(int hour) throws TimeOutOfBoundsException {
-		if (hour < HOUR_MIN || hour > HOUR_MAX)
-			throw new TimeOutOfBoundsException(hour, HOUR_MIN, HOUR_MAX);
+	private void setTotalMinutes(int totalMinutes) throws TimeOutOfBoundsException {
+		if (totalMinutes < MIN_VALUE || totalMinutes > MAX_VALUE)
+			throw new TimeOutOfBoundsException(totalMinutes, MIN_VALUE, MAX_VALUE);
 		
-		totalMinutes += (hour * minutesPerHour);
+		this.totalMinutes = totalMinutes;
 	}
-	private void setMinute(int minute) throws TimeOutOfBoundsException {
-		if (minute < MINUTE_MIN || minute > MINUTE_MAX)
-			throw new TimeOutOfBoundsException(minute, MINUTE_MIN, MINUTE_MAX);
-		
-		totalMinutes += minute;
+	
+	/** @return day of the week of this time */
+	public Day getDay() {
+		return day;
 	}
 	
 	/** @return hour from 0-23 */
 	public int getHour() {
-		return totalMinutes / minutesPerHour;
+		return totalMinutes / MINUTES_TO_HOUR;
 	}
 	/** @return minute from 0-59 */
 	public int getMinute() {
-		return totalMinutes % minutesPerHour;
+		return totalMinutes % MINUTES_TO_HOUR;
 	}
 	
 	/** @return minutes after 00:00 of the set day */
