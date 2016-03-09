@@ -5,7 +5,6 @@ import java.util.Map;
 
 import dev.se133.project.commute.Address;
 import dev.se133.project.schedule.CommuteSchedule;
-import dev.se133.project.schedule.SortedCommuteSchedule;
 
 /**
  * A basis member implementation
@@ -14,8 +13,8 @@ public class BasicMember implements Member {
 	private int id;
 	private String name;
 	private Address address;
-	private Map<String, Vehicle> vehicles = new HashMap<>();
-	private CommuteSchedule preferredCommutes = new SortedCommuteSchedule();
+	private Map<String, Vehicle> vehicles = new HashMap<>();	// TODO Change to Garage
+	private CommuteSchedule preferredCommutes;
 	// TODO Ref to set of carpools?
 	private State state;
 
