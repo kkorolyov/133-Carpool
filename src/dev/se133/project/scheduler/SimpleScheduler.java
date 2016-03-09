@@ -53,7 +53,7 @@ public class SimpleScheduler {
 								minMember = inhabitant;
 							}
 						}
-						commute.addStop(lastStop = new CommutePoint(minMember.getAddress(), new Time(lastStop.getTime().getDay(), lastStop.getTime().getTotalMinutes() + (int) minDistance + 1)));
+						commute.addStop(lastStop = new CommutePoint(minMember.getAddress(), Time.timeAfter(lastStop.getTime(), (int) minDistance + 1)));
 						allInhabitants.remove(minMember);
 					}
 				} catch (Exception e) {

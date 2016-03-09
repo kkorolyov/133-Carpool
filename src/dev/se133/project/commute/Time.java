@@ -15,6 +15,20 @@ public class Time implements Comparable<Time> {
 	private int totalMinutes;	// Minutes after start of day
 	
 	/**
+	 * Returns a new {@code Time} object at a number of minutes after a source {@code Time} object.
+	 * @param start	source time to increment from
+	 * @param minutesAfter minutes to increment source time
+	 * @return new time occurring a specified number of minutes after a source time
+	 * @throws TimeOutOfBoundsException
+	 */
+	public static Time timeAfter(Time start, int minutesAfter) throws TimeOutOfBoundsException {	// TODO Should wrap to next day if overflow, no exception
+		Time toReturn = new Time(start);
+		toReturn.setTotalMinutes(toReturn.totalMinutes + minutesAfter);
+		
+		return toReturn;
+	}
+	
+	/**
 	 * Constructs a new time at the specified point.
 	 * @param day day of time
 	 * @param hour hour of the day
