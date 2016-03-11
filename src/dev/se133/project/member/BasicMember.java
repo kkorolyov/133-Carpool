@@ -3,7 +3,10 @@ package dev.se133.project.member;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.event.ChangeEvent;
+
 import dev.se133.project.commute.Address;
+import dev.se133.project.observer.*;
 import dev.se133.project.schedule.CommuteSchedule;
 import dev.se133.project.schedule.SortedCommuteSchedule;
 
@@ -16,6 +19,7 @@ public class BasicMember implements Member {
 	private Address address;
 	private Map<String, Vehicle> vehicles = new HashMap<>();
 	private CommuteSchedule preferredCommutes = new SortedCommuteSchedule();
+	private Observer[] observers = new MemberObserver[10];
 	// TODO Ref to set of carpools?
 	private State state;
 
@@ -50,6 +54,10 @@ public class BasicMember implements Member {
 		setAddress(address);
 		setPreferredCommutes(preferredCommutes);
 		setState(state);
+	}
+	
+	private void notifyObserver(int obv){
+		observers[obv].stateChanged(new ChangeEvent(this));
 	}
 	
 	@Override
