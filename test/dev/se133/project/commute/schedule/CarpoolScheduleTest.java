@@ -8,7 +8,7 @@ import dev.se133.project.member.BasicMember;
 import dev.se133.project.member.Member;
 
 @SuppressWarnings("javadoc")
-public class CarpoolScheduleTest {
+public class CarpoolScheduleTest {	// TODO Remake better
 	private static Set<Carpool> carpools = new HashSet<>();
 	
 	public static void main(String[] args) throws TimeOutOfBoundsException, FullCarException, NoDriverException {

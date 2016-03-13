@@ -3,7 +3,7 @@ package dev.se133.project.commute.schedule;
 import dev.se133.project.commute.*;
 import dev.se133.project.member.BasicMember;
 @SuppressWarnings("javadoc")
-public class RideScheduleDriver{
+public class RideScheduleDriver{	// TODO Remake better
 
 	RideScheduleDriver() throws TimeOutOfBoundsException, FullCarException, NoDriverException {
 		//Create initial Carpool
