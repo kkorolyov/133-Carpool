@@ -7,7 +7,7 @@ import java.util.TreeSet;
  * A one-way commute consisting of an infinite set of {@code CommutePoint} objects.
  * @see CommutePoint
  */
-public class Commute {
+public class Commute implements Comparable<Commute> {
 	private TreeSet<CommutePoint> stops = new TreeSet<>();	// Ordered by time ascending
 	
 	/**
@@ -103,5 +103,10 @@ public class Commute {
 			returnStatement += "Stop " + i++ + ": " + stop.getAddress() + "\n";
 		}
 		return returnStatement;
+	}
+	
+	@Override
+	public int compareTo(Commute o) {	// TODO May want to use Comparator instead
+		return getStart().compareTo(o.getStart());
 	}
 }
