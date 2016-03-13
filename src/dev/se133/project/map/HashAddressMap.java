@@ -44,5 +44,11 @@ public class HashAddressMap implements AddressMap {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public double getTime(Address address1, Address address2) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 }

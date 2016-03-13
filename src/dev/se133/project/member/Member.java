@@ -46,4 +46,13 @@ public interface Member extends Comparable<Member> {
 	State getState();
 	/** @param state new state */
 	void setState(State state);
+	
+	/**
+	 * @return distance from school
+	 */
+	double getDistanceFromDestination();
+	
+	double getMaxTime();
+	
+	double getMaxDistance();
 }

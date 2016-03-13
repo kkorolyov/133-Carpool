@@ -114,6 +114,36 @@ public class SimpleScheduler {
 		scheduleByDriver(map, car, departure, arrival);
 	}
 	
+	public void scheduleUsingBucketLists(final AddressMap map, Car car, CommutePoint departure, CommutePoint arrival) {
+		schedule(map, car, departure, arrival, new CommuteBuilder() {
+			public Commute buildCommute(Car car, CommutePoint departure, CommutePoint arrival) {
+				Commute commute = new Commute(departure.getDay());
+				try {
+				commute.addStop(departure);	// Add departure point to commute
+				commute.addStop(arrival);	// Add arrival point to commute
+				
+				MemberManager manager = MemberManager.getManager();
+				Member driver = car.getDriver();
+				
+				CommutePoint lastStop = departure;	// Start routing from 1st point = departure
+				
+				if(!car.isFull()) {
+					Member[] passengers = manager.getSameBucketPassengers(driver);
+					for(Member passenger : passengers) {
+						if(driver.getMaxTime() - map.getTime(passenger.getAddress(), arrival.getAddress()) >= 0
+								&& driver.getMaxDistance() - map.getDistance(passenger.getAddress(), arrival.getAddress()) >= 0) {
+							commute.addStop(lastStop = new CommutePoint(passenger.getAddress(), lastStop.getDay(), new Time(lastStop.getTime().getTotalMinutes() + (int) map.getDistance(passenger.getAddress(), lastStop.getAddress()) + 1)));
+						}
+					}
+				}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return commute;
+			}
+		});
+	}
+	
 	private void schedule(AddressMap map, Car car, CommutePoint departure, CommutePoint arrival, CommuteBuilder algorithm) {
 		// TODO Change to add to carpool list
 		scheduledCommute = algorithm.buildCommute(car, departure, arrival);

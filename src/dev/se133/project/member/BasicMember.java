@@ -17,11 +17,17 @@ public class BasicMember implements Member {
 	private int id;
 	private String name;
 	private Address address;
-	private Map<String, Vehicle> vehicles = new HashMap<>();
 	private CommuteSchedule preferredCommutes = new SortedCommuteSchedule();
 	private Observer[] observers = new MemberObserver[10];
 	// TODO Ref to set of carpools?
 	private State state;
+	private int distanceFromDestination = 10;
+	
+	
+	//Driver attributes
+	private Map<String, Vehicle> vehicles = new HashMap<>();
+	private int maxTime;	//The maximum amount of time for which the driver is willing to commute
+	private int maxDistance;//The maximum amount of distance the driver is willing to drive
 
 	/** 
 	 * Constructs a new member.
@@ -119,5 +125,20 @@ public class BasicMember implements Member {
 	@Override
 	public int compareTo(Member o) {
 		return Integer.compare(id, o.getId());
+	}
+	
+	@Override
+	public double getDistanceFromDestination() {
+		return distanceFromDestination;
+	}
+	
+	@Override
+	public double getMaxTime() {
+		return maxTime;
+	}
+	
+	@Override
+	public double getMaxDistance() {
+		return maxDistance;
 	}
 }
