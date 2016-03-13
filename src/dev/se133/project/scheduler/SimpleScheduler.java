@@ -3,6 +3,7 @@ package dev.se133.project.scheduler;
 import java.util.Set;
 
 import dev.se133.project.commute.*;
+import dev.se133.project.function.MemberManager;
 import dev.se133.project.map.AddressMap;
 import dev.se133.project.member.Member;
 import dev.se133.project.router.CommuteBuilder;
@@ -112,6 +113,36 @@ public class SimpleScheduler {
 	/*private void scheduleDriver() {
 		scheduleByDriver(map, car, departure, arrival);
 	}*/
+	
+	public void scheduleUsingBucketLists(final AddressMap map, Car car, CommutePoint departure, CommutePoint arrival) throws NoDriverException {
+		schedule(map, car, departure, arrival, new CommuteBuilder() {
+			public Commute buildCommute(AddressMap map, Car car, CommutePoint departure, CommutePoint arrival) {
+				Commute commute = new Commute();
+				try {
+				commute.addStop(departure);	// Add departure point to commute
+				commute.addStop(arrival);	// Add arrival point to commute
+				
+				MemberManager manager = MemberManager.getManager();
+				Member driver = car.getDriver();
+				
+				CommutePoint lastStop = departure;	// Start routing from 1st point = departure
+				
+				if(!car.isFull()) {
+					Member[] passengers = manager.getSameBucketPassengers(driver);
+					for(Member passenger : passengers) {
+						if(driver.getMaxTime() - map.getTime(passenger.getAddress(), arrival.getAddress()) >= 0
+								&& driver.getMaxDistance() - map.getDistance(passenger.getAddress(), arrival.getAddress()) >= 0) {
+							commute.addStop(lastStop = new CommutePoint(passenger.getAddress(), Time.timeAfter(lastStop.getTime(), (int) map.getDistance(passenger.getAddress(), lastStop.getAddress()) + 1)));
+						}
+					}
+				}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return commute;
+			}
+		});
+	}
 	
 	private void schedule(AddressMap map, Car car, CommutePoint departure, CommutePoint arrival, CommuteBuilder algorithm) throws NoDriverException {
 		// TODO Change to add to carpool list

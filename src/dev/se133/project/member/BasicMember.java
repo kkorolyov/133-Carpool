@@ -3,7 +3,10 @@ package dev.se133.project.member;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.event.ChangeEvent;
+
 import dev.se133.project.commute.Address;
+import dev.se133.project.observer.*;
 import dev.se133.project.schedule.CommuteSchedule;
 
 /**
@@ -13,10 +16,17 @@ public class BasicMember implements Member {
 	private int id;
 	private String name;
 	private Address address;
-	private Map<String, Vehicle> vehicles = new HashMap<>();	// TODO Change to Garage
 	private CommuteSchedule preferredCommutes;
+	private Observer[] observers = new MemberObserver[10];
 	// TODO Ref to set of carpools?
 	private State state;
+	private int distanceFromDestination = 10;
+	
+	
+	//Driver attributes
+	private Map<String, Vehicle> vehicles = new HashMap<>();	// TODO Change to Garage
+	private int maxTime;	//The maximum amount of time for which the driver is willing to commute
+	private int maxDistance;//The maximum amount of distance the driver is willing to drive
 
 	/** 
 	 * Constructs a new member.
@@ -49,6 +59,10 @@ public class BasicMember implements Member {
 		setAddress(address);
 		setPreferredCommutes(preferredCommutes);
 		setState(state);
+	}
+	
+	private void notifyObserver(int obv){
+		observers[obv].stateChanged(new ChangeEvent(this));
 	}
 	
 	@Override
@@ -110,5 +124,20 @@ public class BasicMember implements Member {
 	@Override
 	public int compareTo(Member o) {
 		return Integer.compare(id, o.getId());
+	}
+	
+	@Override
+	public double getDistanceFromDestination() {
+		return distanceFromDestination;
+	}
+	
+	@Override
+	public double getMaxTime() {
+		return maxTime;
+	}
+	
+	@Override
+	public double getMaxDistance() {
+		return maxDistance;
 	}
 }
