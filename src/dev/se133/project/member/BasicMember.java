@@ -1,12 +1,13 @@
 package dev.se133.project.member;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.event.ChangeEvent;
 
 import dev.se133.project.commute.Address;
-import dev.se133.project.observer.*;
+import dev.se133.project.observer.MemberObserver;
+import dev.se133.project.observer.Observer;
 import dev.se133.project.schedule.CommuteSchedule;
 
 /**
@@ -18,7 +19,8 @@ public class BasicMember implements Member {
 	private Address address;
 	private Garage garage = new Garage();
 	private CommuteSchedule preferredCommutes;
-	private State state;
+	private MemberState state;
+	private List<MemberListener> listeners = new LinkedList<>();
 
 	private Observer[] observers = new MemberObserver[10];
 	// TODO Ref to set of carpools?
@@ -31,17 +33,8 @@ public class BasicMember implements Member {
 
 	/** 
 	 * Constructs a new member.
-	 * <p> The member has an empty schedule of preferred commutes.
-	 * <br>The member has an initial state of {@code MemberState.Passenger}
-	 * @see #BasicMember(int, String, Address, CommuteSchedule, State)
-	 */
-	public BasicMember(int id, String name, Address address) {
-		this(id, name, address, null);
-	}
-	/** 
-	 * Constructs a new member.
 	 * <p>The member has an initial state of {@code MemberState.Passenger}
-	 * @see #BasicMember(int, String, Address, CommuteSchedule, State)
+	 * @see #BasicMember(int, String, Address, CommuteSchedule, MemberState)
 	 */
 	public BasicMember(int id, String name, Address address, CommuteSchedule preferredCommutes) {
 		this(id, name, address, preferredCommutes, new MemberState.Passenger());
@@ -54,7 +47,7 @@ public class BasicMember implements Member {
 	 * @param preferredCommutes schedule of preferred commutes
 	 * @param state member's initial state
 	 */
-	public BasicMember(int id, String name, Address address, CommuteSchedule preferredCommutes, State state) {
+	public BasicMember(int id, String name, Address address, CommuteSchedule preferredCommutes, MemberState state) {
 		this.id = id;
 		setName(name);
 		setAddress(address);
@@ -108,12 +101,31 @@ public class BasicMember implements Member {
 	}
 	
 	@Override
-	public State getState() {
+	public MemberState getState() {
 		return state;
 	}
 	@Override
-	public void setState(State state) {
+	public void setState(MemberState state) {
 		this.state = state;
+		
+		notifyStateChanged();	// Notify all listeners of state change
+	}
+	private void notifyStateChanged() {
+		for (MemberListener listener : listeners)
+			listener.stateChanged(state);
+	}
+	
+	@Override
+	public void addListener(MemberListener listener) {
+		listeners.add(listener);
+	}
+	@Override
+	public void removeListener(MemberListener listener) {
+		listeners.remove(listener);
+	}
+	@Override
+	public void clearListeners() {
+		listeners.clear();
 	}
 	
 	@Override

@@ -7,6 +7,7 @@ import dev.se133.project.commute.Address;
 import dev.se133.project.member.BasicMember;
 import dev.se133.project.member.Member;
 import dev.se133.project.member.MemberState;
+import dev.se133.project.schedule.SortedCommuteSchedule;
 
 @SuppressWarnings("javadoc")
 public class MemberTest {
@@ -18,9 +19,9 @@ public class MemberTest {
 
 	MemberTest() throws YearOutOfBoundsException {
 		
-		members.add(new BasicMember(1, "Bob1", new Address("123 N P St")));
-		members.add(new BasicMember(2, "Bob2", new Address("456 S P St")));
-		members.add(new BasicMember(3, "Bob3", new Address("789 W P St")));
+		members.add(new BasicMember(1, "Bob1", new Address("123 N P St"), new SortedCommuteSchedule()));
+		members.add(new BasicMember(2, "Bob2", new Address("456 S P St"), new SortedCommuteSchedule()));
+		members.add(new BasicMember(3, "Bob3", new Address("789 W P St"), new SortedCommuteSchedule()));
 		
 		listAll();
 		System.out.println();
@@ -83,7 +84,7 @@ public class MemberTest {
 	
 	private void newAddition() {
 		System.out.println("Adding a new member");
-		members.add(new BasicMember(4, "BobbyNew", new Address("101 The Hard Way")));
+		members.add(new BasicMember(4, "BobbyNew", new Address("101 The Hard Way"), new SortedCommuteSchedule()));
 	}
 	
 	private void Destroy() {

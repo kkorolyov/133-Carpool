@@ -37,7 +37,7 @@ public class MemberPoolTest {
 		CommuteSchedule preferredCommutes = new SortedCommuteSchedule();
 		preferredCommutes.scheduleCommute(makeCommute(5));
 		
-		State state = new MemberState.Driver();
+		MemberState state = new MemberState.Driver();
 		
 		pool.addMember(new BasicMember(id, name, address, preferredCommutes, state));
 		

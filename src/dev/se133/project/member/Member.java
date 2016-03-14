@@ -32,9 +32,24 @@ public interface Member extends Comparable<Member> {
 	void setPreferredCommutes(CommuteSchedule preferredCommutes);
 	
 	/** @return current state */
-	State getState();
+	MemberState getState();
 	/** @param state new state */
-	void setState(State state);
+	void setState(MemberState state);
+	
+	/**
+	 * Adds a listener to this member.
+	 * @param listener listener to add
+	 */
+	void addListener(MemberListener listener);
+	/**
+	 * Removes a listener from this member.
+	 * @param listener listener to remove
+	 */
+	void removeListener(MemberListener listener);
+	/**
+	 * Removes all listeners from this member.
+	 */
+	void clearListeners();
 	
 	/**
 	 * @return distance from school

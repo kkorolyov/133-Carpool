@@ -14,6 +14,7 @@ import dev.se133.project.map.ArrayAddressMap;
 import dev.se133.project.member.BasicMember;
 import dev.se133.project.member.Member;
 import dev.se133.project.member.MemberState;
+import dev.se133.project.schedule.SortedCommuteSchedule;
 import dev.se133.project.scheduler.SimpleScheduler;
 
 public class SimpleSchedulerTest {
@@ -82,7 +83,7 @@ public class SimpleSchedulerTest {
 		int counter = 0;
 		for (Address address : addresses) {
 			if (counter < members.length)
-				members[counter++] = new BasicMember(counter, "Member" + (counter - 1), address);
+				members[counter++] = new BasicMember(counter, "Member" + (counter - 1), address, new SortedCommuteSchedule());
 		}
 		members[0].setState(new MemberState.Driver());	// 1 driver
 		departure = new CommutePoint(members[0].getAddress(), new Time(Day.MONDAY, 12, 10));
