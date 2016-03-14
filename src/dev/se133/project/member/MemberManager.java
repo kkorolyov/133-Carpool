@@ -1,10 +1,8 @@
-package dev.se133.project.function;
+package dev.se133.project.member;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import dev.se133.project.member.Member;
 
 /**
  * Centralized manager for all members.
