@@ -16,15 +16,16 @@ public class BasicMember implements Member {
 	private int id;
 	private String name;
 	private Address address;
+	private Garage garage = new Garage();
 	private CommuteSchedule preferredCommutes;
+	private State state;
+
 	private Observer[] observers = new MemberObserver[10];
 	// TODO Ref to set of carpools?
-	private State state;
 	private int distanceFromDestination = 10;
 	
 	
 	//Driver attributes
-	private Map<String, Vehicle> vehicles = new HashMap<>();	// TODO Change to Garage
 	private int maxTime;	//The maximum amount of time for which the driver is willing to commute
 	private int maxDistance;//The maximum amount of distance the driver is willing to drive
 
@@ -66,15 +67,6 @@ public class BasicMember implements Member {
 	}
 	
 	@Override
-	public void addVehicle(String name, Vehicle vehicle) {
-		vehicles.put(name, vehicle);
-	}
-	@Override
-	public Vehicle removeVehicle(String name) {
-		return vehicles.remove(name);
-	}
-	
-	@Override
 	public int getId() {
 		return id;
 	}
@@ -97,10 +89,13 @@ public class BasicMember implements Member {
 		this.address = address;
 	}
 	
-	// TODO getVehicleNames
 	@Override
-	public Vehicle[] getVehicles() {
-		return vehicles.values().toArray(new Vehicle[vehicles.size()]);	// TODO Exception if passenger state?
+	public Garage getGarage() {
+		return garage;
+	}
+	@Override
+	public void setGarage(Garage garage) {
+		this.garage = garage;
 	}
 	
 	@Override

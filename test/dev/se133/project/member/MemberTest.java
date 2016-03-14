@@ -45,7 +45,7 @@ public class MemberTest {
 			System.out.println("Address: " + x.getAddress().toString());
 			System.out.println("State: " + x.getState().getStateName());
 			
-			for (Vehicle vehicle : x.getVehicles()) {
+			for (Vehicle vehicle : x.getGarage().getVehicles()) {
 				System.out.println("\tMake: " + vehicle.getMake());
 				System.out.println("\tModel: " + vehicle.getModel());
 				System.out.println("\tYear: " + vehicle.getYear());
@@ -78,7 +78,7 @@ public class MemberTest {
 		
 		System.out.println("Adding vehicles to each member");
 		for (Member x : members)
-			x.addVehicle(x.getName() + "'s car", new Vehicle(Vehicle.Make.HONDA, "NOTAMODEL", 2005, String.valueOf(x.hashCode())));
+			x.getGarage().addVehicle(x.getName() + "'s car", new Vehicle(Vehicle.Make.HONDA, "NOTAMODEL", 2005, String.valueOf(x.hashCode())));
 	}
 	
 	private void newAddition() {

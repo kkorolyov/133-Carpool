@@ -8,19 +8,6 @@ import dev.se133.project.schedule.CommuteSchedule;
  */
 public interface Member extends Comparable<Member> {
 	
-	/**
-	 * Adds a vehicle under this member.
-	 * @param name name to identify vehicle as
-	 * @param vehicle vehicle to add
-	 */
-	void addVehicle(String name, Vehicle vehicle);
-	/**
-	 * Removes a vehicle with the specified name.
-	 * @param name name of vehicle to remove
-	 * @return removed vehicle, or {@code null} if no such vehicle
-	 */
-	Vehicle removeVehicle(String name);
-	
 	/** @return unique member ID */
 	int getId();
 	
@@ -34,8 +21,10 @@ public interface Member extends Comparable<Member> {
 	/** @param address new address */
 	void setAddress(Address address);
 	
-	/** @return all member's vehicles */
-	Vehicle[] getVehicles();
+	/** @return collection of vehicles owned by this member */
+	Garage getGarage();
+	/** @param garage new garage */
+	void setGarage(Garage garage);
 	
 	/** @return schedule of preferred commutes */
 	CommuteSchedule getPreferredCommutes();
