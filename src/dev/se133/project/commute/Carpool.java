@@ -10,6 +10,7 @@ import java.util.List;
 public class Carpool {
 	private Commute commute;
 	private Iterator<CommutePoint> commuteIterator;
+	private CommutePoint currentStop;
 	private Car car;
 	private List<CarpoolListener> listeners = new LinkedList<>();
 	
@@ -42,15 +43,29 @@ public class Carpool {
 	 * @return next stop, or {@code null} if no more stops
 	 */
 	public CommutePoint nextStop() {
-		CommutePoint nextStop = commuteIterator.hasNext() ? commuteIterator.next() : null;
+		if (!isAtEnd()) {
+			currentStop = commuteIterator.next();
 		
-		if (nextStop != null) {
-			notifyHitStop(nextStop);
-			
-			if (!commuteIterator.hasNext())	// Last stop
+			notifyHitStop();
+				
+			if (isAtEnd())	// Last stop
 				notifyHitEnd();
+			
+			return currentStop;
 		}
-		return nextStop;
+		return null;
+	}
+	/**
+	 * Returns the last hit stop of this carpool.
+	 * @return last hit stop
+	 */
+	public CommutePoint currentStop() {
+		return currentStop;
+	}
+	
+	/** @return {@code true} if this carpool has reached its destination */
+	public boolean isAtEnd() {
+		return !commuteIterator.hasNext();	// If there is a next stop, not at end yet
 	}
 	
 	/** @return car of this carpool, or {@code null} if there is none */
@@ -76,12 +91,12 @@ public class Carpool {
 	public void addListener(CarpoolListener listener) {
 		listeners.add(listener);
 	}
-	private void notifyHitStop(CommutePoint stop) {
+	private void notifyHitStop() {
 		for (CarpoolListener listener : listeners)
-			listener.hitStop(stop);
+			listener.hitStop(this);
 	}
 	private void notifyHitEnd() {
 		for (CarpoolListener listener : listeners)
-			listener.hitEnd();
+			listener.hitEnd(this);
 	}
 }

@@ -1,13 +1,16 @@
 package dev.se133.project.commute;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.*;
 
 import dev.se133.project.member.BasicMember;
+import dev.se133.project.member.CarpoolRewardListener;
+import dev.se133.project.member.Member;
 import dev.se133.project.member.MemberState;
 import dev.se133.project.schedule.SortedCommuteSchedule;
 
+@SuppressWarnings("javadoc")
 public class CarpoolTest {
 	private static final int NUM_STOPS = 10;
 	private static final Day DAY = Day.MONDAY;
@@ -71,16 +74,39 @@ public class CarpoolTest {
 	public void testAddListener() {
 		carpool.addListener(new CarpoolListener() {
 			@Override
-			public void hitStop(CommutePoint stop) {
+			public void hitStop(Carpool carpool) {
+				CommutePoint stop = carpool.currentStop();
 				System.out.println(	"Carpool hit stop\n"
 													+ "\tAddress: " + stop.getAddress() + "\n"
 													+ "\tTime: " + stop.getTime());
 			}
 			@Override
-			public void hitEnd() {
-				System.out.println(	"Carpool hit destination");;
+			public void hitEnd(Carpool carpool) {
+				System.out.println(	"Carpool hit destination\n");
 			}
 		});
-		while (carpool.nextStop() != null);	// Loop through all stos
+		while (carpool.nextStop() != null);	// Loop through all stops
+	}
+	@Test
+	public void addRewardListener() {
+		carpool.addListener(new CarpoolRewardListener());
+		
+		System.out.println("All members in carpool");
+		printPoints();
+		
+		int stopCounter = 0;
+		while (carpool.nextStop() != null) {
+			System.out.println("After stop " + ++stopCounter + " at Address: " + carpool.currentStop().getAddress());
+			if (carpool.isAtEnd())
+				System.out.println("End stop");
+			printPoints();
+		}		
+	}
+	private void printPoints() {
+		for (Member member : carpool.getCar().getInhabitants()) {
+			System.out.println(	member.getName() + "\n"
+												+ "\tState: " + member.getState().getStateName() + "\n"
+												+ "\tPoints: " + String.valueOf(member.getPoints()) + "\n");
+		}
 	}
 }

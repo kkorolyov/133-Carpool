@@ -7,6 +7,23 @@ import dev.se133.project.schedule.CommuteSchedule;
  * General member interface.
  */
 public interface Member extends Comparable<Member> {
+	/**
+	 * Adds a number of points to this member.
+	 * @param points number of points to add
+	 */
+	void addPoints(long points);	// TODO Move to separate Points object
+	/**
+	 * Removes a number of points from this member.
+	 * @param points number of points to remove
+	 */
+	void removePoints(long points);	// TODO Move to separate Points object
+	/**
+	 * Removes all points from this member.
+	 */
+	void clearPoints();	// TODO Move to separate Points object
+	
+	/** @return total number of points this member has */
+	long getPoints();	// TODO Move to separate Points object
 	
 	/** @return unique member ID */
 	int getId();

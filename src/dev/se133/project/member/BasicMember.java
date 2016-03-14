@@ -21,6 +21,8 @@ public class BasicMember implements Member {
 	private CommuteSchedule preferredCommutes;
 	private MemberState state;
 	private List<MemberListener> listeners = new LinkedList<>();
+	
+	private long points;	// TODO Change to separate Points object
 
 	private Observer[] observers = new MemberObserver[10];
 	// TODO Ref to set of carpools?
@@ -53,6 +55,24 @@ public class BasicMember implements Member {
 		setAddress(address);
 		setPreferredCommutes(preferredCommutes);
 		setState(state);
+	}
+	
+	@Override
+	public void addPoints(long points) {
+		this.points += Math.abs(points);
+	}
+	@Override
+	public void removePoints(long points) {
+		this.points = (this.points < Math.abs(points)) ? 0 : this.points - Math.abs(points);	// Avoid negative points
+	}
+	@Override
+	public void clearPoints() {
+		points = 0;
+	}
+	
+	@Override
+	public long getPoints() {
+		return points;
 	}
 	
 	private void notifyObserver(int obv){
