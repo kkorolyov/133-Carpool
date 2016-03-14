@@ -1,7 +1,6 @@
 package dev.se133.project.pool;
 
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -29,15 +28,15 @@ public class MemberPool {
 		map.put(member.getPreferredCommutes(), member);
 	}
 	
-	/** @return all drivers in pool, sorted by commute start time */
-	public Set<Member> getDrivers() {
+	/** @return copy of all drivers in pool, sorted by commute start time */
+	public TreeSet<Member> getDrivers() {
 		return getMembers(drivers);
 	}
-	/** @return all passengers in pool, sorted by commut start time */
-	public Set<Member> getPassengers() {
+	/** @return copy of all passengers in pool, sorted by commute start time */
+	public TreeSet<Member> getPassengers() {
 		return getMembers(passengers);
 	}
-	private static Set<Member> getMembers(Map<CommuteSchedule, Member> map) {
+	private static TreeSet<Member> getMembers(Map<CommuteSchedule, Member> map) {
 		return new TreeSet<Member>(map.values());
 	}
 }
