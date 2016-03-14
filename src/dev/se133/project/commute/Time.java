@@ -10,6 +10,9 @@ public class Time implements Comparable<Time> {
 	public static final int MAX_VALUE = 1439;
 	/** The conversion rate between minutes and hours */
 	public static final int MINUTES_TO_HOUR = 60;
+	
+	private static final char DIGIT_FILLER = '0',
+			TIME_DELIMETER = ':';
 
 	private Day day;
 	private int totalMinutes;	// Minutes after start of day
@@ -107,5 +110,18 @@ public class Time implements Comparable<Time> {
 		if (totalMinutes != other.totalMinutes)
 			return false;
 		return true;
+	}
+	
+	@Override
+	public String toString() {
+		String stringHour = String.valueOf(getHour());
+		if (stringHour.length() < 2)
+			stringHour = DIGIT_FILLER + stringHour;
+		
+		String stringMinute = String.valueOf(getMinute());
+		if (stringMinute.length() < 2)
+			stringMinute = DIGIT_FILLER + stringMinute;
+		
+		return stringHour + TIME_DELIMETER + stringMinute;
 	}
 }
