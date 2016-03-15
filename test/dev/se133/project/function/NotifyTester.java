@@ -19,7 +19,6 @@ public class NotifyTester {
 		BasicMember e = new BasicMember(5,"Kirill", new Address("290 North 6th Street"));
 		
 		Car car = new Car();
-		Car carb= new Car();
 		
 		
 		car.addPassenger(a);
@@ -31,8 +30,7 @@ public class NotifyTester {
 		car.removePassenger(d);
 		car.addPassenger(d);
 		//car.addPassenger(new BasicMember(6,"Lee", new Address("123 Story Lane")));
-		carb.addPassenger(a);
-		carb.addPassenger(b);
+		
 		
 		
 
