@@ -17,7 +17,8 @@ import dev.se133.project.observer.Observer;
 public class Car {
 	/** Default maximum number of inhabitants */
 	public static final int DEFAULT_CAPACITY = 5;
-	public static int carpoolID = 0;
+	public static int totalCarpools = 0;
+	public int carpoolID;
 	
 	private final int capacity;
 	private Member driver;	// Reference to one of the inhabitants
@@ -35,7 +36,8 @@ public class Car {
 	 */
 	public Car(int capacity) {
 		this.capacity = capacity;
-		carpoolID++;
+		totalCarpools++;
+		this.carpoolID = totalCarpools;
 	}
 	
 	/**
