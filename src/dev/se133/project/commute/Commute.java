@@ -93,7 +93,6 @@ public class Commute {
 		result = prime * result + ((stops == null) ? 0 : stops.hashCode());
 		return result;
 	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

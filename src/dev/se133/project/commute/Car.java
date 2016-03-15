@@ -3,11 +3,8 @@ package dev.se133.project.commute;
 import java.util.HashSet;
 import java.util.Set;
 
-import dev.se133.project.member.BasicMember;
 import dev.se133.project.member.Member;
 import dev.se133.project.member.MemberState;
-import dev.se133.project.observer.MemberObserver;
-import dev.se133.project.observer.Observer;
 
 /**
  * Representation of the inhabitants of a car.
@@ -17,7 +14,6 @@ import dev.se133.project.observer.Observer;
 public class Car {
 	/** Default maximum number of inhabitants */
 	public static final int DEFAULT_CAPACITY = 5;
-	public static int carpoolID = 0;
 	
 	private final int capacity;
 	private Member driver;	// Reference to one of the inhabitants
@@ -35,7 +31,6 @@ public class Car {
 	 */
 	public Car(int capacity) {
 		this.capacity = capacity;
-		carpoolID++;
 	}
 	
 	/**
@@ -51,10 +46,6 @@ public class Car {
 		if ((driver == null) && !(inhabitant.getState() instanceof MemberState.Driver) && (getAvailableSeats() <= 1))	// Cannot have a car full of only passengers
 			throw new NoDriverException();
 		
-		
-		changeMessage(" was added to ", inhabitant);
-		if(inhabitants.size() == capacity-1)
-			stateMessage(" is full.", inhabitant);
 		return inhabitants.add(inhabitant);
 	}
 	/**
@@ -63,14 +54,7 @@ public class Car {
 	 * @return {@code true} if specified inhabitant removed, {@code false} if no such inhabitant
 	 */
 	public boolean removePassenger(Member inhabitant) {
-		if(inhabitants.remove(inhabitant))
-		{
-			changeMessage(" removed from ", inhabitant);
-			if(inhabitants.size() == capacity-1)
-				stateMessage(" is no longer full.", inhabitant);
-			return true;
-		}
-		return false;
+		return inhabitants.remove(inhabitant);
 	}
 	
 	/**
@@ -83,9 +67,7 @@ public class Car {
 		for (Member currentInhabitant : inhabitants) {
 			if (currentInhabitant.equals(inhabitant)) {
 				if (currentInhabitant.getState() instanceof MemberState.Driver) {
-					
 					driver = currentInhabitant;
-					changeMessage(" is the driver for ", currentInhabitant);
 				}
 				break;	// Valid or not, equal inhabitant located, ok to break
 			}
@@ -101,7 +83,6 @@ public class Car {
 		for (Member inhabitant : inhabitants) {
 			if (inhabitant.getState() instanceof MemberState.Driver) {
 				driver = inhabitant;
-				changeMessage(" is the driver for ", inhabitant);
 				
 				break;	// Found, set suitable candidate
 			}
@@ -131,10 +112,6 @@ public class Car {
 	public Member getDriver() {
 		return driver;
 	}
-	/** @return carpool ID*/
-	public int getID(){
-		return carpoolID;
-	}
 	/**
 	 * Returns all current inhabitants of this car.
 	 * The returned objects are direct, mutable references to this car's inhabitants.
@@ -143,7 +120,6 @@ public class Car {
 	public Set<Member> getInhabitants() {
 		return new HashSet<>(inhabitants);
 	}
-	
 	
 	/**
 	 * Returns the hashcode of this car.
@@ -183,22 +159,5 @@ public class Car {
 			return false;
 		
 		return true;
-	}
-
-	private void changeMessage(String action, Member newMember)
-	{
-		newMember.notification("You were " + action + "carpool " + this.getID());
-		for(Member inhabitant : inhabitants)
-		inhabitant.notification(newMember.getName() + action + "carpool " + this.getID());
-		
-		System.out.println("\n");
-	}
-	private void stateMessage(String action, Member newMember)
-	{
-		newMember.notification("Carpool " + this.getID() + action);
-		for(Member inhabitant : inhabitants)
-			inhabitant.notification("Carpool " + this.getID() + action);
-	
-		System.out.println("\n");
 	}
 }

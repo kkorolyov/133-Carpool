@@ -120,8 +120,4 @@ public class BasicMember implements Member {
 	public int compareTo(Member o) {
 		return Integer.compare(id, o.getId());
 	}
-	@Override
-	public void notification(String string) {
-		System.out.println(this.getName() +" :" + string);
-	}
 }
