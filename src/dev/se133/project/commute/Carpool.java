@@ -1,11 +1,18 @@
 package dev.se133.project.commute;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * A one-way trip consisting of a commute and a driver and passengers.
  */
 public class Carpool {
 	private Commute commute;
+	private Iterator<CommutePoint> commuteIterator;
+	private CommutePoint currentStop;
 	private Car car;
+	private List<CarpoolListener> listeners = new LinkedList<>();
 	
 	/**
 	 * Constructs a new carpool with a set commute and car.
@@ -28,6 +35,37 @@ public class Carpool {
 	 */
 	public void setCommute(Commute commute) {
 		this.commute = commute;
+		commuteIterator = this.commute.getStops().iterator();
+	}
+	
+	/**
+	 * Advances this carpool to the next stop.
+	 * @return next stop, or {@code null} if no more stops
+	 */
+	public CommutePoint nextStop() {
+		if (!isAtEnd()) {
+			currentStop = commuteIterator.next();
+		
+			notifyHitStop();
+				
+			if (isAtEnd())	// Last stop
+				notifyHitEnd();
+			
+			return currentStop;
+		}
+		return null;
+	}
+	/**
+	 * Returns the last hit stop of this carpool.
+	 * @return last hit stop
+	 */
+	public CommutePoint currentStop() {
+		return currentStop;
+	}
+	
+	/** @return {@code true} if this carpool has reached its destination */
+	public boolean isAtEnd() {
+		return !commuteIterator.hasNext();	// If there is a next stop, not at end yet
 	}
 	
 	/** @return car of this carpool, or {@code null} if there is none */
@@ -44,5 +82,21 @@ public class Carpool {
 			throw new NoDriverException();	// No carpool if no driver
 		
 		this.car = car;
+	}
+	
+	/**
+	 * Adds a listener to this list of listeners.
+	 * @param listener listener to add
+	 */
+	public void addListener(CarpoolListener listener) {
+		listeners.add(listener);
+	}
+	private void notifyHitStop() {
+		for (CarpoolListener listener : listeners)
+			listener.hitStop(this);
+	}
+	private void notifyHitEnd() {
+		for (CarpoolListener listener : listeners)
+			listener.hitEnd(this);
 	}
 }

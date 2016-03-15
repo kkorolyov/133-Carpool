@@ -7,7 +7,7 @@ import dev.se133.project.commute.Day;
  * General commuting schedule interface.
  * Consists of a collection of unique, mutually-exclusive commutes.
  */
-public interface CommuteSchedule {	// TODO Migrate to generic Schedule interface
+public interface CommuteSchedule extends Comparable<CommuteSchedule> {	// TODO Migrate to generic Schedule interface
 	
 	/** @return all scheduled commutes, sorted in ascending order by departure time */
 	Commute[] getAllCommutes();
@@ -18,6 +18,12 @@ public interface CommuteSchedule {	// TODO Migrate to generic Schedule interface
 	 */
 	Commute[] getAllCommutes(Day day);
 
+	/**
+	 * Returns the earliest scheduled commute.
+	 * @return earliest commute
+	 */
+	Commute getFirstCommute();
+	
 	/**
 	 * Schedules a new commute.
 	 * @param commute new commute

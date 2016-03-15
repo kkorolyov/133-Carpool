@@ -1,4 +1,4 @@
-package dev.se133.project.function;
+package dev.se133.project.scheduler;
 
 import java.util.Random;
 import java.util.Set;
@@ -14,6 +14,8 @@ import dev.se133.project.map.ArrayAddressMap;
 import dev.se133.project.member.BasicMember;
 import dev.se133.project.member.Member;
 import dev.se133.project.member.MemberState;
+import dev.se133.project.schedule.SortedCommuteSchedule;
+import dev.se133.project.scheduler.SimpleScheduler;
 
 public class SimpleSchedulerTest {
 	private static final int xSize = 100, ySize = 100;
@@ -29,7 +31,7 @@ public class SimpleSchedulerTest {
 		
 		Member[] members = buildMembers(map);
 		
-		arrival = new CommutePoint(new Address("Address0"), Day.MONDAY, new Time(departure.getTime().getTotalMinutes() + 60));
+		arrival = new CommutePoint(new Address("Address0"), new Time(Day.MONDAY, departure.getTime().getTotalMinutes() + 60));
 		
 		car = buildCar(members);
 	}
@@ -44,7 +46,7 @@ public class SimpleSchedulerTest {
 	}
 
 	@Test
-	public void testSchedule() {
+	public void testSchedule() throws NoDriverException {
 		scheduler.schedule();
 		int i = 0;
 		Commute commute = scheduler.getCommute();
@@ -56,7 +58,7 @@ public class SimpleSchedulerTest {
 				System.out.println("Member: " + member.getName() + "\t\t" + member.getState().getStateName() + "\tAddress: " + member.getAddress().toString());
 		}
 		
-		System.out.println("\nDay of commute: " + commute.getDay());
+		System.out.println("\nDay of commute: " + commute.getStart().getTime().getDay());
 		for (CommutePoint stop : commute.getStops()) {
 			if(i == 0) {
 				System.out.println("\tDeparture time: " + stop.getTime().getHour() + ":" + stop.getTime().getMinute());
@@ -81,10 +83,10 @@ public class SimpleSchedulerTest {
 		int counter = 0;
 		for (Address address : addresses) {
 			if (counter < members.length)
-				members[counter++] = new BasicMember(counter, "Member" + (counter - 1), address);
+				members[counter++] = new BasicMember(counter, "Member" + (counter - 1), address, new SortedCommuteSchedule());
 		}
 		members[0].setState(new MemberState.Driver());	// 1 driver
-		departure = new CommutePoint(members[0].getAddress(), Day.MONDAY, new Time(12, 10));
+		departure = new CommutePoint(members[0].getAddress(), new Time(Day.MONDAY, 12, 10));
 		
 		return members;
 	}

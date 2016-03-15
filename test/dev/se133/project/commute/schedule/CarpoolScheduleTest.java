@@ -8,7 +8,7 @@ import dev.se133.project.member.BasicMember;
 import dev.se133.project.member.Member;
 
 @SuppressWarnings("javadoc")
-public class CarpoolScheduleTest {
+public class CarpoolScheduleTest {	// TODO Remake better
 	private static Set<Carpool> carpools = new HashSet<>();
 	
 	public static void main(String[] args) throws TimeOutOfBoundsException, FullCarException, NoDriverException {
@@ -35,18 +35,18 @@ public class CarpoolScheduleTest {
 		System.out.println("================================");
 		for (Carpool carpool : carpools) {
 			System.out.println("--------------------------------");
-			System.out.println("Driver: " + carpool.getDriver().getName());
+			System.out.println("Driver: " + carpool.getCar().getDriver().getName());
 			System.out.println("Passengers: ");
-			for (Member member : carpool.getPassengers())
+			for (Member member : carpool.getCar().getInhabitants())
 				System.out.println("\t" + member.getName());
 			
 			Commute commute = carpool.getCommute();
 			CommutePoint point;
 			System.out.println("Commute:");
 			System.out.println("\tDay: " + commute.getDay());
-			point = commute.getDeparture();
+			point = commute.getStart();
 			System.out.println("\tDeparture: " + point.getAddress() + " -- " + String.valueOf(point.getTime().getHour()) + ":" + String.valueOf(point.getTime().getMinute()));
-			point = commute.getArrival();
+			point = commute.getEnd();
 			System.out.println("\tArrival: " + point.getAddress() + " -- " + String.valueOf(point.getTime().getHour()) + ":" + String.valueOf(point.getTime().getMinute()));
 			
 			System.out.println("\tStops: ");

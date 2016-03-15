@@ -123,6 +123,11 @@ public class ArrayAddressMap implements AddressMap {
 		//System.out.println("Address1: " + address1 + " Address2: " + address2 + " distance: " + distance);
 		return distance;
 	}
+	
+	@Override
+	public double getTime(Address address1, Address address2) {
+		return getDistance(address1, address2);
+	}
 
 	@Override
 	public Set<Address> getAllAddresses() {
