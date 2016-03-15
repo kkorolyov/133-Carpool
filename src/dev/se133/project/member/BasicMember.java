@@ -1,14 +1,14 @@
 package dev.se133.project.member;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.event.ChangeEvent;
 
 import dev.se133.project.commute.Address;
-import dev.se133.project.observer.MemberObserver;
-import dev.se133.project.observer.Observer;
+import dev.se133.project.observer.*;
 import dev.se133.project.schedule.CommuteSchedule;
+import dev.se133.project.schedule.SortedCommuteSchedule;
 
 /**
  * A basis member implementation
@@ -17,26 +17,25 @@ public class BasicMember implements Member {
 	private int id;
 	private String name;
 	private Address address;
-	private Garage garage = new Garage();
-	private CommuteSchedule preferredCommutes;
-	private MemberState state;
-	private List<MemberListener> listeners = new LinkedList<>();
-	
-	private long points;	// TODO Change to separate Points object
-
+	private Map<String, Vehicle> vehicles = new HashMap<>();
+	private CommuteSchedule preferredCommutes = new SortedCommuteSchedule();
 	private Observer[] observers = new MemberObserver[10];
 	// TODO Ref to set of carpools?
-	private int distanceFromDestination = 10;
-	
-	
-	//Driver attributes
-	private int maxTime;	//The maximum amount of time for which the driver is willing to commute
-	private int maxDistance;//The maximum amount of distance the driver is willing to drive
+	private State state;
 
 	/** 
 	 * Constructs a new member.
+	 * <p> The member has an empty schedule of preferred commutes.
+	 * <br>The member has an initial state of {@code MemberState.Passenger}
+	 * @see #BasicMember(int, String, Address, CommuteSchedule, State)
+	 */
+	public BasicMember(int id, String name, Address address) {
+		this(id, name, address, null);
+	}
+	/** 
+	 * Constructs a new member.
 	 * <p>The member has an initial state of {@code MemberState.Passenger}
-	 * @see #BasicMember(int, String, Address, CommuteSchedule, MemberState)
+	 * @see #BasicMember(int, String, Address, CommuteSchedule, State)
 	 */
 	public BasicMember(int id, String name, Address address, CommuteSchedule preferredCommutes) {
 		this(id, name, address, preferredCommutes, new MemberState.Passenger());
@@ -49,7 +48,7 @@ public class BasicMember implements Member {
 	 * @param preferredCommutes schedule of preferred commutes
 	 * @param state member's initial state
 	 */
-	public BasicMember(int id, String name, Address address, CommuteSchedule preferredCommutes, MemberState state) {
+	public BasicMember(int id, String name, Address address, CommuteSchedule preferredCommutes, State state) {
 		this.id = id;
 		setName(name);
 		setAddress(address);
@@ -57,26 +56,17 @@ public class BasicMember implements Member {
 		setState(state);
 	}
 	
-	@Override
-	public void addPoints(long points) {
-		this.points += Math.abs(points);
-	}
-	@Override
-	public void removePoints(long points) {
-		this.points = (this.points < Math.abs(points)) ? 0 : this.points - Math.abs(points);	// Avoid negative points
-	}
-	@Override
-	public void clearPoints() {
-		points = 0;
-	}
-	
-	@Override
-	public long getPoints() {
-		return points;
-	}
-	
 	private void notifyObserver(int obv){
 		observers[obv].stateChanged(new ChangeEvent(this));
+	}
+	
+	@Override
+	public void addVehicle(String name, Vehicle vehicle) {
+		vehicles.put(name, vehicle);
+	}
+	@Override
+	public Vehicle removeVehicle(String name) {
+		return vehicles.remove(name);
 	}
 	
 	@Override
@@ -102,13 +92,10 @@ public class BasicMember implements Member {
 		this.address = address;
 	}
 	
+	// TODO getVehicleNames
 	@Override
-	public Garage getGarage() {
-		return garage;
-	}
-	@Override
-	public void setGarage(Garage garage) {
-		this.garage = garage;
+	public Vehicle[] getVehicles() {
+		return vehicles.values().toArray(new Vehicle[vehicles.size()]);	// TODO Exception if passenger state?
 	}
 	
 	@Override
@@ -121,56 +108,20 @@ public class BasicMember implements Member {
 	}
 	
 	@Override
-	public MemberState getState() {
+	public State getState() {
 		return state;
 	}
 	@Override
-	public void setState(MemberState state) {
+	public void setState(State state) {
 		this.state = state;
-		
-		notifyStateChanged();	// Notify all listeners of state change
-	}
-	private void notifyStateChanged() {
-		for (MemberListener listener : listeners)
-			listener.stateChanged(state);
-	}
-	
-	@Override
-	public void addListener(MemberListener listener) {
-		listeners.add(listener);
-	}
-	@Override
-	public void removeListener(MemberListener listener) {
-		listeners.remove(listener);
-	}
-	@Override
-	public void clearListeners() {
-		listeners.clear();
 	}
 	
 	@Override
 	public int compareTo(Member o) {
 		return Integer.compare(id, o.getId());
 	}
-<<<<<<< HEAD
 	@Override
 	public void notification(String string) {
 		System.out.println(this.getName() +" :" + string);
-=======
-	
-	@Override
-	public double getDistanceFromDestination() {
-		return distanceFromDestination;
-	}
-	
-	@Override
-	public double getMaxTime() {
-		return maxTime;
-	}
-	
-	@Override
-	public double getMaxDistance() {
-		return maxDistance;
->>>>>>> 4d5ce1caece99c09423ddcfd95040cac5a1d00bb
 	}
 }

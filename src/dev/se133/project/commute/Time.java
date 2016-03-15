@@ -1,84 +1,62 @@
 package dev.se133.project.commute;
 
 /**
- * An immutable fixed point in time.
+ * An immutable fixed point in time within a day.
  */
 public class Time implements Comparable<Time> {
-	/**	The minimum legal value. */
-	public static final int MIN_VALUE = 0;
-	/**	The maximum legal value. */
-	public static final int MAX_VALUE = 1439;
-	/** The conversion rate between minutes and hours */
-	public static final int MINUTES_TO_HOUR = 60;
+	@SuppressWarnings("javadoc")
+	public static final int HOUR_MIN = 0, HOUR_MAX = 23, MINUTE_MIN = 0, MINUTE_MAX = 59;
+	private static final int minutesPerHour = 60;
 	
-	private static final char DIGIT_FILLER = '0',
-			TIME_DELIMETER = ':';
-
-	private Day day;
-	private int totalMinutes;	// Minutes after start of day
+	private int totalMinutes;	// Minutes after 00:00
 	
-	/**
-	 * Returns a new {@code Time} object at a number of minutes after a source {@code Time} object.
-	 * @param start	source time to increment from
-	 * @param minutesAfter minutes to increment source time
-	 * @return new time occurring a specified number of minutes after a source time
-	 * @throws TimeOutOfBoundsException
-	 */
-	public static Time timeAfter(Time start, int minutesAfter) throws TimeOutOfBoundsException {	// TODO Should wrap to next day if overflow, no exception
-		Time toReturn = new Time(start);
-		toReturn.setTotalMinutes(toReturn.totalMinutes + minutesAfter);
-		
-		return toReturn;
-	}
-	
-	/**
-	 * Constructs a new time at the specified point.
-	 * @param day day of time
-	 * @param hour hour of the day
-	 * @param minute minute of the day
-	 * @throws TimeOutOfBoundsException if specified time is out of bounds
-	 */
-	public Time(Day day, int hour, int minute) throws TimeOutOfBoundsException {
-		this(day, hour * MINUTES_TO_HOUR + minute);
-	}
 	/**
 	 * Constructs a new time at a specified point.
-	 * @param day day of time
-	 * @param totalMinutes total minutes after the start of the day
+	 * @param totalMinutes total minutes after 00:00
 	 * @throws TimeOutOfBoundsException if specified time is out of bounds
 	 */
-	public Time(Day day, int totalMinutes) throws TimeOutOfBoundsException {
-		this.day = day;
-		setTotalMinutes(totalMinutes);
+	public Time(int totalMinutes) throws TimeOutOfBoundsException {
+		setHour(totalMinutes / minutesPerHour);
+		setMinute(totalMinutes % minutesPerHour);
+	}
+	/**
+	 * Constructs a new time at the specified point.
+	 * @param hour hour from 0-23
+	 * @param minute minute from 0-59
+	 * @throws TimeOutOfBoundsException if specified hour or minute are out of bounds
+	 */
+	public Time(int hour, int minute) throws TimeOutOfBoundsException {
+		setHour(hour);
+		setMinute(minute);
 	}
 	/**
 	 * Constructs a new time which is a copy of another time.
 	 * @param toCopy time to copy
 	 */
 	public Time(Time toCopy) {
-		this.day = toCopy.day;
 		this.totalMinutes = toCopy.totalMinutes;
 	}
 	
-	private void setTotalMinutes(int totalMinutes) throws TimeOutOfBoundsException {
-		if (totalMinutes < MIN_VALUE || totalMinutes > MAX_VALUE)
-			throw new TimeOutOfBoundsException(totalMinutes, MIN_VALUE, MAX_VALUE);
+	private void setHour(int hour) throws TimeOutOfBoundsException {
+		if (hour < HOUR_MIN || hour > HOUR_MAX)
+			throw new TimeOutOfBoundsException(hour, HOUR_MIN, HOUR_MAX);
 		
-		this.totalMinutes = totalMinutes;
+		totalMinutes += (hour * minutesPerHour);
 	}
-	
-	/** @return day of the week of this time */
-	public Day getDay() {
-		return day;
+	private void setMinute(int minute) throws TimeOutOfBoundsException {
+		if (minute < MINUTE_MIN || minute > MINUTE_MAX)
+			throw new TimeOutOfBoundsException(minute, MINUTE_MIN, MINUTE_MAX);
+		
+		totalMinutes += minute;
 	}
 	
 	/** @return hour from 0-23 */
 	public int getHour() {
-		return totalMinutes / MINUTES_TO_HOUR;
+		return totalMinutes / minutesPerHour;
 	}
 	/** @return minute from 0-59 */
 	public int getMinute() {
-		return totalMinutes % MINUTES_TO_HOUR;
+		return totalMinutes % minutesPerHour;
 	}
 	
 	/** @return minutes after 00:00 of the set day */
@@ -110,18 +88,5 @@ public class Time implements Comparable<Time> {
 		if (totalMinutes != other.totalMinutes)
 			return false;
 		return true;
-	}
-	
-	@Override
-	public String toString() {
-		String stringHour = String.valueOf(getHour());
-		if (stringHour.length() < 2)
-			stringHour = DIGIT_FILLER + stringHour;
-		
-		String stringMinute = String.valueOf(getMinute());
-		if (stringMinute.length() < 2)
-			stringMinute = DIGIT_FILLER + stringMinute;
-		
-		return stringHour + TIME_DELIMETER + stringMinute;
 	}
 }

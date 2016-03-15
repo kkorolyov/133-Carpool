@@ -11,7 +11,7 @@ import dev.se133.project.commute.Day;
  * Uses a {@code TreeSet} to keep commutes in sorted order.
  */
 public class SortedCommuteSchedule implements CommuteSchedule {	// TODO Extend SortedSchedule
-	private TreeSet<Commute> commutes = new TreeSet<>();
+	private Set<Commute> commutes = new TreeSet<>();
 
 	@Override
 	public Commute[] getAllCommutes() {
@@ -23,16 +23,11 @@ public class SortedCommuteSchedule implements CommuteSchedule {	// TODO Extend S
 		Set<Commute> dayCommutes = new TreeSet<>();
 		
 		for (Commute commute : commutes) {
-			if (commute.getStart().getTime().getDay().equals(day))
+			if (commute.getDay().equals(day))
 				dayCommutes.add(commute);
 		}
 		return dayCommutes.toArray(new Commute[dayCommutes.size()]);
 	}
-	
-	@Override
-		public Commute getFirstCommute() {
-			return commutes.first();
-		}
 
 	@Override
 	public void scheduleCommute(Commute commute) {
@@ -59,10 +54,5 @@ public class SortedCommuteSchedule implements CommuteSchedule {	// TODO Extend S
 			dropCommute(dayCommute);
 		
 		return dayCommutes;
-	}
-
-	@Override
-	public int compareTo(CommuteSchedule o) {
-		return getFirstCommute().compareTo(o.getFirstCommute());
 	}
 }

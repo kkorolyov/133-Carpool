@@ -7,7 +7,6 @@ import dev.se133.project.commute.Address;
 import dev.se133.project.member.BasicMember;
 import dev.se133.project.member.Member;
 import dev.se133.project.member.MemberState;
-import dev.se133.project.schedule.SortedCommuteSchedule;
 
 @SuppressWarnings("javadoc")
 public class MemberTest {
@@ -19,9 +18,9 @@ public class MemberTest {
 
 	MemberTest() throws YearOutOfBoundsException {
 		
-		members.add(new BasicMember(1, "Bob1", new Address("123 N P St"), new SortedCommuteSchedule()));
-		members.add(new BasicMember(2, "Bob2", new Address("456 S P St"), new SortedCommuteSchedule()));
-		members.add(new BasicMember(3, "Bob3", new Address("789 W P St"), new SortedCommuteSchedule()));
+		members.add(new BasicMember(1, "Bob1", new Address("123 N P St")));
+		members.add(new BasicMember(2, "Bob2", new Address("456 S P St")));
+		members.add(new BasicMember(3, "Bob3", new Address("789 W P St")));
 		
 		listAll();
 		System.out.println();
@@ -46,7 +45,7 @@ public class MemberTest {
 			System.out.println("Address: " + x.getAddress().toString());
 			System.out.println("State: " + x.getState().getStateName());
 			
-			for (Vehicle vehicle : x.getGarage().getVehicles()) {
+			for (Vehicle vehicle : x.getVehicles()) {
 				System.out.println("\tMake: " + vehicle.getMake());
 				System.out.println("\tModel: " + vehicle.getModel());
 				System.out.println("\tYear: " + vehicle.getYear());
@@ -79,12 +78,12 @@ public class MemberTest {
 		
 		System.out.println("Adding vehicles to each member");
 		for (Member x : members)
-			x.getGarage().addVehicle(x.getName() + "'s car", new Vehicle(Vehicle.Make.HONDA, "NOTAMODEL", 2005, String.valueOf(x.hashCode())));
+			x.addVehicle(x.getName() + "'s car", new Vehicle(Vehicle.Make.HONDA, "NOTAMODEL", 2005, String.valueOf(x.hashCode())));
 	}
 	
 	private void newAddition() {
 		System.out.println("Adding a new member");
-		members.add(new BasicMember(4, "BobbyNew", new Address("101 The Hard Way"), new SortedCommuteSchedule()));
+		members.add(new BasicMember(4, "BobbyNew", new Address("101 The Hard Way")));
 	}
 	
 	private void Destroy() {

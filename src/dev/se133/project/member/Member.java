@@ -7,23 +7,19 @@ import dev.se133.project.schedule.CommuteSchedule;
  * General member interface.
  */
 public interface Member extends Comparable<Member> {
-	/**
-	 * Adds a number of points to this member.
-	 * @param points number of points to add
-	 */
-	void addPoints(long points);	// TODO Move to separate Points object
-	/**
-	 * Removes a number of points from this member.
-	 * @param points number of points to remove
-	 */
-	void removePoints(long points);	// TODO Move to separate Points object
-	/**
-	 * Removes all points from this member.
-	 */
-	void clearPoints();	// TODO Move to separate Points object
 	
-	/** @return total number of points this member has */
-	long getPoints();	// TODO Move to separate Points object
+	/**
+	 * Adds a vehicle under this member.
+	 * @param name name to identify vehicle as
+	 * @param vehicle vehicle to add
+	 */
+	void addVehicle(String name, Vehicle vehicle);
+	/**
+	 * Removes a vehicle with the specified name.
+	 * @param name name of vehicle to remove
+	 * @return removed vehicle, or {@code null} if no such vehicle
+	 */
+	Vehicle removeVehicle(String name);
 	
 	/** @return unique member ID */
 	int getId();
@@ -38,10 +34,8 @@ public interface Member extends Comparable<Member> {
 	/** @param address new address */
 	void setAddress(Address address);
 	
-	/** @return collection of vehicles owned by this member */
-	Garage getGarage();
-	/** @param garage new garage */
-	void setGarage(Garage garage);
+	/** @return all member's vehicles */
+	Vehicle[] getVehicles();
 	
 	/** @return schedule of preferred commutes */
 	CommuteSchedule getPreferredCommutes();
@@ -49,37 +43,9 @@ public interface Member extends Comparable<Member> {
 	void setPreferredCommutes(CommuteSchedule preferredCommutes);
 	
 	/** @return current state */
-	MemberState getState();
+	State getState();
 	/** @param state new state */
-<<<<<<< HEAD
 	void setState(State state);
 	/**@param string notification to member */
 	void notification(String string);
-=======
-	void setState(MemberState state);
-	
-	/**
-	 * Adds a listener to this member.
-	 * @param listener listener to add
-	 */
-	void addListener(MemberListener listener);
-	/**
-	 * Removes a listener from this member.
-	 * @param listener listener to remove
-	 */
-	void removeListener(MemberListener listener);
-	/**
-	 * Removes all listeners from this member.
-	 */
-	void clearListeners();
-	
-	/**
-	 * @return distance from school
-	 */
-	double getDistanceFromDestination();
-	
-	double getMaxTime();
-	
-	double getMaxDistance();
->>>>>>> 4d5ce1caece99c09423ddcfd95040cac5a1d00bb
 }
