@@ -46,4 +46,6 @@ public interface Member extends Comparable<Member> {
 	State getState();
 	/** @param state new state */
 	void setState(State state);
+	/**@param string notification to member */
+	void notification(String string);
 }

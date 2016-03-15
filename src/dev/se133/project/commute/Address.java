@@ -31,7 +31,8 @@ public class Address {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((address == null) ? 0 : address.hashCode());
+		result = prime * result + ((address == null) ? 0 : address.hashCode());//What the hell?
+								  //If address==null, 0, else address.hashCode();
 		return result;
 	}
 	@Override
