@@ -1,8 +1,6 @@
 package dev.se133.project.member;
 
 import dev.se133.project.commute.Car;
-import dev.se133.project.commute.FullCarException;
-import dev.se133.project.commute.NoDriverException;
 
 /**
  * A member-specific state.
@@ -17,11 +15,11 @@ public abstract class MemberState implements State {
 	}
 	
 	/**
-	 * Creates a new car with the specified member preloaded into it.
-	 * @param context member to load into car
-	 * @return new car with member loaded into it
+	 * Returns the car most appropriate to the current state.
+	 * @param context member this state describes
+	 * @return appropriate car
 	 */
-	public abstract Car makeCar(Member context);
+	public abstract Car getCar(Member context);
 	
 	@Override
 	public int getStateId() {
@@ -32,10 +30,15 @@ public abstract class MemberState implements State {
 		return stateName;
 	}
 	
+	@Override
+	public String toString() {
+		return getStateName();
+	}
+	
 	/**
-	 * The Passenger state for a member.
+	 * The state occurring when a member is not willing to drive and is not currently in a carpool.
 	 */
-	public static class Passenger extends MemberState {
+	public static class Passenger extends MemberState {	// TODO Rename to Rider to match Riding?
 		private static final int id = 0;
 		private static final String name = "Passenger";
 		
@@ -47,45 +50,69 @@ public abstract class MemberState implements State {
 		}
 		
 		@Override
-		public Car makeCar(Member context) {
-			Car newCar = new Car(context.getGarage().getVehicles().iterator().next().getCapacity());
-			
-			try {
-				newCar.addPassenger(context);
-			} catch (FullCarException | NoDriverException e) {
-				e.printStackTrace();
-			}
-			return newCar;
+		public Car getCar(Member context) {
+			return null;
 		}
 	}
 	
 	/**
-	 * The Driver state for a member.
+	 * The state occurring when a member is willing to drive and is not currently in a carpool.
 	 */
 	public static class Driver extends MemberState {
-		private static final int id = 1;
+		private static final int id = Passenger.id + 1;
 		private static final String name = "Driver";
 		
 		/**
-		 * Constructs a new passenger state.
+		 * Constructs a new driver state.
 		 */
 		public Driver() {
 			super(id, name);
 		}
 		
-		/** Sets context member as car driver. */
 		@Override
-		public Car makeCar(Member context) {
-			Car newCar = new Car(context.getGarage().getVehicles().iterator().next().getCapacity());
-			
-			try {
-				newCar.addPassenger(context);
-			} catch (FullCarException | NoDriverException e) {
-				e.printStackTrace();
-			}
-			newCar.setDriver(context);
-			
-			return newCar;
+		public Car getCar(Member context) {
+			context.setState(new Driving());
+			return new Car(context.getGarage().getLargestVehicle().getCapacity(), context);	// Uses largest of member's vehicles
+		}
+	}
+	
+	/**
+	 * The state occurring when a member is currently in a carpool as a passenger.
+	 */
+	public static class Riding extends MemberState {
+		private static final int id = Driver.id + 1;
+		private static final String name = "Riding";
+		
+		/**
+		 * Constructs a 'riding' state.
+		 */
+		public Riding() {
+			super(id, name);
+		}
+
+		@Override
+		public Car getCar(Member context) {
+			return context.getCurrentCarpool().getCar();
+		}
+	}
+	
+	/**
+	 * The state occurring when a member is currently in a carpool as a driver.
+	 */
+	public static class Driving extends MemberState {
+		private static final int id = Riding.id + 1;
+		private static final String name = "Driving";
+		
+		/**
+		 * Constructs a 'driving' state.
+		 */
+		public Driving() {
+			super(id, name);
+		}
+
+		@Override
+		public Car getCar(Member context) {
+			return context.getCurrentCarpool().getCar();
 		}
 	}
 }

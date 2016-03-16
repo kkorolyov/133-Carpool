@@ -20,6 +20,21 @@ public class Garage {
 	}
 	
 	/**
+	 * Returns the vehicle in this garage with the greatest capacity.
+	 * If the garage is empty, returns {@code null}.
+	 * @return vehicle with greatest capacity, or {@code null}
+	 */
+	public Vehicle getLargestVehicle() {
+		Vehicle largestVehicle = null;
+		
+		for (Vehicle vehicle : vehicles.values()) {
+			if (largestVehicle == null || vehicle.getCapacity() > largestVehicle.getCapacity())
+				largestVehicle = vehicle;
+		}
+		return largestVehicle;
+	}
+	
+	/**
 	 * Returns a copy of all the vehicles stored in this garage.
 	 * @return all vehicles
 	 */

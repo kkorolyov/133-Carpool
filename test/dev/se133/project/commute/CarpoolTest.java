@@ -30,7 +30,7 @@ public class CarpoolTest {
 		car = new Car(CAR_CAPACITY);
 		populateCar();
 	}
-	private static void populateCommute() throws Exception {
+	private static void populateCommute() {
 		Address currentAddress;
 		Time currentTime = new Time(DAY, START_TIME);
 		for (int i = 0; i < NUM_STOPS; i++) {
@@ -40,7 +40,7 @@ public class CarpoolTest {
 			commute.addStop(new CommutePoint(currentAddress, currentTime));
 		}
 	}
-	private static void populateCar() throws Exception {
+	private static void populateCar() {
 		for (int i = 0; i < car.getCapacity(); i++) {
 			car.addPassenger(new BasicMember(0, "Member" + i, new Address("MemberAddress" + i), new SortedCommuteSchedule(), i == 0 ? new MemberState.Driver() : new MemberState.Passenger()));
 			car.setDriver();

@@ -1,7 +1,6 @@
 package dev.se133.project.member;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.Before;
@@ -32,12 +31,12 @@ public class BasicMemberTest {
 		Vehicle testVehicle = new Vehicle(Make.AUDI, "TestModel", 2000, "1", 5);
 		
 		member.getGarage().addVehicle(testVehicleName, testVehicle);
-		Car car = member.makeCar();
+		Car car = member.getCar();
 		
-		assertEquals(1, car.getInhabitants().size());
+		assertTrue(car == null);
 		
 		member.setState(new MemberState.Driver());
-		car = member.makeCar();
+		car = member.getCar();
 		assertEquals(member, car.getDriver());
 	}
 

@@ -30,7 +30,21 @@ public class Car {
 	 * @param capacity maximum number of inhabitants
 	 */
 	public Car(int capacity) {
+		this(capacity, null);
+	}
+	/**
+	 * Constructs a car of a specified capacity and preset member.
+	 * If the specified member is available to drive, that member is designated the car's driver.
+	 * @param capacity maximum number of inhabitants
+	 * @param member member preloaded into this car
+	 */
+	public Car(int capacity, Member member) {
 		this.capacity = capacity;
+		
+		if (member != null) {
+			addPassenger(member);
+			setDriver();
+		}
 	}
 	
 	/**
@@ -40,11 +54,14 @@ public class Car {
 	 * @throws FullCarException if adding this member would overflow this car's capacity
 	 * @throws NoDriverException if adding this member would result in this car being unable to contain at least 1 driver
 	 */
-	public boolean addPassenger(Member inhabitant) throws FullCarException, NoDriverException {
+	public boolean addPassenger(Member inhabitant) {
 		if (isFull())
 			throw new FullCarException(capacity);
 		if ((driver == null) && !(inhabitant.getState() instanceof MemberState.Driver) && (getAvailableSeats() <= 1))	// Cannot have a car full of only passengers
 			throw new NoDriverException();
+		
+		if (driver != null)
+			inhabitant.setState(new MemberState.Riding());
 		
 		return inhabitants.add(inhabitant);
 	}
@@ -54,7 +71,13 @@ public class Car {
 	 * @return {@code true} if specified inhabitant removed, {@code false} if no such inhabitant
 	 */
 	public boolean removePassenger(Member inhabitant) {
-		return inhabitants.remove(inhabitant);
+		boolean removeSuccess = inhabitants.remove(inhabitant);
+		
+		if (removeSuccess) {
+			MemberState newState = inhabitant.getState() instanceof MemberState.Driving ? new MemberState.Driver() : new MemberState.Passenger();
+			inhabitant.setState(newState);
+		}
+		return removeSuccess;
 	}
 	
 	/**
@@ -63,10 +86,11 @@ public class Car {
 	 * @param inhabitant member of this car to set as driver
 	 * @return {@code true} if driver set successfully
 	 */
-	public boolean setDriver(Member inhabitant) {		
+	public boolean setDriver(Member inhabitant) {	// TODO Set driver directly?
 		for (Member currentInhabitant : inhabitants) {
 			if (currentInhabitant.equals(inhabitant)) {
-				if (currentInhabitant.getState() instanceof MemberState.Driver) {
+				if (currentInhabitant.getState() instanceof MemberState.Driving || currentInhabitant.getState() instanceof MemberState.Driver) {
+					currentInhabitant.setState(new MemberState.Driving());
 					driver = currentInhabitant;
 				}
 				break;	// Valid or not, equal inhabitant located, ok to break
@@ -81,7 +105,8 @@ public class Car {
 	 */
 	public boolean setDriver() {		
 		for (Member inhabitant : inhabitants) {
-			if (inhabitant.getState() instanceof MemberState.Driver) {
+			if (inhabitant.getState() instanceof MemberState.Driving || inhabitant.getState() instanceof MemberState.Driver) {
+				inhabitant.setState(new MemberState.Driving());
 				driver = inhabitant;
 				
 				break;	// Found, set suitable candidate
