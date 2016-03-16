@@ -63,7 +63,7 @@ public class CarpoolSchedulerTest {
 		System.out.println("Scheduled carpools:");
 		for (Carpool carpool : scheduler.getAllCarpools()) {
 			CommutePoint start = carpool.getCommute().getStart();
-			System.out.println("Carpool starting at " + start.getAddress().toString() + " at " + start.getTime().getDay() + ", " + start.getTime().getHour() + ":" + start.getTime().getMinute());
+			System.out.println("Carpool starting at " + start.getAddress().toString() + " at " + start.getTime());
 			System.out.println("Members");
 			for (Member member : carpool.getCar().getInhabitants()) {
 				System.out.println("\t" + member.getName() + ";\t" + member.getState().getStateName() + ";\t" + member.getAddress());
