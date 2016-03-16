@@ -113,6 +113,19 @@ public class Car {
 		return driver;
 	}
 	/**
+	 * Returns a set of all current passengers in this car.
+	 * @return all current passengers
+	 */
+	public Set<Member> getPassengers() {
+		Set<Member> passengers = new HashSet<>();
+		
+		for (Member inhabitant : inhabitants) {
+			if (!inhabitant.equals(driver))
+				passengers.add(inhabitant);
+		}
+		return passengers;
+	}
+	/**
 	 * Returns all current inhabitants of this car.
 	 * The returned objects are direct, mutable references to this car's inhabitants.
 	 * @return all current inhabitants

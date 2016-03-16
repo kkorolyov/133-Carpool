@@ -4,27 +4,23 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * A one-way commute.
- * Consists of a day of the week, departure, arrival, and stop points and times.
+ * A one-way commute consisting of an infinite set of {@code CommutePoint} objects.
+ * @see CommutePoint
  */
-public class Commute {
-	private Day day;	// Day of commute TODO migrated to CommutePoint
+public class Commute implements Comparable<Commute> {
 	private TreeSet<CommutePoint> stops = new TreeSet<>();	// Ordered by time ascending
 	
 	/**
-	 * Constructs a new commute with no stops.
-	 * @param day day of commute
+	 * Constructs an empty commute with no stops.
 	 */
-	public Commute(Day day) {
-		this(day, null);
+	public Commute() {
+		this(null);
 	}
 	/**
-	 * Constructs a new commute.
-	 * @param day day of commute
+	 * Constructs a commute with an initial set of stops.
 	 * @param stops all stops in the commute
 	 */
-	public Commute(Day day, Set<CommutePoint> stops) {
-		setDay(day);
+	public Commute(Set<CommutePoint> stops) {
 		setStops(stops);
 	}
 	private void setStops(Set<CommutePoint> stops) {
@@ -57,22 +53,13 @@ public class Commute {
 		return stops.remove(stop);
 	}
 	
-	/** @return day of commute */
-	public Day getDay() {
-		return day;
-	}
-	/** @param day new day of commute */
-	public void setDay(Day day) {
-		this.day = day;
-	}
-	
 	/** @return earliest stop in this commute */
-	public CommutePoint getDeparture() {
-		return stops.first();	// Departure is the earliest
+	public CommutePoint getStart() {
+		return stops.first();
 	}
-	/** @return latest stop in this commute */
-	public CommutePoint getArrival() {
-		return stops.last();	// Arrival is the latest
+	/** @return final stop in this commute */
+	public CommutePoint getEnd() {
+		return stops.last();
 	}
 	
 	/** @return a copy of all stops, sorted by time ascending */
@@ -89,7 +76,6 @@ public class Commute {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((day == null) ? 0 : day.hashCode());
 		result = prime * result + ((stops == null) ? 0 : stops.hashCode());
 		return result;
 	}
@@ -102,8 +88,6 @@ public class Commute {
 		if (!(obj instanceof Commute))
 			return false;
 		Commute other = (Commute) obj;
-		if (day != other.day)
-			return false;
 		if (stops == null) {
 			if (other.stops != null)
 				return false;
@@ -119,5 +103,10 @@ public class Commute {
 			returnStatement += "Stop " + i++ + ": " + stop.getAddress() + "\n";
 		}
 		return returnStatement;
+	}
+	
+	@Override
+	public int compareTo(Commute o) {	// TODO May want to use Comparator instead
+		return getStart().compareTo(o.getStart());
 	}
 }
