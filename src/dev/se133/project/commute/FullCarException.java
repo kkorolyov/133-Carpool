@@ -3,7 +3,7 @@ package dev.se133.project.commute;
 /**
  * Exception thrown when adding a new inhabitant to a {@code Car} would overflow its capacity.
  */
-public class FullCarException extends Exception{
+public class FullCarException extends RuntimeException{
 	private static final long serialVersionUID = -3247087105986782821L;
 
 	/**

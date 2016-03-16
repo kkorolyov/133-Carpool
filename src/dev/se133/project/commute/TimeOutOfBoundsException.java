@@ -3,7 +3,7 @@ package dev.se133.project.commute;
 /**
  * Thrown when an input hour or minute is out of bounds.
  */
-public class TimeOutOfBoundsException extends Exception {
+public class TimeOutOfBoundsException extends RuntimeException {
 	private static final long serialVersionUID = -7599141951594173490L;
 
 	/**
