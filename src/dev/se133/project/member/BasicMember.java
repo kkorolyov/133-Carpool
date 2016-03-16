@@ -6,6 +6,7 @@ import java.util.List;
 import javax.swing.event.ChangeEvent;
 
 import dev.se133.project.commute.Address;
+import dev.se133.project.commute.Car;
 import dev.se133.project.observer.MemberObserver;
 import dev.se133.project.observer.Observer;
 import dev.se133.project.schedule.CommuteSchedule;
@@ -55,6 +56,10 @@ public class BasicMember implements Member {
 		setAddress(address);
 		setPreferredCommutes(preferredCommutes);
 		setState(state);
+	}
+	
+	public Car makeCar() {
+		return state.makeCar(this);
 	}
 	
 	@Override

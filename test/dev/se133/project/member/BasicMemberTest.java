@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import dev.se133.project.commute.Address;
+import dev.se133.project.commute.Car;
+import dev.se133.project.member.Vehicle.Make;
 import dev.se133.project.schedule.SortedCommuteSchedule;
 
 @SuppressWarnings("javadoc")
@@ -22,6 +24,21 @@ public class BasicMemberTest {
 	@After
 	public void tearDown() throws Exception {
 		//
+	}
+	
+	@Test
+	public void testMakeCar() throws Exception {
+		String testVehicleName = "TestVehicle";
+		Vehicle testVehicle = new Vehicle(Make.AUDI, "TestModel", 2000, "1", 5);
+		
+		member.getGarage().addVehicle(testVehicleName, testVehicle);
+		Car car = member.makeCar();
+		
+		assertEquals(1, car.getInhabitants().size());
+		
+		member.setState(new MemberState.Driver());
+		car = member.makeCar();
+		assertEquals(member, car.getDriver());
 	}
 
 	@Test

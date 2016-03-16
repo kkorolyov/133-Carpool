@@ -1,12 +1,18 @@
 package dev.se133.project.member;
 
 import dev.se133.project.commute.Address;
+import dev.se133.project.commute.Car;
 import dev.se133.project.schedule.CommuteSchedule;
 
 /**
  * General member interface.
  */
 public interface Member extends Comparable<Member> {
+	/**
+	 * Returns a car preloaded with this member.
+	 * @return new car with this member in it
+	 */
+	Car makeCar();
 	/**
 	 * Adds a number of points to this member.
 	 * @param points number of points to add

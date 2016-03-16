@@ -79,7 +79,7 @@ public class MemberTest {
 		
 		System.out.println("Adding vehicles to each member");
 		for (Member x : members)
-			x.getGarage().addVehicle(x.getName() + "'s car", new Vehicle(Vehicle.Make.HONDA, "NOTAMODEL", 2005, String.valueOf(x.hashCode())));
+			x.getGarage().addVehicle(x.getName() + "'s car", new Vehicle(Vehicle.Make.HONDA, "NOTAMODEL", 2005, String.valueOf(x.hashCode()), 5));
 	}
 	
 	private void newAddition() {

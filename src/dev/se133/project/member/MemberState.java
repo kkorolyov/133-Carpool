@@ -1,5 +1,9 @@
 package dev.se133.project.member;
 
+import dev.se133.project.commute.Car;
+import dev.se133.project.commute.FullCarException;
+import dev.se133.project.commute.NoDriverException;
+
 /**
  * A member-specific state.
  */
@@ -12,7 +16,12 @@ public abstract class MemberState implements State {
 		this.stateName = stateName;
 	}
 	
-	// TODO Handling methods
+	/**
+	 * Creates a new car with the specified member preloaded into it.
+	 * @param context member to load into car
+	 * @return new car with member loaded into it
+	 */
+	public abstract Car makeCar(Member context);
 	
 	@Override
 	public int getStateId() {
@@ -36,6 +45,18 @@ public abstract class MemberState implements State {
 		public Passenger() {
 			super(id, name);
 		}
+		
+		@Override
+		public Car makeCar(Member context) {
+			Car newCar = new Car(context.getGarage().getVehicles().iterator().next().getCapacity());
+			
+			try {
+				newCar.addPassenger(context);
+			} catch (FullCarException | NoDriverException e) {
+				e.printStackTrace();
+			}
+			return newCar;
+		}
 	}
 	
 	/**
@@ -50,6 +71,21 @@ public abstract class MemberState implements State {
 		 */
 		public Driver() {
 			super(id, name);
+		}
+		
+		/** Sets context member as car driver. */
+		@Override
+		public Car makeCar(Member context) {
+			Car newCar = new Car(context.getGarage().getVehicles().iterator().next().getCapacity());
+			
+			try {
+				newCar.addPassenger(context);
+			} catch (FullCarException | NoDriverException e) {
+				e.printStackTrace();
+			}
+			newCar.setDriver(context);
+			
+			return newCar;
 		}
 	}
 }
