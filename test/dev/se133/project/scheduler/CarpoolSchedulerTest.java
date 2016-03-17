@@ -63,7 +63,7 @@ public class CarpoolSchedulerTest {
 		System.out.println("Scheduled carpools:");
 		for (Carpool carpool : scheduler.getAllCarpools()) {
 			CommutePoint start = carpool.getCommute().getStart();
-			System.out.println("Carpool starting at " + start.getAddress().toString() + " at " + start.getTime().getDay() + ", " + start.getTime().getHour() + ":" + start.getTime().getMinute());
+			System.out.println("Carpool starting at " + start.getAddress().toString() + " at " + start.getTime());
 			System.out.println("Members");
 			for (Member member : carpool.getCar().getInhabitants()) {
 				System.out.println("\t" + member.getName() + ";\t" + member.getState().getStateName() + ";\t" + member.getAddress());
@@ -117,13 +117,13 @@ public class CarpoolSchedulerTest {
 		return pool;
 	}
 	private static AddressMap buildMap(int numAddresses) {
-		ArrayAddressMap map = new ArrayAddressMap(numAddresses, numAddresses);
+		ArrayAddressMap map = new ArrayAddressMap(numAddresses/2, numAddresses/2);
 		Random random = new Random();
 
 		for (int i = 0; i < numAddresses; i++) {
 			Address currentAddress = new Address("TestAddress" + i);
 			
-			while(!map.addAddress(currentAddress, random.nextInt(numAddresses), random.nextInt(numAddresses)));	// Loop until successfully add new address at random location
+			while(!map.addAddress(currentAddress, random.nextInt(numAddresses/2), random.nextInt(numAddresses/2)));	// Loop until successfully add new address at random location
 		}
 		
 		return map;
