@@ -6,6 +6,8 @@ import java.util.List;
 import javax.swing.event.ChangeEvent;
 
 import dev.se133.project.commute.Address;
+import dev.se133.project.commute.Car;
+import dev.se133.project.commute.Carpool;
 import dev.se133.project.observer.MemberObserver;
 import dev.se133.project.observer.Observer;
 import dev.se133.project.schedule.CommuteSchedule;
@@ -19,6 +21,7 @@ public class BasicMember implements Member {
 	private Address address;
 	private Garage garage = new Garage();
 	private CommuteSchedule preferredCommutes;
+	private Carpool currentCarpool;
 	private MemberState state;
 	private List<MemberListener> listeners = new LinkedList<>();
 	
@@ -55,6 +58,11 @@ public class BasicMember implements Member {
 		setAddress(address);
 		setPreferredCommutes(preferredCommutes);
 		setState(state);
+	}
+	
+	@Override
+	public Car getCar() {
+		return state.getCar(this);
 	}
 	
 	@Override
@@ -121,11 +129,23 @@ public class BasicMember implements Member {
 	}
 	
 	@Override
+	public Carpool getCurrentCarpool() {
+		return currentCarpool;
+	}
+	@Override
+	public void setCurrentCarpool(Carpool carpool) {
+		this.currentCarpool = carpool;
+	}
+	
+	@Override
 	public MemberState getState() {
 		return state;
 	}
 	@Override
 	public void setState(MemberState state) {
+		if (this.state != null && this.state.getClass() == state.getClass())
+			return;	// No need to set to same state
+		
 		this.state = state;
 		
 		notifyStateChanged();	// Notify all listeners of state change

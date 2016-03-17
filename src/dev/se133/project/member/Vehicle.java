@@ -10,6 +10,7 @@ public class Vehicle {
 	private String model;
 	private int year;
 	private String vin;
+	private int capacity;
 	
 	/**
 	 * Constructs a new vehicle.
@@ -19,11 +20,12 @@ public class Vehicle {
 	 * @param vin vin
 	 * @throws YearOutOfBoundsException if the specified year is out of bounds
 	 */
-	public Vehicle(Make make, String model, int year, String vin) throws YearOutOfBoundsException {
+	public Vehicle(Make make, String model, int year, String vin, int capacity) throws YearOutOfBoundsException {
 		this.make = make;
 		this.model = model;
 		setYear(year);
 		this.vin = vin;
+		this.capacity = capacity;
 	}
 	private void setYear(int year) throws YearOutOfBoundsException {
 		if (year < minYear || year > maxYear)
@@ -47,6 +49,10 @@ public class Vehicle {
 	/** @return vehicle vin */
 	public String getVin() {
 		return vin;
+	}
+	/** @return vehicle capacity */
+	public int getCapacity() {
+		return capacity;
 	}
 	
 	/**
