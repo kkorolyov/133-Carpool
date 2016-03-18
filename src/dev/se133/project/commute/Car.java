@@ -3,27 +3,40 @@ package dev.se133.project.commute;
 import java.util.HashSet;
 import java.util.Set;
 
+import dev.se133.project.member.BasicMember;
 import dev.se133.project.member.Member;
 import dev.se133.project.member.MemberState;
+import dev.se133.project.observer.CarEvent;
+import dev.se133.project.observer.Observer;
 
 /**
  * Representation of the inhabitants of a car.
  * Contains a finite number of inhabitants, exactly 1 of which is the designated driver.
  * The car capacity is set permanently during object construction.
  */
-public class Car {
+public class Car{
+	
 	/** Default maximum number of inhabitants */
 	public static final int DEFAULT_CAPACITY = 5;
+	private static int totalCars = 0;
+	private int carID;
 	
 	private final int capacity;
 	private Member driver;	// Reference to one of the inhabitants
 	private Set<Member> inhabitants = new HashSet<>();
+	private Set<Observer> observers = new HashSet<>();
 	
 	/**
 	 * Constructs a car of default capacity.
 	 */
 	public Car() {
 		this(DEFAULT_CAPACITY);
+		totalCars++;
+		carID = totalCars;
+	}
+	public int getID()
+	{
+		return carID;
 	}
 	/**
 	 * Constructs a car of a specified capacity.
@@ -63,7 +76,17 @@ public class Car {
 		if (driver != null)
 			inhabitant.setState(new MemberState.Riding());
 		
-		return inhabitants.add(inhabitant);
+		if(inhabitants.add(inhabitant))
+		{
+			observers.add((BasicMember) inhabitant);
+			notifyChanges(new CarEvent(inhabitant.getName() + " has been added to the carpool."));
+			if(this.isFull())
+				notifyChanges(new CarEvent("Car " + carID + " is full"));
+			return true;
+		}
+		
+		return false;
+		
 	}
 	/**
 	 * Attempts to remove the specified inhabitant from this car.
@@ -73,11 +96,23 @@ public class Car {
 	public boolean removePassenger(Member inhabitant) {
 		boolean removeSuccess = inhabitants.remove(inhabitant);
 		
+		
 		if (removeSuccess) {
 			MemberState newState = inhabitant.getState() instanceof MemberState.Driving ? new MemberState.Driver() : new MemberState.Passenger();
 			inhabitant.setState(newState);
 		}
-		return removeSuccess;
+		if(removeSuccess)
+		{
+			notifyChanges(new CarEvent(inhabitant.getName() + " has been removed from the carpool."));
+			observers.remove((BasicMember) inhabitant);
+			
+			
+			if(capacity-1 == inhabitants.size())
+				notifyChanges(new CarEvent("Car " + carID + " now has an available seat"));
+			
+			return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -87,11 +122,14 @@ public class Car {
 	 * @return {@code true} if driver set successfully
 	 */
 	public boolean setDriver(Member inhabitant) {	// TODO Set driver directly?
+
 		for (Member currentInhabitant : inhabitants) {
 			if (currentInhabitant.equals(inhabitant)) {
-				if (currentInhabitant.getState() instanceof MemberState.Driving || currentInhabitant.getState() instanceof MemberState.Driver) {
+				if (currentInhabitant.getState() instanceof MemberState.Driving || currentInhabitant.getState() instanceof MemberState.Driver)
+				{
 					currentInhabitant.setState(new MemberState.Driving());
 					driver = currentInhabitant;
+					notifyChanges(new CarEvent(currentInhabitant.getName() + " is the driver."));
 				}
 				break;	// Valid or not, equal inhabitant located, ok to break
 			}
@@ -157,6 +195,14 @@ public class Car {
 	 */
 	public Set<Member> getInhabitants() {
 		return new HashSet<>(inhabitants);
+	}
+	
+	private void notifyChanges(CarEvent e)
+	{
+		for(Observer o : observers)
+		{
+			o.stateChanged(e);
+		}
 	}
 	
 	/**
