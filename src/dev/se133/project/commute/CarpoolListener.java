@@ -1,5 +1,7 @@
 package dev.se133.project.commute;
 
+import dev.se133.project.member.Member;
+
 /**
  * Listens to interesting {@code Carpool} events.
  * @see Carpool
@@ -16,4 +18,6 @@ public interface CarpoolListener {
 	 * @param carpool the carpool object hit the end of its commute
 	 */
 	void hitEnd(Carpool carpool);
+	
+	
 }

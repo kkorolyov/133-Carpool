@@ -8,6 +8,7 @@ import javax.swing.event.ChangeEvent;
 import dev.se133.project.commute.Address;
 import dev.se133.project.commute.Car;
 import dev.se133.project.commute.Carpool;
+import dev.se133.project.observer.CarEvent;
 import dev.se133.project.observer.MemberObserver;
 import dev.se133.project.observer.Observer;
 import dev.se133.project.schedule.CommuteSchedule;
@@ -15,7 +16,7 @@ import dev.se133.project.schedule.CommuteSchedule;
 /**
  * A basis member implementation
  */
-public class BasicMember implements Member {
+public class BasicMember implements Member, Observer {
 	private int id;
 	private String name;
 	private Address address;
@@ -186,5 +187,10 @@ public class BasicMember implements Member {
 	@Override
 	public double getMaxDistance() {
 		return maxDistance;
+	}
+	@Override
+	public void stateChanged(CarEvent e) 
+	{
+		System.out.println(this.getName() + ": " + e.getMessage());
 	}
 }
