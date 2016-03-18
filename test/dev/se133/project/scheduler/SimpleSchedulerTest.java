@@ -23,7 +23,7 @@ public class SimpleSchedulerTest {
 	private static Car car;
 	private static CommutePoint departure, arrival;
 	
-	private SimpleScheduler scheduler;
+	private ScheduleContext scheduler;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -38,7 +38,7 @@ public class SimpleSchedulerTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		scheduler = new SimpleScheduler(map, car, departure, arrival);
+		scheduler = new ScheduleContext(map, car, departure, arrival);
 	}
 
 	@After
@@ -47,7 +47,7 @@ public class SimpleSchedulerTest {
 
 	@Test
 	public void testSchedule() throws NoDriverException {
-		scheduler.schedule();
+		scheduler.createSchedule();
 		int i = 0;
 		Commute commute = scheduler.getCommute();
 		System.out.println(map);
