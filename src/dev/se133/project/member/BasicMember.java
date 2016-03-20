@@ -84,9 +84,11 @@ public class BasicMember implements Member, Observer {
 		return points;
 	}
 	
+	/*
 	private void notifyObserver(int obv){
 		observers[obv].stateChanged(new ChangeEvent(this));
 	}
+	*/
 	
 	@Override
 	public int getId() {
