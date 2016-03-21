@@ -15,7 +15,7 @@ import dev.se133.project.router.CommuteBuilder;
  * Assigns and schedules carpools.
  */
 public class CarpoolScheduler {
-	private CommutePoint end;	// TODO Remove
+	private Stop end;	// TODO Remove
 	private MemberPool members;	// All members
 	private AddressMap map;	// Map of all addresses
 	private Set<Carpool> carpools = new TreeSet<>(new Comparator<Carpool>() {
@@ -25,7 +25,7 @@ public class CarpoolScheduler {
 		}
 	});
 	
-	public CarpoolScheduler(MemberPool members, AddressMap map, CommutePoint end) {
+	public CarpoolScheduler(MemberPool members, AddressMap map, Stop end) {
 		this.members = members;
 		this.map = map;
 		this.end = end;

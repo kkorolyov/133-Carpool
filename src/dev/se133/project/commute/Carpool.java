@@ -9,8 +9,8 @@ import java.util.List;
  */
 public class Carpool {
 	private Commute commute;
-	private Iterator<CommutePoint> commuteIterator;
-	private CommutePoint currentStop;
+	private Iterator<Stop> commuteIterator;
+	private Stop currentStop;
 	private Car car;
 	private List<CarpoolListener> listeners = new LinkedList<>();
 	
@@ -35,14 +35,14 @@ public class Carpool {
 	 */
 	public void setCommute(Commute commute) {
 		this.commute = commute;
-		commuteIterator = this.commute.getStops().iterator();
+		commuteIterator = this.commute.getStops().iterator();	// TODO Use commute's iterator
 	}
 	
 	/**
 	 * Advances this carpool to the next stop.
 	 * @return next stop, or {@code null} if no more stops
 	 */
-	public CommutePoint nextStop() {
+	public Stop nextStop() {
 		if (!isAtEnd()) {
 			currentStop = commuteIterator.next();
 		
@@ -59,7 +59,7 @@ public class Carpool {
 	 * Returns the last hit stop of this carpool.
 	 * @return last hit stop
 	 */
-	public CommutePoint currentStop() {
+	public Stop currentStop() {
 		return currentStop;
 	}
 	

@@ -4,14 +4,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 import dev.se133.project.commute.*;
+import dev.se133.project.commute.Time.Day;
+import dev.se133.project.commute.Time.Month;
 import dev.se133.project.member.BasicMember;
 import dev.se133.project.member.Member;
+import dev.se133.project.schedule.SortedCommuteSchedule;
 
 @SuppressWarnings("javadoc")
 public class CarpoolScheduleTest {	// TODO Remake better
 	private static Set<Carpool> carpools = new HashSet<>();
 	
-	public static void main(String[] args) throws TimeOutOfBoundsException, FullCarException, NoDriverException {
+	public static void main(String[] args) throws FullCarException, NoDriverException {
 		populateCarpools();
 		listAll();
 		System.out.println();
@@ -41,31 +44,37 @@ public class CarpoolScheduleTest {	// TODO Remake better
 				System.out.println("\t" + member.getName());
 			
 			Commute commute = carpool.getCommute();
-			CommutePoint point;
+			Stop point;
 			System.out.println("Commute:");
-			System.out.println("\tDay: " + commute.getDay());
+			System.out.println("\tDay: " + commute.getStart().getTime().getDay());
 			point = commute.getStart();
 			System.out.println("\tDeparture: " + point.getAddress() + " -- " + String.valueOf(point.getTime().getHour()) + ":" + String.valueOf(point.getTime().getMinute()));
 			point = commute.getEnd();
 			System.out.println("\tArrival: " + point.getAddress() + " -- " + String.valueOf(point.getTime().getHour()) + ":" + String.valueOf(point.getTime().getMinute()));
 			
 			System.out.println("\tStops: ");
-			for (CommutePoint stop : commute.getStops())
+			for (Stop stop : commute.getStops())
 				System.out.println("\t\t" + stop.getAddress() + " -- " + String.valueOf(stop.getTime().getHour()) + ":" + String.valueOf(stop.getTime().getMinute()));
 		}
 	}
-	private static void add() throws TimeOutOfBoundsException {
-		System.out.println("ADDING A CARPOOL");
-		CommutePoint departure = new CommutePoint(new Address("Departure St."), new Time(11, 45)),
-				arrival = new CommutePoint(new Address("Arrival Rd."), new Time(18,30));
-		CommutePoint stop = new CommutePoint(new Address("AnotherStop Blvd."), new Time(13, 15));
-				
-		Commute commute = new Commute(Day.FRIDAY, departure, arrival, new CommutePoint[]{stop});
+	private static void add() {
+		int year = 2016;
+		Month month = Month.JANUARY;
+		Day day = Day.FRIDAY;
+		int second = 0;
 		
-		Member m1 = new BasicMember(52, "Joe", new Address("23 First St.")),
-				m2 = new BasicMember(34, "Jack", new Address("123 Fake St."));
+		System.out.println("ADDING A CARPOOL");
+		Stop departure = new Stop(new Time(year, month, day, 11, 45, second), new Address("Departure St.")),
+				arrival = new Stop(new Time(year, month, day, 18,30, second), new Address("Arrival Rd."));
+		Stop stop = new Stop(new Time(year, month, day, 13, 15, second), new Address("AnotherStop Blvd."));
 				
-		carpools.add(new Carpool(commute, m1, new Car()));
+		Commute commute = new Commute();
+		commute.addStop(stop);
+		
+		Member m1 = new BasicMember(52, "Joe", new Address("23 First St."), null),
+				m2 = new BasicMember(34, "Jack", new Address("123 Fake St."), null);
+				
+		carpools.add(new Carpool(commute, new Car()));
 	}
 	private static void change() {
 		System.out.println("CHANGING A DRIVER");
@@ -84,7 +93,7 @@ public class CarpoolScheduleTest {	// TODO Remake better
 		carpools.remove(toDelete);
 	}
 	
-	private static void populateCarpools() throws TimeOutOfBoundsException, FullCarException, NoDriverException {
+	private static void populateCarpools() throws FullCarException, NoDriverException {
 		Member m1 = new BasicMember(52, "Joe", new Address("23 First St.")),
 				m2 = new BasicMember(34, "Jack", new Address("123 Fake St.")),
 				m3 = new BasicMember(15, "Robert", new Address("52 2nd St.")),
@@ -93,14 +102,14 @@ public class CarpoolScheduleTest {	// TODO Remake better
 		passengers.addPassenger(m2);
 		passengers.addPassenger(m3);
 
-		CommutePoint departure = new CommutePoint(new Address("Departure St."), new Time(12, 45)),
-				arrival = new CommutePoint(new Address("Arrival Rd."), new Time(16,30));
-		CommutePoint stop1 = new CommutePoint(new Address("Stop1 Blvd."), new Time(14, 15)),
-				stop2 = new CommutePoint(new Address("Stop2 Ave."), new Time(14, 20)),
-				stop3 = new CommutePoint(new Address("Stop3 St."), new Time(14, 25));
+		Stop departure = new Stop(new Address("Departure St."), new Time(12, 45)),
+				arrival = new Stop(new Address("Arrival Rd."), new Time(16,30));
+		Stop stop1 = new Stop(new Address("Stop1 Blvd."), new Time(14, 15)),
+				stop2 = new Stop(new Address("Stop2 Ave."), new Time(14, 20)),
+				stop3 = new Stop(new Address("Stop3 St."), new Time(14, 25));
 		
-		Commute commute1 = new Commute(Day.SATURDAY, departure, arrival, new CommutePoint[]{stop1, stop2}),
-				commute2 = new Commute(Day.THURSDAY, departure, arrival, new CommutePoint[]{stop1, stop3});
+		Commute commute1 = new Commute(Day.SATURDAY, departure, arrival, new Stop[]{stop1, stop2}),
+				commute2 = new Commute(Day.THURSDAY, departure, arrival, new Stop[]{stop1, stop3});
 		
 		carpools.add(new Carpool(commute1, m1, passengers));
 		carpools.add(new Carpool(commute2, m4, passengers));

@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import dev.se133.project.commute.Commute;
-import dev.se133.project.commute.Day;
+import dev.se133.project.commute.Time.Day;
 
 /**
  * A commute schedule implementation.

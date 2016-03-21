@@ -13,6 +13,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import dev.se133.project.commute.*;
+import dev.se133.project.commute.Time.Day;
+import dev.se133.project.commute.Time.Month;
 import dev.se133.project.map.AddressMap;
 import dev.se133.project.map.ArrayAddressMap;
 import dev.se133.project.member.BasicMember;
@@ -25,10 +27,15 @@ import dev.se133.project.schedule.SortedCommuteSchedule;
 public class CarpoolSchedulerTest {
 	private static final int NUM_MEMBERS = 50;
 	
+	private static final int year = 2016;
+	private static final Month month = Month.FEBRUARY;
+	private static final int hour = 12;
+	private static final int second = 0;
+	
 	private static Time startTime, endTime;
 	private static MemberPool members;
 	private static AddressMap map;
-	private static CommutePoint end;
+	private static Stop end;
 	
 	private CarpoolScheduler scheduler;
 
@@ -62,7 +69,7 @@ public class CarpoolSchedulerTest {
 		scheduler.schedule(new GreedyCommuteBuilder());
 		System.out.println("Scheduled carpools:");
 		for (Carpool carpool : scheduler.getAllCarpools()) {
-			CommutePoint start = carpool.getCommute().getStart();
+			Stop start = carpool.getCommute().getStart();
 			System.out.println("Carpool starting at " + start.getAddress().toString() + " at " + start.getTime());
 			System.out.println("Members");
 			for (Member member : carpool.getCar().getInhabitants()) {
@@ -77,11 +84,11 @@ public class CarpoolSchedulerTest {
 		fail("Not yet implemented");
 	}
 
-	private static void buildTimes() throws TimeOutOfBoundsException {
-		startTime = new Time(Day.MONDAY, 0, 0);
+	private static void buildTimes() {
+		startTime = new Time();
 		endTime = Time.timeAfter(startTime, 60);
 	}
-	private static MemberPool buildMemberPool(int numMembers) throws TimeOutOfBoundsException {
+	private static MemberPool buildMemberPool(int numMembers) {
 		int numDrivers = numMembers / 5,
 				numPassengers = numMembers - numDrivers - 1;	// Not all cars will be full
 		MemberPool pool = new MemberPool();
@@ -98,7 +105,7 @@ public class CarpoolSchedulerTest {
 			SortedCommuteSchedule currentMemberSchedule = new SortedCommuteSchedule();
 			
 			Commute currentMemberCommute = new Commute();
-			currentMemberCommute.addStop(new CommutePoint(new Address("Stop1"), new Time(Day.MONDAY, i)));
+			currentMemberCommute.addStop(new Stop(new Time(year, month, Day.MONDAY, hour, i, second), new Address("Stop1")));
 			
 			currentMemberSchedule.scheduleCommute(currentMemberCommute);
 			
@@ -108,7 +115,7 @@ public class CarpoolSchedulerTest {
 			SortedCommuteSchedule currentMemberSchedule = new SortedCommuteSchedule();
 			
 			Commute currentMemberCommute = new Commute();
-			currentMemberCommute.addStop(new CommutePoint(new Address("Stop1"), new Time(Day.MONDAY, i + numDrivers)));
+			currentMemberCommute.addStop(new Stop(new Time(year, month, Day.MONDAY, hour, i + numDrivers, second), new Address("Stop1")));
 			
 			currentMemberSchedule.scheduleCommute(currentMemberCommute);
 			
@@ -128,7 +135,7 @@ public class CarpoolSchedulerTest {
 		
 		return map;
 	}
-	private static CommutePoint buildEnd() {
-		return new CommutePoint(new Address("TestAddressEnd"), endTime);
+	private static Stop buildEnd() {
+		return new Stop(endTime, new Address("TestAddressEnd"));
 	}
 }

@@ -2,7 +2,7 @@ package dev.se133.project.scheduler;
 
 import dev.se133.project.commute.Car;
 import dev.se133.project.commute.Commute;
-import dev.se133.project.commute.CommutePoint;
+import dev.se133.project.commute.Stop;
 import dev.se133.project.commute.NoDriverException;
 import dev.se133.project.commute.Time;
 import dev.se133.project.map.AddressMap;
@@ -15,9 +15,9 @@ public class BucketScheduler implements SchedulingStrategy {
 	Commute scheduledCommute;
 	
 	@Override
-	public void createSchedule(final AddressMap map, Car car, CommutePoint departure, CommutePoint arrival) throws NoDriverException {
+	public void createSchedule(final AddressMap map, Car car, Stop departure, Stop arrival) throws NoDriverException {
 		schedule(map, car, departure, arrival, new CommuteBuilder() {
-			public Commute buildCommute(AddressMap map, Car car, CommutePoint departure, CommutePoint arrival) {
+			public Commute buildCommute(AddressMap map, Car car, Stop departure, Stop arrival) {
 				Commute commute = new Commute();
 				try {
 				commute.addStop(departure);	// Add departure point to commute
@@ -27,7 +27,7 @@ public class BucketScheduler implements SchedulingStrategy {
 				Member driver = car.getDriver();
 				double driverMaxTime = driver.getMaxTime(), driverMaxDistance = driver.getMaxDistance();
 				
-				CommutePoint lastStop = departure;	// Start routing from 1st point = departure
+				Stop lastStop = departure;	// Start routing from 1st point = departure
 				
 				if(!car.isFull()) {
 					Member[] passengers = manager.getSameBucketPassengers(driver);
@@ -36,7 +36,7 @@ public class BucketScheduler implements SchedulingStrategy {
 							return commute;
 						if(driverMaxTime - map.getTime(passenger.getAddress(), arrival.getAddress()) >= 0
 								&& driverMaxDistance - map.getDistance(passenger.getAddress(), arrival.getAddress()) >= 0) {
-							commute.addStop(lastStop = new CommutePoint(passenger.getAddress(), Time.timeAfter(lastStop.getTime(), (int) map.getDistance(passenger.getAddress(), lastStop.getAddress()) + 1)));
+							commute.addStop(lastStop = new Stop(Time.timeAfter(lastStop.getTime(), (int) map.getDistance(passenger.getAddress(), lastStop.getAddress()) + 1), passenger.getAddress()));
 							driverMaxTime = map.getTime(passenger.getAddress(), arrival.getAddress()) + map.getTime(passenger.getAddress(), driver.getAddress());
 							driverMaxDistance = map.getDistance(passenger.getAddress(), arrival.getAddress()) + map.getDistance(passenger.getAddress(), driver.getAddress());
 						}
@@ -50,12 +50,12 @@ public class BucketScheduler implements SchedulingStrategy {
 		});
 	}
 	
-	private void schedule(AddressMap map, Car car, CommutePoint departure, CommutePoint arrival, CommuteBuilder algorithm) throws NoDriverException {
+	private void schedule(AddressMap map, Car car, Stop departure, Stop arrival, CommuteBuilder algorithm) throws NoDriverException {
 		// TODO Change to add to carpool list
 		scheduledCommute = algorithm.buildCommute(map, car, departure, arrival);
 	}
 	
-	public Commute schedule(AddressMap map, Car car, CommutePoint departure, CommutePoint arrival) throws NoDriverException {
+	public Commute schedule(AddressMap map, Car car, Stop departure, Stop arrival) throws NoDriverException {
 		createSchedule(map, car, departure, arrival);
 		return scheduledCommute;
 	}

@@ -9,6 +9,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import dev.se133.project.commute.*;
+import dev.se133.project.commute.Time.Day;
+import dev.se133.project.commute.Time.Month;
 import dev.se133.project.map.AddressMap;
 import dev.se133.project.map.ArrayAddressMap;
 import dev.se133.project.member.BasicMember;
@@ -21,7 +23,7 @@ public class SimpleSchedulerTest {
 	private static final int xSize = 100, ySize = 100;
 	private static AddressMap map;
 	private static Car car;
-	private static CommutePoint departure, arrival;
+	private static Stop departure, arrival;
 	
 	private ScheduleContext scheduler;
 	
@@ -31,7 +33,7 @@ public class SimpleSchedulerTest {
 		
 		Member[] members = buildMembers(map);
 		
-		arrival = new CommutePoint(new Address("Address0"), new Time(Day.MONDAY, departure.getTime().getTotalMinutes() + 60));
+		arrival = new Stop(Time.timeAfter(departure.getTime(), 60 * 60), new Address("Address0"));
 		
 		car = buildCar(members);
 	}
@@ -59,7 +61,7 @@ public class SimpleSchedulerTest {
 		}
 		
 		System.out.println("\nDay of commute: " + commute.getStart().getTime().getDay());
-		for (CommutePoint stop : commute.getStops()) {
+		for (Stop stop : commute.getStops()) {
 			if(i == 0) {
 				System.out.println("\tDeparture time: " + stop.getTime().getHour() + ":" + stop.getTime().getMinute());
 				System.out.println("\tFrom departure address: " + stop.getAddress().toString() + "\n");
@@ -76,7 +78,7 @@ public class SimpleSchedulerTest {
 		}
 	}
 
-	private static Member[] buildMembers(AddressMap map) throws TimeOutOfBoundsException {
+	private static Member[] buildMembers(AddressMap map)  {
 		Set<Address> addresses = map.getAllAddresses();
 		Member[] members = new Member[addresses.size() - 1];
 		
@@ -86,7 +88,7 @@ public class SimpleSchedulerTest {
 				members[counter++] = new BasicMember(counter, "Member" + (counter - 1), address, new SortedCommuteSchedule());
 		}
 		members[0].setState(new MemberState.Driver());	// 1 driver
-		departure = new CommutePoint(members[0].getAddress(), new Time(Day.MONDAY, 12, 10));
+		departure = new Stop(new Time(2016, Month.JANUARY, Day.MONDAY, 12, 10, 0), members[0].getAddress());
 		
 		return members;
 	}

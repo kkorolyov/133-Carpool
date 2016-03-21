@@ -5,7 +5,7 @@ import dev.se133.project.member.BasicMember;
 @SuppressWarnings("javadoc")
 public class RideScheduleDriver{	// TODO Remake better
 
-	RideScheduleDriver() throws TimeOutOfBoundsException, FullCarException, NoDriverException {
+	RideScheduleDriver() throws FullCarException, NoDriverException {
 		//Create initial Carpool
 		BasicMember m1 = new BasicMember(52, "Joe", new Address("23 First St."));
 		BasicMember m2 = new BasicMember(34, "Jack", new Address("123 Fake St."));
@@ -14,12 +14,12 @@ public class RideScheduleDriver{	// TODO Remake better
 		Car passengers = new Car();
 		passengers.addPassenger(m2);
 		passengers.addPassenger(m3);
-		CommutePoint[] stops = new CommutePoint[20];
-		stops[0] = new CommutePoint(m3.getAddress(), new Time(9, 45));
-		Commute commute = new Commute(Day.MONDAY, new CommutePoint(m1.getAddress(), new Time(9, 30)), new CommutePoint(m2.getAddress(), new Time(11, 00)), stops);
+		Stop[] stops = new Stop[20];
+		stops[0] = new Stop(m3.getAddress(), new Time(9, 45));
+		Commute commute = new Commute(Day.MONDAY, new Stop(m1.getAddress(), new Time(9, 30)), new Stop(m2.getAddress(), new Time(11, 00)), stops);
 		Carpool testPool = new Carpool(commute, m1, passengers);
 		
-		CommutePoint[] stopList = commute.getStops();
+		Stop[] stopList = commute.getStops();
 		
 		//Retreive Carpool information
 		System.out.println("Day: " + testPool.getCommute().getDay());
@@ -35,7 +35,7 @@ public class RideScheduleDriver{	// TODO Remake better
 		System.out.println("Arrival: " + commute.getEnd().getAddress() + " -- " + commute.getEnd().getTime().getHour() + ":" + commute.getEnd().getTime().getMinute());
 	
 		//Update Information
-		commute.addStop(new CommutePoint(m4.getAddress(), new Time(10,15)));
+		commute.addStop(new Stop(m4.getAddress(), new Time(10,15)));
 		stopList = commute.getStops();
 		System.out.println("-------------------Adding a new stop---------------------");
 		
@@ -53,7 +53,7 @@ public class RideScheduleDriver{	// TODO Remake better
 		}
 	}
 	
-	public static void main(String args[]) throws TimeOutOfBoundsException, FullCarException, NoDriverException {
+	public static void main(String args[]) throws FullCarException, NoDriverException {
 		new RideScheduleDriver();
 	}
 }

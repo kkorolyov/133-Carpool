@@ -12,10 +12,10 @@ public class SimpleScheduler implements SchedulingStrategy {
 	Commute scheduledCommute;
 	
 	@Override
-	public void createSchedule(final AddressMap map, Car car, CommutePoint departure, CommutePoint arrival) throws NoDriverException {
+	public void createSchedule(final AddressMap map, Car car, Stop departure, Stop arrival) throws NoDriverException {
 		schedule(map, car, departure, arrival, new CommuteBuilder() {
 			@Override
-			public Commute buildCommute(AddressMap map, Car car, CommutePoint departure, CommutePoint arrival) {
+			public Commute buildCommute(AddressMap map, Car car, Stop departure, Stop arrival) {
 				Commute commute = new Commute();
 				
 				try {
@@ -27,7 +27,7 @@ public class SimpleScheduler implements SchedulingStrategy {
 					if (car.getDriver().getAddress().equals(departure.getAddress()))	// Driver departing from own address, no need to add
 						allInhabitants.remove(car.getDriver());
 					
-					CommutePoint lastStop = departure;	// Start routing from 1st point = departure
+					Stop lastStop = departure;	// Start routing from 1st point = departure
 					
 					while (!allInhabitants.isEmpty()) {
 						double minDistance = Double.MAX_VALUE;	// No distance in commute should be greater than this
@@ -40,7 +40,7 @@ public class SimpleScheduler implements SchedulingStrategy {
 								minMember = inhabitant;
 							}
 						}
-						commute.addStop(lastStop = new CommutePoint(minMember.getAddress(), Time.timeAfter(lastStop.getTime(), (int) minDistance + 1)));
+						commute.addStop(lastStop = new Stop(Time.timeAfter(lastStop.getTime(), (int) minDistance + 1), minMember.getAddress()));
 						allInhabitants.remove(minMember);
 					}
 				} catch (Exception e) {
@@ -102,13 +102,13 @@ public class SimpleScheduler implements SchedulingStrategy {
 	
 	
 	
-	private void schedule(AddressMap map, Car car, CommutePoint departure, CommutePoint arrival, CommuteBuilder algorithm) throws NoDriverException {
+	private void schedule(AddressMap map, Car car, Stop departure, Stop arrival, CommuteBuilder algorithm) throws NoDriverException {
 		// TODO Change to add to carpool list
 		scheduledCommute = algorithm.buildCommute(map, car, departure, arrival);
 	}
 	
 	@Override
-	public Commute schedule(AddressMap map, Car car, CommutePoint departure, CommutePoint arrival) throws NoDriverException {
+	public Commute schedule(AddressMap map, Car car, Stop departure, Stop arrival) throws NoDriverException {
 		createSchedule(map, car, departure, arrival);
 		return scheduledCommute;
 	}

@@ -9,12 +9,17 @@ import org.junit.Before;
 import org.junit.Test;
 
 import dev.se133.project.commute.*;
+import dev.se133.project.commute.Time.Day;
+import dev.se133.project.commute.Time.Month;
 import dev.se133.project.schedule.CommuteSchedule;
 import dev.se133.project.schedule.SortedCommuteSchedule;
 
 @SuppressWarnings("javadoc")
 public class ConcreteCommuteScheduleTest {
-	private static String listString = "CURRENT SCHEDULE", changeString = "CHANGING ALL COMMUTES ON DAY: ", dropString = "DROPPING ALL COMMUTES ON DAY: ", createString = "CREATING NEW COMMUTE";
+	private static final String listString = "CURRENT SCHEDULE", changeString = "CHANGING ALL COMMUTES ON DAY: ", dropString = "DROPPING ALL COMMUTES ON DAY: ", createString = "CREATING NEW COMMUTE";
+	private static final int year = 2016;
+	private static final Month month = Month.DECEMBER;
+	private static final int second = 0;
 	
 	private SortedCommuteSchedule schedule;
 
@@ -25,7 +30,7 @@ public class ConcreteCommuteScheduleTest {
 	}
 
 	@Test
-	public void testGetAllCommutes() throws TimeOutOfBoundsException {	// TODO Not a test
+	public void testGetAllCommutes() {	// TODO Not a test
 		listCommutes();
 		System.out.println();
 		changeCommute();
@@ -43,7 +48,7 @@ public class ConcreteCommuteScheduleTest {
 	private void listCommutes() {
 		System.out.println(listString);
 		int counter = 0;
-		CommutePoint point;
+		Stop point;
 		for (Commute commute : schedule.getAllCommutes()) {
 			System.out.println("Commute " + counter++);
 			System.out.println("\tDay: " + commute.getStart().getTime().getDay());
@@ -59,27 +64,27 @@ public class ConcreteCommuteScheduleTest {
 			System.out.println("\t\tTime: " + point.getTime().getHour() + ":" + point.getTime().getMinute());
 		}
 	}
-	private void changeCommute() throws TimeOutOfBoundsException {
+	private void changeCommute() {
 		Day changeDay = Day.SUNDAY;
 		System.out.println(changeString + changeDay);
 		for (Commute commute : schedule.getAllCommutes(changeDay))
-			commute.addStop(new CommutePoint(new Address("New Arrival"), new Time(changeDay, 21, 47)));
+			commute.addStop(new Stop(new Time(year, month, changeDay, 21, 47, second), new Address("New Arrival")));
 	}
 	private void dropCommute() {
 		Day dropDay = Day.MONDAY;
 		System.out.println(dropString + dropDay);
 		schedule.dropAllCommutes(dropDay);
 	}
-	private void createCommute() throws TimeOutOfBoundsException {
+	private void createCommute() {
 		Day createDay = Day.FRIDAY;
-		CommutePoint departure = new CommutePoint(new Address("Depart"), new Time(createDay, 11, 14)), arrival = new CommutePoint(new Address("Arrive"), new Time(createDay, 13, 14));
+		Stop departure = new Stop(new Time(year, month, createDay, 11, 14, second), new Address("Depart")), arrival = new Stop(new Time(year, month, createDay, 13, 14, second), new Address("Arrive"));
 		System.out.println(createString);
 		
-		Set<CommutePoint> stopSet = new TreeSet<>();
-		stopSet.add(departure);
-		stopSet.add(arrival);
+		Commute commute = new Commute();
+		commute.addStop(departure);
+		commute.addStop(arrival);
 		
-		schedule.scheduleCommute(new Commute(stopSet));
+		schedule.scheduleCommute(commute);
 	}
 
 	@Test
@@ -107,7 +112,7 @@ public class ConcreteCommuteScheduleTest {
 		fail("Not yet implemented");
 	}
 
-	private static void populateSchedule(CommuteSchedule schedule) throws TimeOutOfBoundsException {
+	private static void populateSchedule(CommuteSchedule schedule) {
 		Address depart = new Address("Depart Address"), arrive = new Address("Arrive Address");
 				
 		for (Day day : Day.values()) {
@@ -118,22 +123,22 @@ public class ConcreteCommuteScheduleTest {
 			}*/
 		}
 		// TODO UGLY CODE BELOW HERE
-		Set<CommutePoint> commuteSet1 = new TreeSet<>();
-		commuteSet1.add(new CommutePoint(depart, new Time(Day.SUNDAY, 10, 10)));
-		commuteSet1.add(new CommutePoint(arrive, new Time(Day.SUNDAY, 11, 0)));
+		Commute commute1 = new Commute();
+		commute1.addStop(new Stop(new Time(year, month, Day.SUNDAY, 10, 10, second), depart));
+		commute1.addStop(new Stop(new Time(year, month, Day.SUNDAY, 11, 0, second), arrive));
 		
-		schedule.scheduleCommute(new Commute(commuteSet1));
+		schedule.scheduleCommute(commute1);
 		
-		Set<CommutePoint> commuteSet2 = new TreeSet<>();
-		commuteSet2.add(new CommutePoint(depart, new Time(Day.MONDAY, 10, 10)));
-		commuteSet2.add(new CommutePoint(arrive, new Time(Day.MONDAY, 11, 17)));
+		Commute commute2 = new Commute();
+		commute2.addStop(new Stop(new Time(year, month, Day.MONDAY, 10, 10, second), depart));
+		commute2.addStop(new Stop(new Time(year, month, Day.MONDAY, 11, 17, second), arrive));
 		
-		schedule.scheduleCommute(new Commute(commuteSet2));
+		schedule.scheduleCommute(commute2);
 		
-		Set<CommutePoint> commuteSet3 = new TreeSet<>();
-		commuteSet3.add(new CommutePoint(depart, new Time(Day.TUESDAY, 10, 10)));
-		commuteSet3.add(new CommutePoint(arrive, new Time(Day.TUESDAY, 11, 21)));
+		Commute commute3 = new Commute();
+		commute3.addStop(new Stop(new Time(year, month, Day.TUESDAY, 10, 10, second), depart));
+		commute3.addStop(new Stop(new Time(year, month, Day.TUESDAY, 11, 21,second ), arrive));
 		
-		schedule.scheduleCommute(new Commute(commuteSet3));
+		schedule.scheduleCommute(commute3);
 	}
 }

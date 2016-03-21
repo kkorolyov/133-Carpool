@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.*;
 
+import dev.se133.project.commute.Time.Day;
 import dev.se133.project.member.BasicMember;
 import dev.se133.project.member.CarpoolRewardListener;
 import dev.se133.project.member.Member;
@@ -32,12 +33,12 @@ public class CarpoolTest {
 	}
 	private static void populateCommute() {
 		Address currentAddress;
-		Time currentTime = new Time(DAY, START_TIME);
+		Time currentTime = new Time();
 		for (int i = 0; i < NUM_STOPS; i++) {
 			currentAddress = new Address("Stop" + i);
 			currentTime = Time.timeAfter(currentTime, i);
 			
-			commute.addStop(new CommutePoint(currentAddress, currentTime));
+			commute.addStop(new Stop(currentTime, currentAddress));
 		}
 	}
 	private static void populateCar() {
@@ -75,7 +76,7 @@ public class CarpoolTest {
 		carpool.addListener(new CarpoolListener() {
 			@Override
 			public void hitStop(Carpool carpool) {
-				CommutePoint stop = carpool.currentStop();
+				Stop stop = carpool.currentStop();
 				System.out.println(	"Carpool hit stop\n"
 													+ "\tAddress: " + stop.getAddress() + "\n"
 													+ "\tTime: " + stop.getTime());

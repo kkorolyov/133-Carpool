@@ -2,7 +2,7 @@ package dev.se133.project.router;
 
 import dev.se133.project.commute.Car;
 import dev.se133.project.commute.Commute;
-import dev.se133.project.commute.CommutePoint;
+import dev.se133.project.commute.Stop;
 import dev.se133.project.commute.NoDriverException;
 import dev.se133.project.map.AddressMap;
 
@@ -20,5 +20,5 @@ public interface CommuteBuilder {
 	 * @return a custom commute based on the specified parameters, or {@code null} if unable to meet constraints
 	 * @throws NoDriverException if the commuting car has no driver
 	 */
-	Commute buildCommute(AddressMap map, Car car, CommutePoint start, CommutePoint end) throws NoDriverException;
+	Commute buildCommute(AddressMap map, Car car, Stop start, Stop end) throws NoDriverException;
 }

@@ -29,7 +29,7 @@ public class MemberPoolTest {
 	}
 
 	@Test
-	public void testAddMember() throws TimeOutOfBoundsException {
+	public void testAddMember() {
 		int id = 0;
 		String name = "Member0";
 		Address address = new Address("Address0");
@@ -64,15 +64,15 @@ public class MemberPoolTest {
 		fail("Not yet implemented");
 	}
 
-	private static Commute makeCommute(int numStops) throws TimeOutOfBoundsException {
+	private static Commute makeCommute(int numStops) {
 		Commute commute = new Commute();
 		
 		Address address;
-		Time time = new Time(Day.SUNDAY, 0, 0);
+		Time time = new Time();
 		for (int i = 0; i < numStops; i++) {
 			address = new Address("Address" + i);
 			time = Time.timeAfter(time, i);
-			commute.addStop(new CommutePoint(address, time));
+			commute.addStop(new Stop(time, address));
 		}
 		return commute;
 	}

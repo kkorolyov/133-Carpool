@@ -12,7 +12,7 @@ import dev.se133.project.member.Member;
 public class GreedyCommuteBuilder implements CommuteBuilder {
 
 	@Override
-	public Commute buildCommute(AddressMap map, Car car, CommutePoint start, CommutePoint end) throws NoDriverException {
+	public Commute buildCommute(AddressMap map, Car car, Stop start, Stop end) throws NoDriverException {
 		if (car.getDriver() == null)	// Cannot commute without a driver
 			throw new NoDriverException();
 		
@@ -25,7 +25,7 @@ public class GreedyCommuteBuilder implements CommuteBuilder {
 			Set<Member> allInhabitants = car.getInhabitants();	// Returned set is a copy, ok to mutate
 			allInhabitants.remove(car.getDriver());	// No need to route to driver
 			
-			CommutePoint lastStop = start;	// Start routing from 1st point = start
+			Stop lastStop = start;	// Start routing from 1st point = start
 			
 			while (!allInhabitants.isEmpty()) {
 				double minDistance = Double.MAX_VALUE;	// No distance in commute should be greater than this
@@ -38,7 +38,7 @@ public class GreedyCommuteBuilder implements CommuteBuilder {
 						minMember = inhabitant;
 					}
 				}
-				commute.addStop(lastStop = new CommutePoint(minMember.getAddress(), new Time(lastStop.getTime().getDay(), lastStop.getTime().getTotalMinutes() + (int) minDistance + 1)));	// TODO Time.timeAfter(Time, int), etc for incremented Time
+				commute.addStop(lastStop = new Stop(Time.timeAfter(lastStop.getTime(), (int) minDistance + 1), minMember.getAddress()));
 				allInhabitants.remove(minMember);
 			}
 		} catch (Exception e) {

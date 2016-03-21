@@ -1,81 +1,126 @@
 package dev.se133.project.commute;
 
+import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * A one-way commute consisting of an infinite set of {@code CommutePoint} objects.
- * @see CommutePoint
+ * A set of unique stops.
+ * @see Stop
  */
 public class Commute implements Comparable<Commute> {
-	private TreeSet<CommutePoint> stops = new TreeSet<>();	// Ordered by time ascending
+	private TreeSet<Stop> stops;
+	private Iterator<Stop> stopIterator;
+	private Stop currentStop;
 	
 	/**
-	 * Constructs an empty commute with no stops.
+	 * Constructs a commute with no stops.
 	 */
 	public Commute() {
-		this(null);
+		stops = new TreeSet<>();
+	}
+	
+	/** @return true if this commute has a next stop */
+	public boolean hasNextStop() {
+		testIterator();
+		
+		return stopIterator.hasNext();
 	}
 	/**
-	 * Constructs a commute with an initial set of stops.
-	 * @param stops all stops in the commute
+	 * Advances this commute to the next stop and returns that stop.
+	 * If the commute has no next stop, returns the current stop.
+	 * @return next stop or current stop if no next stop
 	 */
-	public Commute(Set<CommutePoint> stops) {
-		setStops(stops);
-	}
-	private void setStops(Set<CommutePoint> stops) {
-		if (stops == null)
-			return;
+	public Stop nextStop() {
+		if (hasNextStop())
+			currentStop = stopIterator.next();
 		
-		for (CommutePoint stop : stops) {
-			if (stop != null)
-				addStop(new CommutePoint(stop));	// To protect against outside access
-		}
+		return currentStop;
+	}
+	
+	private void testIterator() {
+		if (stopIterator == null)
+			stopIterator = stops.iterator();
 	}
 	
 	/**
-	 * Adds a stop.
-	 * If a stop equivalent to the specified stop is already in this commute, this method does nothing.
-	 * @param stop stop to add
+	 * Adds a new stop to this commute if an equal stop is not already present.
+	 * @param toAdd stop to add
+	 * @return {@code true} if stop successfully added
 	 */
-	public void addStop(CommutePoint stop) {
-		if (stop == null)
-			throw new IllegalArgumentException();
-		
-		stops.add(stop);
+	public boolean addStop(Stop toAdd) {
+		return stops.add(toAdd);
 	}
 	/**
-	 * Removes a stop.
-	 * @param stop stop to remove
-	 * @return {@code true} if stop removed, {@code false} if no such stop
+	 * Removes a stop from this commute.
+	 * @param toRemove stop to remove
+	 * @return {@code true} if stop successfully removed
 	 */
-	public boolean removeStop(CommutePoint stop) {
-		return stops.remove(stop);
+	public boolean removeStop(Stop toRemove) {
+		return stops.remove(toRemove);
 	}
 	
-	/** @return earliest stop in this commute */
-	public CommutePoint getStart() {
+	/**
+	 * Returns the earliest stop in this commute.
+	 * @return earliest stop, or {@code null} if no stops
+	 */
+	public Stop getStart() {
 		return stops.first();
 	}
-	/** @return final stop in this commute */
-	public CommutePoint getEnd() {
+	/**
+	 * Returns the latest stop in this commute.
+	 * @return latest stop, or {@code null} if no stops
+	 */
+	public Stop getEnd() {
 		return stops.last();
 	}
 	
-	/** @return a copy of all stops, sorted by time ascending */
-	public Set<CommutePoint> getStops() {
-		TreeSet<CommutePoint> returnSet = new TreeSet<>();
-		
-		for (CommutePoint stop : stops)
-			returnSet.add(new CommutePoint(stop));	// Add a copy
-		
-		return returnSet;
+	/**
+	 * Returns the current stop in this commute.
+	 * This method depends on {@link #nextStop()}.
+	 * @return this commute's current stop, or {@code null} if this commute has not yet called {@link #nextStop()}
+	 */
+	public Stop getCurrent() {
+		return currentStop;
 	}
 	
+	/**
+	 * Returns a set of all stops in this commute.
+	 * @return all stops
+	 */
+	public Set<Stop> getStops() {
+		return stops;
+	}
+	
+	/**
+	 * Returns the number of stops in this commute.
+	 * @return number of stops;
+	 */
+	public int getNumStops() {
+		return stops.size();
+	}
+	
+	/**
+	 * Clears all stops from this commute.
+	 */
+	public void clear() {
+		stops.clear();
+	}
+	
+	/**
+	 * Compares by earliest stop.
+	 */
+	@Override
+	public int compareTo(Commute o) {
+		return getStart().compareTo(o.getStart());
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((currentStop == null) ? 0 : currentStop.hashCode());
+		result = prime * result	+ ((stopIterator == null) ? 0 : stopIterator.hashCode());
 		result = prime * result + ((stops == null) ? 0 : stops.hashCode());
 		return result;
 	}
@@ -88,6 +133,16 @@ public class Commute implements Comparable<Commute> {
 		if (!(obj instanceof Commute))
 			return false;
 		Commute other = (Commute) obj;
+		if (currentStop == null) {
+			if (other.currentStop != null)
+				return false;
+		} else if (!currentStop.equals(other.currentStop))
+			return false;
+		if (stopIterator == null) {
+			if (other.stopIterator != null)
+				return false;
+		} else if (!stopIterator.equals(other.stopIterator))
+			return false;
 		if (stops == null) {
 			if (other.stops != null)
 				return false;
@@ -96,17 +151,17 @@ public class Commute implements Comparable<Commute> {
 		return true;
 	}
 	
-	public String toString() {
-		String returnStatement = "";
-		int i = 0;
-		for(CommutePoint stop : stops) {
-			returnStatement += "Stop " + i++ + ": " + stop.getAddress() + "\n";
-		}
-		return returnStatement;
-	}
-	
 	@Override
-	public int compareTo(Commute o) {	// TODO May want to use Comparator instead
-		return getStart().compareTo(o.getStart());
+	public String toString() {
+		StringBuilder toStringBuilder = new StringBuilder("Commute with " + getNumStops() + " stops\n");
+		
+		int stopCounter = 0;
+		for (Stop stop : stops) {
+			toStringBuilder.append("\tStop " + ++stopCounter + ": " + stop);
+			
+			if (stopCounter < getNumStops())
+				toStringBuilder.append("\n");
+		}
+		return toStringBuilder.toString();
 	}
 }
