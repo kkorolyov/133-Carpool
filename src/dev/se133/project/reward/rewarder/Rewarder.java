@@ -1,16 +1,18 @@
-package dev.se133.project.reward;
+package dev.se133.project.reward.rewarder;
+
+import dev.se133.project.reward.RewardType;
 
 /**
  * The base class for rewarding mechanisms.
  */
-public abstract class Reward {
+public abstract class Rewarder {
 	private RewardType rewardType;
 	
 	/**
-	 * Constructs a reward for a specified reward type.
+	 * Constructs a rewarder for a specified reward type.
 	 * @param rewardType type of reward to reward
 	 */
-	public Reward(RewardType rewardType) {
+	public Rewarder(RewardType rewardType) {
 		this.rewardType = rewardType;
 	}
 	
