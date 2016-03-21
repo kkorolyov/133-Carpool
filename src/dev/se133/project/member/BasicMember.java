@@ -3,14 +3,12 @@ package dev.se133.project.member;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.event.ChangeEvent;
-
 import dev.se133.project.carpool.Carpool;
 import dev.se133.project.commute.Address;
 import dev.se133.project.member.car.Car;
 import dev.se133.project.member.garage.Garage;
+import dev.se133.project.member.wallet.Wallet;
 import dev.se133.project.observer.CarEvent;
-import dev.se133.project.observer.MemberObserver;
 import dev.se133.project.observer.Observer;
 import dev.se133.project.schedule.CommuteSchedule;
 
@@ -22,14 +20,12 @@ public class BasicMember implements Member, Observer {
 	private String name;
 	private Address address;
 	private Garage garage = new Garage();
-	private CommuteSchedule preferredCommutes;
+	private Wallet wallet;
+	private CommuteSchedule preferredCommutes;	// TODO Change to only destination points
 	private Carpool currentCarpool;
 	private MemberState state;
 	private List<MemberListener> listeners = new LinkedList<>();
 	
-	private long points;	// TODO Change to separate Points object
-
-	private Observer[] observers = new MemberObserver[10];
 	// TODO Ref to set of carpools?
 	private int distanceFromDestination = 10;
 	
@@ -55,9 +51,22 @@ public class BasicMember implements Member, Observer {
 	 * @param state member's initial state
 	 */
 	public BasicMember(int id, String name, Address address, CommuteSchedule preferredCommutes, MemberState state) {
+		this(id, name, address, new Wallet(), preferredCommutes, state);
+	}
+	/**
+	 * Constructs a new member.
+	 * @param id member's unique ID
+	 * @param name member's name
+	 * @param address member's address
+	 * @param wallet member's wallet
+	 * @param preferredCommutes schedule of preferred commutes
+	 * @param state member's initial state
+	 */
+	public BasicMember(int id, String name, Address address, Wallet wallet, CommuteSchedule preferredCommutes, MemberState state) {
 		this.id = id;
 		setName(name);
 		setAddress(address);
+		this.wallet = wallet;
 		setPreferredCommutes(preferredCommutes);
 		setState(state);
 	}
@@ -68,21 +77,8 @@ public class BasicMember implements Member, Observer {
 	}
 	
 	@Override
-	public void addPoints(long points) {
-		this.points += Math.abs(points);
-	}
-	@Override
-	public void removePoints(long points) {
-		this.points = (this.points < Math.abs(points)) ? 0 : this.points - Math.abs(points);	// Avoid negative points
-	}
-	@Override
-	public void clearPoints() {
-		points = 0;
-	}
-	
-	@Override
-	public long getPoints() {
-		return points;
+	public Wallet getWallet() {
+		return wallet;
 	}
 	
 	/*

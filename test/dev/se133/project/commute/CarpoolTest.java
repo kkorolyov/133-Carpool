@@ -107,7 +107,7 @@ public class CarpoolTest {
 		for (Member member : carpool.getCar().getInhabitants()) {
 			System.out.println(	member.getName() + "\n"
 												+ "\tState: " + member.getState().getStateName() + "\n"
-												+ "\tPoints: " + String.valueOf(member.getPoints()) + "\n");
+												+ "\tWallet: " + String.valueOf(member.getWallet()) + "\n");
 		}
 	}
 }

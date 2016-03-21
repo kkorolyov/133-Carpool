@@ -4,6 +4,7 @@ import dev.se133.project.carpool.Carpool;
 import dev.se133.project.commute.Address;
 import dev.se133.project.member.car.Car;
 import dev.se133.project.member.garage.Garage;
+import dev.se133.project.member.wallet.Wallet;
 import dev.se133.project.schedule.CommuteSchedule;
 
 /**
@@ -23,22 +24,10 @@ public interface Member extends Comparable<Member> {
 	Car getCar();
 	
 	/**
-	 * Adds a number of points to this member.
-	 * @param points number of points to add
+	 * Returns the wallet owned by this member.
+	 * @return this member's wallet
 	 */
-	void addPoints(long points);	// TODO Move to separate Points object
-	/**
-	 * Removes a number of points from this member.
-	 * @param points number of points to remove
-	 */
-	void removePoints(long points);	// TODO Move to separate Points object
-	/**
-	 * Removes all points from this member.
-	 */
-	void clearPoints();	// TODO Move to separate Points object
-	
-	/** @return total number of points this member has */
-	long getPoints();	// TODO Move to separate Points object
+	Wallet getWallet();
 	
 	/** @return unique member ID */
 	int getId();
