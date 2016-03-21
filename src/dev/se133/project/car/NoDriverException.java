@@ -1,4 +1,4 @@
-package dev.se133.project.member.car;
+package dev.se133.project.car;
 
 /**
  * Exception thrown when an operation on a car could result in it being unable to contain at least 1 driver.

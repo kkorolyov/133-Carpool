@@ -1,14 +1,14 @@
 package dev.se133.project.scheduler;
 
+import dev.se133.project.car.Car;
+import dev.se133.project.car.NoDriverException;
 import dev.se133.project.commute.Commute;
 import dev.se133.project.commute.Stop;
 import dev.se133.project.commute.Time;
-import dev.se133.project.commutebuilder.CommuteBuilder;
+import dev.se133.project.commute.builder.CommuteBuilder;
 import dev.se133.project.map.AddressMap;
 import dev.se133.project.member.Member;
 import dev.se133.project.member.MemberManager;
-import dev.se133.project.member.car.Car;
-import dev.se133.project.member.car.NoDriverException;
 
 public class BucketScheduler implements SchedulingStrategy {
 

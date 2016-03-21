@@ -1,10 +1,10 @@
-package dev.se133.project.commutebuilder;
+package dev.se133.project.commute.builder;
 
+import dev.se133.project.car.Car;
+import dev.se133.project.car.NoDriverException;
 import dev.se133.project.commute.Commute;
 import dev.se133.project.commute.Stop;
 import dev.se133.project.map.AddressMap;
-import dev.se133.project.member.car.Car;
-import dev.se133.project.member.car.NoDriverException;
 
 /**
  * Builds a commute based on a specified context.

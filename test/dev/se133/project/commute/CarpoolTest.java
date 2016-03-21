@@ -4,12 +4,12 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.*;
 
+import dev.se133.project.car.Car;
 import dev.se133.project.carpool.Carpool;
 import dev.se133.project.carpool.CarpoolListener;
 import dev.se133.project.carpool.CarpoolRewardListener;
 import dev.se133.project.commute.Time.Day;
 import dev.se133.project.member.*;
-import dev.se133.project.member.car.Car;
 import dev.se133.project.schedule.SortedCommuteSchedule;
 
 @SuppressWarnings("javadoc")

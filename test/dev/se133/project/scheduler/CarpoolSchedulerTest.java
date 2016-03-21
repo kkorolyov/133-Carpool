@@ -12,16 +12,16 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import dev.se133.project.car.FullCarException;
+import dev.se133.project.car.NoDriverException;
 import dev.se133.project.carpool.Carpool;
 import dev.se133.project.commute.*;
 import dev.se133.project.commute.Time.Day;
 import dev.se133.project.commute.Time.Month;
-import dev.se133.project.commutebuilder.GreedyCommuteBuilder;
+import dev.se133.project.commute.builder.GreedyCommuteBuilder;
 import dev.se133.project.map.AddressMap;
 import dev.se133.project.map.ArrayAddressMap;
 import dev.se133.project.member.*;
-import dev.se133.project.member.car.FullCarException;
-import dev.se133.project.member.car.NoDriverException;
 import dev.se133.project.pool.MemberPool;
 import dev.se133.project.schedule.SortedCommuteSchedule;
 

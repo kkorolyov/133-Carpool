@@ -1,6 +1,6 @@
 package dev.se133.project.member;
 
-import dev.se133.project.member.car.Car;
+import dev.se133.project.car.Car;
 import dev.se133.project.state.State;
 
 /**

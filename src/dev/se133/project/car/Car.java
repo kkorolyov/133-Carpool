@@ -1,4 +1,4 @@
-package dev.se133.project.member.car;
+package dev.se133.project.car;
 
 import java.util.HashSet;
 import java.util.Set;
