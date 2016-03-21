@@ -18,6 +18,4 @@ public interface CarpoolListener {
 	 * @param endStop the current and last stop of this carpool
 	 */
 	void hitEnd(Stop endStop);
-	
-	
 }
