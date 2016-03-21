@@ -1,8 +1,7 @@
-   package dev.se133.project.member;
+   package dev.se133.project.carpool;
 
-import dev.se133.project.commute.Car;
-import dev.se133.project.commute.Carpool;
-import dev.se133.project.commute.CarpoolListener;
+import dev.se133.project.member.Member;
+import dev.se133.project.member.car.Car;
 
 /**
  * A {@code CarpoolListener} implementation which rewards a carpool with points for each stop hit.

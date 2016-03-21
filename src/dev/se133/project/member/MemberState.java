@@ -1,6 +1,7 @@
 package dev.se133.project.member;
 
-import dev.se133.project.commute.Car;
+import dev.se133.project.member.car.Car;
+import dev.se133.project.state.State;
 
 /**
  * A member-specific state.

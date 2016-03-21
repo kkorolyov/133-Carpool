@@ -1,8 +1,13 @@
-package dev.se133.project.commute;
+package dev.se133.project.carpool;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
+import dev.se133.project.commute.Commute;
+import dev.se133.project.commute.Stop;
+import dev.se133.project.member.car.Car;
+import dev.se133.project.member.car.NoDriverException;
 
 /**
  * A one-way trip consisting of a commute and a driver and passengers.

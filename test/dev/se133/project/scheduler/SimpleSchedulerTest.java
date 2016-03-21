@@ -13,9 +13,10 @@ import dev.se133.project.commute.Time.Day;
 import dev.se133.project.commute.Time.Month;
 import dev.se133.project.map.AddressMap;
 import dev.se133.project.map.ArrayAddressMap;
-import dev.se133.project.member.BasicMember;
-import dev.se133.project.member.Member;
-import dev.se133.project.member.MemberState;
+import dev.se133.project.member.*;
+import dev.se133.project.member.car.Car;
+import dev.se133.project.member.car.FullCarException;
+import dev.se133.project.member.car.NoDriverException;
 import dev.se133.project.schedule.SortedCommuteSchedule;
 import dev.se133.project.scheduler.SimpleScheduler;
 

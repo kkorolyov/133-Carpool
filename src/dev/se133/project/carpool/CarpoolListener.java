@@ -1,4 +1,4 @@
-package dev.se133.project.commute;
+package dev.se133.project.carpool;
 
 import dev.se133.project.member.Member;
 

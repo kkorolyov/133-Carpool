@@ -3,10 +3,12 @@ package dev.se133.project.scheduler;
 import java.util.Set;
 
 import dev.se133.project.commute.*;
+import dev.se133.project.commutebuilder.CommuteBuilder;
 import dev.se133.project.map.AddressMap;
 import dev.se133.project.member.Member;
 import dev.se133.project.member.MemberManager;
-import dev.se133.project.router.CommuteBuilder;
+import dev.se133.project.member.car.Car;
+import dev.se133.project.member.car.NoDriverException;
 
 public class SimpleScheduler implements SchedulingStrategy {
 	Commute scheduledCommute;

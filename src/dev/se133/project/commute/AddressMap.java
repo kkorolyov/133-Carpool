@@ -2,7 +2,7 @@ package dev.se133.project.commute;
 
 import java.util.HashMap;
 
-public abstract class AddressMap {
+public abstract class AddressMap {	// TODO What is this? Not used anywhere
 
 	private  HashMap<Address, Double > commuteMap = new HashMap<>();
 	

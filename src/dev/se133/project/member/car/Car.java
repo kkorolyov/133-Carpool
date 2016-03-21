@@ -1,4 +1,4 @@
-package dev.se133.project.commute;
+package dev.se133.project.member.car;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -6,6 +6,10 @@ import java.util.Set;
 import dev.se133.project.member.BasicMember;
 import dev.se133.project.member.Member;
 import dev.se133.project.member.MemberState;
+import dev.se133.project.member.MemberState.Driver;
+import dev.se133.project.member.MemberState.Driving;
+import dev.se133.project.member.MemberState.Passenger;
+import dev.se133.project.member.MemberState.Riding;
 import dev.se133.project.observer.CarEvent;
 import dev.se133.project.observer.Observer;
 

@@ -1,4 +1,4 @@
-package dev.se133.project.commute;
+package dev.se133.project.member.car;
 
 /**
  * Exception thrown when adding a new inhabitant to a {@code Car} would overflow its capacity.

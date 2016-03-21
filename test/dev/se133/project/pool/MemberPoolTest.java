@@ -10,9 +10,9 @@ import org.junit.Test;
 import dev.se133.project.commute.*;
 import dev.se133.project.member.BasicMember;
 import dev.se133.project.member.MemberState;
-import dev.se133.project.member.State;
 import dev.se133.project.schedule.CommuteSchedule;
 import dev.se133.project.schedule.SortedCommuteSchedule;
+import dev.se133.project.state.State;
 
 @SuppressWarnings("javadoc")
 public class MemberPoolTest {
