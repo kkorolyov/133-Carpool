@@ -25,6 +25,7 @@ import dev.se133.project.member.*;
 import dev.se133.project.pool.MemberPool;
 import dev.se133.project.schedule.SortedCommuteSchedule;
 
+@SuppressWarnings("javadoc")
 public class CarpoolSchedulerTest {
 	private static final int NUM_MEMBERS = 50;
 	
@@ -50,11 +51,9 @@ public class CarpoolSchedulerTest {
 	
 	@Before
 	public void setUp() throws Exception {
+		BasicMember.SILENCE = false;
+		
 		scheduler = new CarpoolScheduler(members, map, end);
-	}
-
-	@After
-	public void tearDown() throws Exception {
 	}
 
 	@Test

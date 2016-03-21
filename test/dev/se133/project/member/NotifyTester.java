@@ -7,6 +7,7 @@ import dev.se133.project.schedule.SortedCommuteSchedule;
 public class NotifyTester {
 
 	public static void main(String[] args) {
+		BasicMember.SILENCE = false;
 		
 		Car a = new Car();
 		Member b = new BasicMember(1, "Matt", new Address("468 South 6th Street") ,new SortedCommuteSchedule(),new MemberState.Driver());

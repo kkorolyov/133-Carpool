@@ -4,18 +4,22 @@ import java.util.LinkedList;
 import java.util.List;
 
 import dev.se133.project.car.Car;
+import dev.se133.project.car.CarListener;
 import dev.se133.project.carpool.Carpool;
 import dev.se133.project.commute.Address;
 import dev.se133.project.member.garage.Garage;
 import dev.se133.project.member.wallet.Wallet;
-import dev.se133.project.observer.CarEvent;
-import dev.se133.project.observer.Observer;
 import dev.se133.project.schedule.CommuteSchedule;
 
 /**
  * A basis member implementation
  */
-public class BasicMember implements Member, Observer {
+public class BasicMember implements Member, CarListener {
+	/**
+	 *If {@code false}, all members will print messages on car status.
+	 */
+	public static boolean SILENCE = true;	// TODO BAD CODE, if false, all members will print messages on car status
+	
 	private int id;
 	private String name;
 	private Address address;
@@ -80,12 +84,6 @@ public class BasicMember implements Member, Observer {
 	public Wallet getWallet() {
 		return wallet;
 	}
-	
-	/*
-	private void notifyObserver(int obv){
-		observers[obv].stateChanged(new ChangeEvent(this));
-	}
-	*/
 	
 	@Override
 	public int getId() {
@@ -187,9 +185,45 @@ public class BasicMember implements Member, Observer {
 	public double getMaxDistance() {
 		return maxDistance;
 	}
+	
 	@Override
-	public void stateChanged(CarEvent e) 
-	{
-		System.out.println(this.getName() + ": " + e.getMessage());
+	public void memberAdded(Member added) {
+		if (SILENCE)
+			return;
+		
+		acknowledge(added.getName() + " has been added to the car.");
+	}
+	@Override
+	public void memberRemoved(Member removed) {
+		if (SILENCE)
+			return;
+		
+		acknowledge(removed.getName() + " has been removed from the car.");
+	}
+	@Override
+	public void driverSet(Member driver) {
+		if (SILENCE)
+			return;
+		
+		acknowledge(driver.getName() + " has been set as driver of the car.");
+	}
+	
+	@Override
+	public void filled(long id) {
+		if (SILENCE)
+			return;
+		
+		acknowledge("Car " + id + " has been filled");
+	}
+	@Override
+	public void freed(long id) {
+		if (SILENCE)
+			return;
+		
+		acknowledge("Car " + id + " has a free seat");
+	}
+	
+	private void acknowledge(String message) {		
+		System.out.println(getName() + ": " + message);
 	}
 }
