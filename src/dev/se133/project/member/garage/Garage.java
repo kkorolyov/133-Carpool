@@ -1,4 +1,4 @@
-package dev.se133.project.member;
+package dev.se133.project.member.garage;
 
 import java.util.HashMap;
 import java.util.HashSet;

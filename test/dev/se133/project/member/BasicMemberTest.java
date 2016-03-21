@@ -7,8 +7,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import dev.se133.project.commute.Address;
-import dev.se133.project.member.Vehicle.Make;
 import dev.se133.project.member.car.Car;
+import dev.se133.project.member.garage.Vehicle;
+import dev.se133.project.member.garage.Vehicle.Make;
 import dev.se133.project.schedule.SortedCommuteSchedule;
 
 @SuppressWarnings("javadoc")

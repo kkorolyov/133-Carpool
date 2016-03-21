@@ -7,6 +7,8 @@ import dev.se133.project.commute.Address;
 import dev.se133.project.member.BasicMember;
 import dev.se133.project.member.Member;
 import dev.se133.project.member.MemberState;
+import dev.se133.project.member.garage.Vehicle;
+import dev.se133.project.member.garage.YearOutOfBoundsException;
 import dev.se133.project.schedule.SortedCommuteSchedule;
 
 @SuppressWarnings("javadoc")

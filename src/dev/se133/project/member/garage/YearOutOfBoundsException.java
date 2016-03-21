@@ -1,4 +1,4 @@
-package dev.se133.project.member;
+package dev.se133.project.member.garage;
 
 /**
  * Thrown when an invalid vehicle year is input.
