@@ -76,14 +76,13 @@ public class CarpoolTest {
 	public void testAddListener() {
 		carpool.addListener(new CarpoolListener() {
 			@Override
-			public void hitStop(Carpool carpool) {
-				Stop stop = carpool.currentStop();
+			public void hitStop(Stop currentStop) {
 				System.out.println(	"Carpool hit stop\n"
-													+ "\tAddress: " + stop.getAddress() + "\n"
-													+ "\tTime: " + stop.getTime());
+													+ "\tAddress: " + currentStop.getAddress() + "\n"
+													+ "\tTime: " + currentStop.getTime());
 			}
 			@Override
-			public void hitEnd(Carpool carpool) {
+			public void hitEnd(Stop endStop) {
 				System.out.println(	"Carpool hit destination\n");
 			}
 		});

@@ -1,6 +1,6 @@
 package dev.se133.project.carpool;
 
-import dev.se133.project.member.Member;
+import dev.se133.project.commute.Stop;
 
 /**
  * Listens to interesting {@code Carpool} events.
@@ -9,15 +9,15 @@ import dev.se133.project.member.Member;
 public interface CarpoolListener {
 	/**
 	 * Notifies this listener that the carpool has hit a stop.
-	 * @param carpool the carpool object hitting the stop
+	 * @param currentStop the current stop of the carpool
 	 */
-	void hitStop(Carpool carpool);
+	void hitStop(Stop currentStop);
 	
 	/**
 	 * Notifies this listener that the carpool has reached its final stop.
-	 * @param carpool the carpool object hit the end of its commute
+	 * @param endStop the current and last stop of this carpool
 	 */
-	void hitEnd(Carpool carpool);
+	void hitEnd(Stop endStop);
 	
 	
 }

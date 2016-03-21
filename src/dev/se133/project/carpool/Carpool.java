@@ -98,10 +98,10 @@ public class Carpool {
 	}
 	private void notifyHitStop() {
 		for (CarpoolListener listener : listeners)
-			listener.hitStop(this);
+			listener.hitStop(currentStop);
 	}
 	private void notifyHitEnd() {
 		for (CarpoolListener listener : listeners)
-			listener.hitEnd(this);
+			listener.hitEnd(currentStop);
 	}
 }
