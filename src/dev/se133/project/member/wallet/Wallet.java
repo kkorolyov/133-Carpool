@@ -10,7 +10,9 @@ import dev.se133.project.member.wallet.loot.Points;
 /**
  * A wallet holding various loot.
  */
-public class Wallet {	
+public class Wallet {
+	private static final String TO_STRING_LOOT_DELIMETER = ", ";
+	
 	private Set<Loot> allLoot;
 	
 	/**
@@ -55,10 +57,13 @@ public class Wallet {
 	
 	@Override
 	public String toString() {
-		StringBuilder toStringBuilder = new StringBuilder("Wallet");
+		StringBuilder toStringBuilder = new StringBuilder("Wallet: ");
 		
+		int lootCounter = 0;
 		for (Loot loot : allLoot) {
-			toStringBuilder.append("\n\t" + loot);
+			toStringBuilder.append(loot);
+			if (++lootCounter < allLoot.size())
+				toStringBuilder.append(TO_STRING_LOOT_DELIMETER);
 		}
 		return toStringBuilder.toString();
 	}
