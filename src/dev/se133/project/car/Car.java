@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import dev.se133.project.member.Member;
-import dev.se133.project.member.MemberState;
 
 /**
  * Representation of the inhabitants of a car.
@@ -17,8 +16,6 @@ public class Car{
 	
 	/** Default maximum number of inhabitants */
 	public static final int DEFAULT_CAPACITY = 5;
-	private static int totalCars = 0;
-	private int carID;
 	
 	private final int capacity;
 	private Member driver;	// Reference to one of the inhabitants
@@ -30,8 +27,6 @@ public class Car{
 	 */
 	public Car() {
 		this(DEFAULT_CAPACITY);
-		totalCars++;
-		carID = totalCars;	// TODO Remove from here, manage/set IDs in some CarPool
 	}
 	
 	/**
@@ -54,10 +49,6 @@ public class Car{
 			addPassenger(member);
 			selectDriver();
 		}
-	}
-	
-	public int getID() {
-		return carID;
 	}
 	
 	/**
@@ -165,28 +156,6 @@ public class Car{
 	 */
 	public void addListener(CarListener listener) {
 		listeners.add(listener);
-	}
-	
-	private void notifyMemberAdded(Member added) {
-		for (CarListener listener : listeners)
-			listener.memberAdded(added);
-	}
-	private void notifyMemberRemoved(Member removed) {
-		for (CarListener listener : listeners)
-			listener.memberRemoved(removed);
-	}
-	private void notifyDriverSet(Member driver) {
-		for (CarListener listener : listeners)
-			listener.driverSet(driver);
-	}
-	
-	private void notifyFilled() {
-		for (CarListener listener : listeners)
-			listener.filled(carID);
-	}
-	private void notifyFreed() {
-		for (CarListener listener : listeners)
-			listener.freed(carID);
 	}
 	
 	/**
