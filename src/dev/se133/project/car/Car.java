@@ -52,7 +52,7 @@ public class Car{
 		
 		if (member != null) {
 			addPassenger(member);
-			setDriver();
+			selectDriver();
 		}
 	}
 	
@@ -81,18 +81,7 @@ public class Car{
 	 * @return {@code true} if specified inhabitant removed, {@code false} if no such inhabitant
 	 */
 	public boolean removePassenger(Member inhabitant) {
-		boolean removeSuccess = inhabitants.remove(inhabitant);
-		
-		if (removeSuccess) {
-			MemberState newState = inhabitant.getState() instanceof MemberState.Driving ? new MemberState.Driver() : new MemberState.Passenger();
-			inhabitant.setState(newState);
-			
-			notifyMemberRemoved(inhabitant);
-			listeners.remove((CarListener) inhabitant);
-			
-			notifyFreed();
-		}
-		return removeSuccess;
+		return inhabitants.remove(inhabitant);
 	}
 	
 	/**
@@ -120,16 +109,14 @@ public class Car{
 	 * If such an inhabitant is located, that inhabitant is set as the driver.
 	 * @return {@code true} if driver set successfully
 	 */
-	public boolean setDriver() {		
+	public Member selectDriver() {		
 		for (Member inhabitant : inhabitants) {
-			if (inhabitant.getState() instanceof MemberState.Driving || inhabitant.getState() instanceof MemberState.Driver) {
-				inhabitant.setState(new MemberState.Driving());
+			if (inhabitant.isDriver())
 				driver = inhabitant;
-				
 				break;	// Found, set suitable candidate
-			}
 		}
-		return getDriver() != null;
+		
+		return getDriver();
 	}
 
 	/** @return {@code true} if the number of inhabitants in the car matches its capacity */
