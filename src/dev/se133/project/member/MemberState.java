@@ -7,11 +7,9 @@ import dev.se133.project.state.State;
  * A member-specific state.
  */
 public abstract class MemberState implements State {
-	private final int stateId;
 	private final String stateName;
 	
-	protected MemberState(int stateId, String stateName) {
-		this.stateId = stateId;
+	protected MemberState(String stateName) {
 		this.stateName = stateName;
 	}
 	
@@ -23,97 +21,67 @@ public abstract class MemberState implements State {
 	public abstract Car getCar(Member context);
 	
 	@Override
-	public int getStateId() {
-		return stateId;
-	}
-	@Override
 	public String getStateName() {
 		return stateName;
 	}
 	
+	/**
+	 * Returns the name of this state.
+	 */
 	@Override
 	public String toString() {
 		return getStateName();
 	}
 	
 	/**
-	 * The state occurring when a member is not willing to drive and is not currently in a carpool.
+	 * The {@code IDLE} state for a member.
 	 */
-	public static class Passenger extends MemberState {	// TODO Rename to Rider to match Riding?
-		private static final int id = 0;
-		private static final String name = "Passenger";
+	public static class Idle extends MemberState {
+		private static final String IDLE_STATE_NAME = "IDLE";
 		
 		/**
-		 * Constructs a new passenger state.
+		 * Constructs a new {@code IDLE} state for a member.
 		 */
-		public Passenger() {
-			super(id, name);
+		public Idle() {
+			super(IDLE_STATE_NAME);
 		}
 		
-		@Override
 		public Car getCar(Member context) {
-			return null;
+			return null;	// Member is not in a carpool when in IDLE state
 		}
 	}
-	
 	/**
-	 * The state occurring when a member is willing to drive and is not currently in a carpool.
-	 */
-	public static class Driver extends MemberState {
-		private static final int id = Passenger.id + 1;
-		private static final String name = "Driver";
-		
-		/**
-		 * Constructs a new driver state.
-		 */
-		public Driver() {
-			super(id, name);
-		}
-		
-		@Override
-		public Car getCar(Member context) {
-			context.setState(new Driving());
-			return new Car(context.getGarage().getLargestVehicle().getCapacity(), context);	// Uses largest of member's vehicles
-		}
-	}
-	
-	/**
-	 * The state occurring when a member is currently in a carpool as a passenger.
-	 */
-	public static class Riding extends MemberState {
-		private static final int id = Driver.id + 1;
-		private static final String name = "Riding";
-		
-		/**
-		 * Constructs a 'riding' state.
-		 */
-		public Riding() {
-			super(id, name);
-		}
-
-		@Override
-		public Car getCar(Member context) {
-			return context.getCurrentCarpool().getCar();
-		}
-	}
-	
-	/**
-	 * The state occurring when a member is currently in a carpool as a driver.
+	 * The {@code DRIVING} state for a member.
 	 */
 	public static class Driving extends MemberState {
-		private static final int id = Riding.id + 1;
-		private static final String name = "Driving";
+		private static final String DRIVING_STATE_NAME = "DRIVING";
 		
 		/**
-		 * Constructs a 'driving' state.
+		 * Constructs a new {@code DRIVING} state for a member.
 		 */
 		public Driving() {
-			super(id, name);
+			super(DRIVING_STATE_NAME);
 		}
-
-		@Override
+		
 		public Car getCar(Member context) {
-			return context.getCurrentCarpool().getCar();
+			return context.getCurrentCarpool().getCar();	// TODO May want to change
+		}
+	}
+	/**
+	 * The {@code RIDING} state for a member.
+	 */
+	public static class Riding extends MemberState {
+		private static final String RIDING_STATE_NAME = "RIDING";
+		
+		/**
+		 * Constructs a new {@code RIDING} state for a member.
+		 */
+		public Riding(Member describedMember) {
+			super(RIDING_STATE_NAME);
+		}
+		
+		public Car getCar(Member context) {
+			return context.getCurrentCarpool().getCar();	// TODO May want to change
 		}
 	}
 }
