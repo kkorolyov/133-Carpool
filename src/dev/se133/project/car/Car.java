@@ -70,23 +70,10 @@ public class Car{
 	public boolean addPassenger(Member inhabitant) {
 		if (isFull())
 			throw new FullCarException(capacity);
-		if ((driver == null) && !(inhabitant.getState() instanceof MemberState.Driver) && (getAvailableSeats() <= 1))	// Cannot have a car full of only passengers
+		if ((driver == null) && !(inhabitant.isDriver()) && (getAvailableSeats() <= 1))	// Cannot have a car full of only passengers
 			throw new NoDriverException();
 		
-		boolean addSuccess = inhabitants.add(inhabitant);		
-		
-		if(addSuccess) {
-			if (driver != null)
-				inhabitant.setState(new MemberState.Riding());
-			
-			addListener((CarListener) inhabitant);
-			
-			notifyMemberAdded(inhabitant);
-			
-			if(this.isFull())
-				notifyFilled();
-		}
-		return addSuccess;
+		return inhabitants.add(inhabitant);
 	}
 	/**
 	 * Attempts to remove the specified inhabitant from this car.
@@ -117,7 +104,7 @@ public class Car{
 	public boolean setDriver(Member inhabitant) {	// TODO Set driver directly?
 		for (Member currentInhabitant : inhabitants) {
 			if (currentInhabitant.equals(inhabitant)) {
-				if (currentInhabitant.getState() instanceof MemberState.Driving || currentInhabitant.getState() instanceof MemberState.Driver) {
+				if (currentInhabitant.isDriver()) {
 					currentInhabitant.setState(new MemberState.Driving());
 					driver = currentInhabitant;
 					
