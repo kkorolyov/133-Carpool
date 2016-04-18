@@ -3,25 +3,30 @@ package dev.se133.project.member.garage;
 public class ParkingSpot 
 {
 	private Vehicle occupiedBy;
+	private int parkingSpotNumber;
 	
 	/**
 	 * Constructor
 	 */
-	ParkingSpot()
+	ParkingSpot(int psn)
 	{
 		occupiedBy = null;	
+		parkingSpotNumber = psn;
 	}
-	
+	public int getParkingSpotNumber()
+	{
+		return parkingSpotNumber;
+	}
 	/**
 	 * Fills the parking spot with @param c
 	 * @return true if spot is filled
 	 * @return false if spot is taken
 	 */
-	public boolean fill(Vehicle c)
+	public boolean fill(Vehicle carVehicle)
 	{
 		if(vacant())
 		{
-			occupiedBy = c;
+			occupiedBy = carVehicle;
 			return true;
 		}
 		return false;

@@ -57,4 +57,5 @@ public class Garage {
 	public Vehicle removeVehicle(String name) {
 		return vehicles.remove(name);
 	}
+	
 }
