@@ -18,6 +18,7 @@ public class Carpool {
 	private Stop currentStop;
 	private Car car;
 	private List<CarpoolListener> listeners = new LinkedList<>();
+	private CarpoolState state = new CarpoolState.Departed();
 	
 	/**
 	 * Constructs a new carpool with a set commute and car.
@@ -89,6 +90,10 @@ public class Carpool {
 		this.car = car;
 	}
 	
+	void setState(CarpoolState newState)
+	{
+		this.state = newState;
+	}
 	/**
 	 * Adds a listener to this list of listeners.
 	 * @param listener listener to add
