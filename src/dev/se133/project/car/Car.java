@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import dev.se133.project.member.Member;
-import dev.se133.project.member.MemberState;
 
 /**
  * Representation of the inhabitants of a car.
@@ -17,8 +16,6 @@ public class Car{
 	
 	/** Default maximum number of inhabitants */
 	public static final int DEFAULT_CAPACITY = 5;
-	private static int totalCars = 0;
-	private int carID;
 	
 	private final int capacity;
 	private Member driver;	// Reference to one of the inhabitants
@@ -30,8 +27,6 @@ public class Car{
 	 */
 	public Car() {
 		this(DEFAULT_CAPACITY);
-		totalCars++;
-		carID = totalCars;	// TODO Remove from here, manage/set IDs in some CarPool
 	}
 	
 	/**
@@ -52,12 +47,8 @@ public class Car{
 		
 		if (member != null) {
 			addPassenger(member);
-			setDriver();
+			selectDriver();
 		}
-	}
-	
-	public int getID() {
-		return carID;
 	}
 	
 	/**
@@ -67,26 +58,13 @@ public class Car{
 	 * @throws FullCarException if adding this member would overflow this car's capacity
 	 * @throws NoDriverException if adding this member would result in this car being unable to contain at least 1 driver
 	 */
-	public boolean addPassenger(Member inhabitant) {
+	public boolean addPassenger(Member inhabitant) {	// TODO addAsDriver boolean
 		if (isFull())
 			throw new FullCarException(capacity);
-		if ((driver == null) && !(inhabitant.getState() instanceof MemberState.Driver) && (getAvailableSeats() <= 1))	// Cannot have a car full of only passengers
+		if ((driver == null) && !(inhabitant.isDriver()) && (getAvailableSeats() <= 1))	// Cannot have a car full of only passengers
 			throw new NoDriverException();
 		
-		boolean addSuccess = inhabitants.add(inhabitant);		
-		
-		if(addSuccess) {
-			if (driver != null)
-				inhabitant.setState(new MemberState.Riding());
-			
-			addListener((CarListener) inhabitant);
-			
-			notifyMemberAdded(inhabitant);
-			
-			if(this.isFull())
-				notifyFilled();
-		}
-		return addSuccess;
+		return inhabitants.add(inhabitant);
 	}
 	/**
 	 * Attempts to remove the specified inhabitant from this car.
@@ -94,55 +72,38 @@ public class Car{
 	 * @return {@code true} if specified inhabitant removed, {@code false} if no such inhabitant
 	 */
 	public boolean removePassenger(Member inhabitant) {
-		boolean removeSuccess = inhabitants.remove(inhabitant);
-		
-		if (removeSuccess) {
-			MemberState newState = inhabitant.getState() instanceof MemberState.Driving ? new MemberState.Driver() : new MemberState.Passenger();
-			inhabitant.setState(newState);
-			
-			notifyMemberRemoved(inhabitant);
-			listeners.remove((CarListener) inhabitant);
-			
-			notifyFreed();
-		}
-		return removeSuccess;
+		return inhabitants.remove(inhabitant);
 	}
 	
 	/**
-	 * Sets an inhabitant from this car as the car's driver.
-	 * The inhabitant must be both already in the car and have a state of {@code MemberState.Driver}.
-	 * @param inhabitant member of this car to set as driver
-	 * @return {@code true} if driver set successfully
+	 * Adds a new member to this car as the designated driver.
+	 * @param newDriver member to add as driver
+	 * @return new driver
+	 * @throws IllegalArgumentException if the specified member is not a driver
 	 */
-	public boolean setDriver(Member inhabitant) {	// TODO Set driver directly?
-		for (Member currentInhabitant : inhabitants) {
-			if (currentInhabitant.equals(inhabitant)) {
-				if (currentInhabitant.getState() instanceof MemberState.Driving || currentInhabitant.getState() instanceof MemberState.Driver) {
-					currentInhabitant.setState(new MemberState.Driving());
-					driver = currentInhabitant;
-					
-					notifyDriverSet(currentInhabitant);
-				}
-				break;	// Valid or not, equal inhabitant located, ok to break
-			}
-		}
-		return getDriver() != null;
+	public Member addDriver(Member newDriver) {
+		if (!newDriver.isDriver())
+			throw new IllegalArgumentException();
+		
+		this.driver = newDriver;
+		inhabitants.add(newDriver);
+		
+		return this.driver;
 	}
+	
 	/**
 	 * Searches this car for an inhabitant with a state of {@code MemberState.Driver}.
 	 * If such an inhabitant is located, that inhabitant is set as the driver.
 	 * @return {@code true} if driver set successfully
 	 */
-	public boolean setDriver() {		
+	public Member selectDriver() {		
 		for (Member inhabitant : inhabitants) {
-			if (inhabitant.getState() instanceof MemberState.Driving || inhabitant.getState() instanceof MemberState.Driver) {
-				inhabitant.setState(new MemberState.Driving());
+			if (inhabitant.isDriver())
 				driver = inhabitant;
-				
 				break;	// Found, set suitable candidate
-			}
 		}
-		return getDriver() != null;
+		
+		return getDriver();
 	}
 
 	/** @return {@code true} if the number of inhabitants in the car matches its capacity */
@@ -195,28 +156,6 @@ public class Car{
 	 */
 	public void addListener(CarListener listener) {
 		listeners.add(listener);
-	}
-	
-	private void notifyMemberAdded(Member added) {
-		for (CarListener listener : listeners)
-			listener.memberAdded(added);
-	}
-	private void notifyMemberRemoved(Member removed) {
-		for (CarListener listener : listeners)
-			listener.memberRemoved(removed);
-	}
-	private void notifyDriverSet(Member driver) {
-		for (CarListener listener : listeners)
-			listener.driverSet(driver);
-	}
-	
-	private void notifyFilled() {
-		for (CarListener listener : listeners)
-			listener.filled(carID);
-	}
-	private void notifyFreed() {
-		for (CarListener listener : listeners)
-			listener.freed(carID);
 	}
 	
 	/**
