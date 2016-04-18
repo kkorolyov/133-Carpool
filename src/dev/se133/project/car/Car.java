@@ -67,7 +67,7 @@ public class Car{
 	 * @throws FullCarException if adding this member would overflow this car's capacity
 	 * @throws NoDriverException if adding this member would result in this car being unable to contain at least 1 driver
 	 */
-	public boolean addPassenger(Member inhabitant) {
+	public boolean addPassenger(Member inhabitant) {	// TODO addAsDriver boolean
 		if (isFull())
 			throw new FullCarException(capacity);
 		if ((driver == null) && !(inhabitant.isDriver()) && (getAvailableSeats() <= 1))	// Cannot have a car full of only passengers
@@ -85,25 +85,21 @@ public class Car{
 	}
 	
 	/**
-	 * Sets an inhabitant from this car as the car's driver.
-	 * The inhabitant must be both already in the car and have a state of {@code MemberState.Driver}.
-	 * @param inhabitant member of this car to set as driver
-	 * @return {@code true} if driver set successfully
+	 * Adds a new member to this car as the designated driver.
+	 * @param newDriver member to add as driver
+	 * @return new driver
+	 * @throws IllegalArgumentException if the specified member is not a driver
 	 */
-	public boolean setDriver(Member inhabitant) {	// TODO Set driver directly?
-		for (Member currentInhabitant : inhabitants) {
-			if (currentInhabitant.equals(inhabitant)) {
-				if (currentInhabitant.isDriver()) {
-					currentInhabitant.setState(new MemberState.Driving());
-					driver = currentInhabitant;
-					
-					notifyDriverSet(currentInhabitant);
-				}
-				break;	// Valid or not, equal inhabitant located, ok to break
-			}
-		}
-		return getDriver() != null;
+	public Member addDriver(Member newDriver) {
+		if (!newDriver.isDriver())
+			throw new IllegalArgumentException();
+		
+		this.driver = newDriver;
+		inhabitants.add(newDriver);
+		
+		return this.driver;
 	}
+	
 	/**
 	 * Searches this car for an inhabitant with a state of {@code MemberState.Driver}.
 	 * If such an inhabitant is located, that inhabitant is set as the driver.
