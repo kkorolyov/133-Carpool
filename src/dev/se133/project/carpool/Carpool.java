@@ -1,6 +1,5 @@
 package dev.se133.project.carpool;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,12 +13,10 @@ import dev.se133.project.commute.Stop;
  */
 public class Carpool {
 	private Commute commute;
-	private Iterator<Stop> commuteIterator;
-	private Stop currentStop;
 	private Car car;
+	private CarpoolState state = new CarpoolState.Loading();
 	private List<CarpoolListener> listeners = new LinkedList<>();
-	private CarpoolState state = new CarpoolState.Departed();
-	
+
 	/**
 	 * Constructs a new carpool with a set commute and car.
 	 * @param commute commute traveled in this carpool
@@ -41,7 +38,6 @@ public class Carpool {
 	 */
 	public void setCommute(Commute commute) {
 		this.commute = commute;
-		commuteIterator = this.commute.getStops().iterator();	// TODO Use commute's iterator
 	}
 	
 	/**
@@ -50,14 +46,14 @@ public class Carpool {
 	 */
 	public Stop nextStop() {
 		if (!isAtEnd()) {
-			currentStop = commuteIterator.next();
+			commute.nextStop();
 		
 			notifyHitStop();
 				
 			if (isAtEnd())	// Last stop
 				notifyHitEnd();
 			
-			return currentStop;
+			return currentStop();
 		}
 		return null;
 	}
@@ -66,12 +62,12 @@ public class Carpool {
 	 * @return last hit stop
 	 */
 	public Stop currentStop() {
-		return currentStop;
+		return commute.getCurrent();
 	}
 	
 	/** @return {@code true} if this carpool has reached its destination */
 	public boolean isAtEnd() {
-		return !commuteIterator.hasNext();	// If there is a next stop, not at end yet
+		return !commute.hasNextStop();	// If there is a next stop, not at end yet
 	}
 	
 	/** @return car of this carpool, or {@code null} if there is none */
@@ -103,10 +99,10 @@ public class Carpool {
 	}
 	private void notifyHitStop() {
 		for (CarpoolListener listener : listeners)
-			listener.hitStop(currentStop);
+			listener.hitStop(commute.getCurrent());
 	}
 	private void notifyHitEnd() {
 		for (CarpoolListener listener : listeners)
-			listener.hitEnd(currentStop);
+			listener.hitEnd(commute.getCurrent());
 	}
 }
