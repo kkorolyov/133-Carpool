@@ -20,6 +20,34 @@ public class CarpoolState implements State {
 		return getStateName();
 	}
 	
+	/**
+	 * The state a carpool takes while not ready to depart.
+	 */
+	public static class Loading extends CarpoolState {
+		private static final String LOADING_STATE_NAME = "LOADING";
+		
+		/**
+		 * Constructs a new {@code LOADING} state.
+		 */
+		public Loading() {
+			super(LOADING_STATE_NAME);
+		}
+	}
+	
+	/**
+	 * The state a carpool takes when it is ready to depart.
+	 */
+	public static class Ready extends CarpoolState {
+		private static final String READY_STATE_NAME = "READY";
+		
+		/**
+		 * Constructs a new {@code READY} state.
+		 */
+		public Ready() {
+			super(READY_STATE_NAME);
+		}
+	}
+	
 	public static class Departed extends CarpoolState {
 		private static final String DEPARTED_STATE_NAME = "DEPARTED";
 		
