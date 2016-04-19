@@ -11,12 +11,13 @@ import java.util.Set;
  */
 public class Garage {
 	private final Map<String, Vehicle> vehicles = new HashMap<>();
+	private Vehicle defaultVehicle;
 	
 	/**
 	 * Constructs an empty garage.
 	 */
 	public Garage() {
-		// No-arg
+		defaultVehicle = null;
 	}
 	
 	/**
@@ -42,12 +43,19 @@ public class Garage {
 		return new HashSet<Vehicle>(vehicles.values());
 	}
 	/**
+	 * @return default vehicle;
+	 */
+	public Vehicle getDefaultVehicle(){
+		return defaultVehicle;
+	}
+	/**
 	 * Adds a vehicle to this garage.
 	 * @param name name to identify vehicle as
 	 * @param vehicle vehicle to add
 	 */
 	public void addVehicle(String name, Vehicle vehicle) {
 		vehicles.put(name, vehicle);
+		defaultVehicle = vehicle;
 	}
 	/**
 	 * Removes a vehicle with the specified name.

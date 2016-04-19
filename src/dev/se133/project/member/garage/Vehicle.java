@@ -54,6 +54,11 @@ public class Vehicle {
 	public int getCapacity() {
 		return capacity;
 	}
+	@Override
+	public String toString()
+	{
+		return getMake() + getVin();
+	}
 	
 	/**
 	 * Describes a vehicle manufacturer.

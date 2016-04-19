@@ -10,6 +10,8 @@ import dev.se133.project.carpool.CarpoolListener;
 import dev.se133.project.carpool.CarpoolRewardListener;
 import dev.se133.project.commute.Time.Day;
 import dev.se133.project.member.*;
+import dev.se133.project.member.preferences.CommuteSchedule;
+import dev.se133.project.member.wallet.Wallet;
 import dev.se133.project.schedule.SortedCommuteSchedule;
 
 @SuppressWarnings("javadoc")
@@ -44,7 +46,8 @@ public class CarpoolTest {
 	}
 	private static void populateCar() {
 		for (int i = 0; i < car.getCapacity(); i++) {
-			car.addPassenger(new BasicMember(0, "Member" + i, new Address("MemberAddress" + i), new SortedCommuteSchedule(), i == 0 ? new MemberState.Driver() : new MemberState.Passenger()));
+			car.addPassenger(new Member(0, "Member" + i, new Address("MemberAddress" + i), new SortedCommuteSchedule(), i == 0 ? new MemberState.Driver() : new MemberState.Passenger()));
+							(new Member(int id, String name, boolean driverStatus, Address homeAddress, Wallet wallet, Garage registeredVehicles, CommuteSchedule commuteTimes))
 			car.setDriver();
 		}
 	}

@@ -48,4 +48,11 @@ public class ParkingSpot
 	{
 		return occupiedBy == null;
 	}
+	@Override
+	public String toString()
+	{
+		if(vacant())
+			return "_________";
+		return occupiedBy.toString();
+	}
 }

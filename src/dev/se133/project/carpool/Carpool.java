@@ -8,6 +8,7 @@ import dev.se133.project.car.Car;
 import dev.se133.project.car.NoDriverException;
 import dev.se133.project.commute.Commute;
 import dev.se133.project.commute.Stop;
+import dev.se133.project.member.garage.Vehicle;
 
 /**
  * A one-way trip consisting of a commute and a driver and passengers.
@@ -26,8 +27,14 @@ public class Carpool {
 	 * @param car car traveling in this carpool
 	 * @throws NoDriverException is the specified car does not have a driver
 	 */
+	
 	public Carpool(Commute commute, Car car) throws NoDriverException {
 		setCommute(commute);
+		setCar(car);
+	}
+	
+	public Carpool(Car car)
+	{
 		setCar(car);
 	}
 	
@@ -88,6 +95,11 @@ public class Carpool {
 			throw new NoDriverException();	// No carpool if no driver
 		
 		this.car = car;
+	}
+	
+	public Vehicle getVehicle()
+	{
+		return this.car.getDriver().getRegisteredVehicles().getDefaultVehicle();
 	}
 	
 	void setState(CarpoolState newState)

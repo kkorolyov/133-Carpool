@@ -5,11 +5,11 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class ParkingGarage {
-	private final int NUM_OF_SPOTS = 100;
+	private final int NUM_OF_SPOTS = 10;
 	private ParkingSpot[] parkingSpots;
 	private ArrayList<ParkingSpot> availableSpots;
 	
-	ParkingGarage()
+	public ParkingGarage()
 	{
 		availableSpots = new ArrayList<ParkingSpot>();
 		parkingSpots = new ParkingSpot[NUM_OF_SPOTS];
@@ -32,6 +32,12 @@ public class ParkingGarage {
 			return -1;
 		if(parkingSpots[availableSpots.get(0).getParkingSpotNumber()].fill(v))
 		{
+			System.out.println("PARKING GARAGE - ADD(VEHICLE) - PARKINGSPOT - FILL - " + availableSpots.get(0).getParkingSpotNumber());
+			for(int i = 0; i < availableSpots.size(); i++)
+			{
+				System.out.print(availableSpots.get(i).getParkingSpotNumber() + " ");
+			}
+			System.out.println();
 			availableSpots.remove(0);
 			return 0;
 		}
@@ -44,7 +50,9 @@ public class ParkingGarage {
 	public void remove(int parkingSpotNumber)
 	{
 		parkingSpots[parkingSpotNumber].remove();
-		availableSpots.add(parkingSpots[parkingSpotNumber]);
+		if(!
+				availableSpots.contains(parkingSpots[parkingSpotNumber]))
+			availableSpots.add(parkingSpots[parkingSpotNumber]);
 		Collections.sort(availableSpots, new Comparator<ParkingSpot>()
 				{
 					@Override
@@ -53,5 +61,23 @@ public class ParkingGarage {
 						return one.getParkingSpotNumber() - (two.getParkingSpotNumber());
 					}
 				});
+	}
+	
+	@Override
+	public String toString()
+	{
+		String parkingLot = "| ";
+		for(int i = 0; i < parkingSpots.length; i++)
+		{
+			if(i == 4 || i == 9)
+				parkingLot += (parkingSpots[i].toString() + " |" + "\n| ");
+			else
+				parkingLot += (parkingSpots[i].toString() + " | ");
+		}
+		return parkingLot;
+		
+	}
+	public boolean isFull() {
+		return availableSpots.isEmpty();
 	}
 }

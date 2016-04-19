@@ -108,7 +108,7 @@ public class Member implements Comparable<Member>, CarListener {
 	public void setRegisteredVehicles(Garage newRegisteredVehicles) {
 		this.registeredVehicles = newRegisteredVehicles;
 	}
-	
+
 	/** @return schedule of this member's preferred commuting times */
 	public CommuteSchedule getCommuteTimes() {
 		return commuteTimes;
