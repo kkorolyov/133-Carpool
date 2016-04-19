@@ -21,6 +21,7 @@ public class ParkingTest {
 	
 	public static void main(String[] args) 
 	{
+		//Tester class
 		carpools = new ArrayList<Carpool>();
 		parkingLot = new ParkingGarage();
 		populateCar(150);

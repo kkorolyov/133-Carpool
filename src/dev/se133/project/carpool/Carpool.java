@@ -1,6 +1,5 @@
 package dev.se133.project.carpool;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,12 +14,10 @@ import dev.se133.project.member.garage.Vehicle;
  */
 public class Carpool {
 	private Commute commute;
-	private Iterator<Stop> commuteIterator;
-	private Stop currentStop;
 	private Car car;
+	private CarpoolState state = new CarpoolState.Loading();
 	private List<CarpoolListener> listeners = new LinkedList<>();
-	private CarpoolState state = new CarpoolState.Departed();
-	
+
 	/**
 	 * Constructs a new carpool with a set commute and car.
 	 * @param commute commute traveled in this carpool
@@ -33,6 +30,7 @@ public class Carpool {
 		setCar(car);
 	}
 	
+//<<<<<<< HEAD
 	public Carpool(Car car)
 	{
 		setCar(car);
@@ -42,13 +40,14 @@ public class Carpool {
 	public Commute getCommute() {
 		return commute;
 	}
+//=======
+//>>>>>>> f089ea519e2ad2d60214451aa8a1a8f487acb2b4
 	/**
-	 * Sets the commute of this carpool.
-	 * @param commute new commute
+	 * Dispatches this carpool.
+	 * @throws IllegalStateException if this method cannot be performed during this carpool's current state
 	 */
-	public void setCommute(Commute commute) {
-		this.commute = commute;
-		commuteIterator = this.commute.getStops().iterator();	// TODO Use commute's iterator
+	public void dispatch() {
+		state.dispatch(this);
 	}
 	
 	/**
@@ -57,14 +56,14 @@ public class Carpool {
 	 */
 	public Stop nextStop() {
 		if (!isAtEnd()) {
-			currentStop = commuteIterator.next();
+			commute.nextStop();
 		
 			notifyHitStop();
 				
 			if (isAtEnd())	// Last stop
 				notifyHitEnd();
 			
-			return currentStop;
+			return currentStop();
 		}
 		return null;
 	}
@@ -73,12 +72,32 @@ public class Carpool {
 	 * @return last hit stop
 	 */
 	public Stop currentStop() {
-		return currentStop;
+		return commute.getCurrent();
 	}
 	
 	/** @return {@code true} if this carpool has reached its destination */
 	public boolean isAtEnd() {
-		return !commuteIterator.hasNext();	// If there is a next stop, not at end yet
+		return !commute.hasNextStop();	// If there is a next stop, not at end yet
+	}
+	
+	/** @return	{@code true} if this carpool has a designated driver */
+	public boolean hasDriver() {
+		return car.hasDriver();
+	}
+	
+	/** @return commute traveled in this carpool, or {@code null} if there is none */
+	public Commute getCommute() {
+		return commute;
+	}
+	/**
+	 * Sets the commute of this carpool.
+	 * @param newCommute new commute to set
+	 */
+	public void setCommute(Commute newCommute) {
+		state.setCommute(this, newCommute);
+	}
+	void stateSetCommute(Commute newCommute) {
+		this.commute = newCommute;
 	}
 	
 	/** @return car of this carpool, or {@code null} if there is none */
@@ -87,14 +106,13 @@ public class Carpool {
 	}
 	/** 
 	 * Sets the car of this carpool.
-	 * @param car new car
-	 * @throws NoDriverException if the specified car does not have a driver
+	 * @param newCar new car to set
 	 */
-	public void setCar(Car car) throws NoDriverException {
-		if (car.getDriver() == null)
-			throw new NoDriverException();	// No carpool if no driver
-		
-		this.car = car;
+	public void setCar(Car newCar) {
+		state.setCar(this, newCar);
+	}
+	void stateSetCar(Car newCar) {
+		this.car = newCar;
 	}
 	
 	public Vehicle getVehicle()
@@ -115,10 +133,10 @@ public class Carpool {
 	}
 	private void notifyHitStop() {
 		for (CarpoolListener listener : listeners)
-			listener.hitStop(currentStop);
+			listener.hitStop(commute.getCurrent());
 	}
 	private void notifyHitEnd() {
 		for (CarpoolListener listener : listeners)
-			listener.hitEnd(currentStop);
+			listener.hitEnd(commute.getCurrent());
 	}
 }
