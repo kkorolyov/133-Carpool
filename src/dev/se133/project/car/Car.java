@@ -112,6 +112,11 @@ public class Car{
 		return inhabitants.size() == capacity;
 	}
 	
+	/** @return {@code true} if this car has a designated driver */
+	public boolean hasDriver() {
+		return driver != null;
+	}
+	
 	/** @return number of inhabitants currently in this car */
 	public int getSize() {
 		return inhabitants.size();
