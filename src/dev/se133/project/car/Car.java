@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import dev.se133.project.carpool.CarpoolListener;
 import dev.se133.project.member.Member;
 
 /**
@@ -20,7 +21,7 @@ public class Car{
 	private final int capacity;
 	private Member driver;	// Reference to one of the inhabitants
 	private Set<Member> inhabitants = new HashSet<>();
-	private List<CarListener> listeners = new LinkedList<>();
+	private List<CarpoolListener> listeners = new LinkedList<>();
 	
 	/**
 	 * Constructs a car of default capacity.
@@ -154,7 +155,7 @@ public class Car{
 	 * Adds a listener to this car.
 	 * @param listener listener to add
 	 */
-	public void addListener(CarListener listener) {
+	public void addListener(CarpoolListener listener) {
 		listeners.add(listener);
 	}
 	
