@@ -1,21 +1,53 @@
 package dev.se133.project.carpool;
 
+import dev.se133.project.car.Car;
+import dev.se133.project.commute.Commute;
 import dev.se133.project.state.State;
 
-public class CarpoolState implements State {
+public abstract class CarpoolState implements State {
 	private final String stateName;
 	
 	protected CarpoolState(String stateName) {
 		this.stateName = stateName;
 	}
 	
+	/**
+	 * Dispatches a carpool.
+	 * Behavior is dependent on the current state.
+	 * @param context carpool to dispatch
+	 * @throws IllegalStateException if this method cannot be handled by the current state
+	 */
+	public void dispatch(Carpool context) {
+		throw new IllegalStateException("May not be dispatched in this state: " + getStateName());
+	}
+	
+	/**
+	 * Sets a carpool's commute.
+	 * Behavior is dependent on the current state.
+	 * @param context carpool to set commute of
+	 * @param newCommute new commute to set
+	 * @throws IllegalStateException if this method cannot be handled by the current state
+	 */
+	public void setCommute(Carpool context, Commute newCommute) {
+		throw new IllegalStateException("Commute may not be set in this state: " + getStateName());
+	}
+	/**
+	 * Sets a carpool's car.
+	 * Behavior is dependent on the current state.
+	 * @param context carpool to set car of
+	 * @param newCar new car to set
+	 * @throws IllegalStateException if this method cannot be handled by the current state
+	 */
+	public void setCar(Carpool context, Car newCar) {
+		throw new IllegalStateException("Car may not be set in this state: " + getStateName());
+	}
 	
 	@Override
 	public String getStateName() {
-		// TODO Auto-generated method stub
 		return stateName;
 	}
 	
+	@Override
 	public String toString() {
 		return getStateName();
 	}
@@ -32,6 +64,27 @@ public class CarpoolState implements State {
 		public Loading() {
 			super(LOADING_STATE_NAME);
 		}
+		
+		@Override
+		public void setCommute(Carpool context, Commute newCommute) {
+			context.stateSetCommute(newCommute);
+			
+			testReady(context);
+		}
+		@Override
+		public void setCar(Carpool context, Car newCar) {
+			context.stateSetCar(newCar);
+			
+			testReady(context);
+		}
+		
+		private static void testReady(Carpool context) {
+			if (isReady(context))
+				context.setState(new Ready());
+		}
+		private static boolean isReady(Carpool context) {
+			return (context.getCommute() != null && context.hasDriver());
+		}
 	}
 	
 	/**
@@ -45,6 +98,32 @@ public class CarpoolState implements State {
 		 */
 		public Ready() {
 			super(READY_STATE_NAME);
+		}
+		
+		@Override
+		public void dispatch(Carpool context) {
+			// TODO
+		}
+
+		@Override
+		public void setCommute(Carpool context, Commute newCommute) {
+			context.stateSetCommute(newCommute);
+			
+			testLoading(context);
+		}
+		@Override
+		public void setCar(Carpool context, Car newCar) {
+			context.stateSetCar(newCar);
+			
+			testLoading(context);
+		}
+		
+		private static void testLoading(Carpool context) {
+			if (isLoading(context))
+				context.setState(new Loading());
+		}
+		private static boolean isLoading(Carpool context) {
+			return (context.getCommute() == null || !context.hasDriver());
 		}
 	}
 	
@@ -74,5 +153,4 @@ public class CarpoolState implements State {
 		}
 		
 	}
-
 }

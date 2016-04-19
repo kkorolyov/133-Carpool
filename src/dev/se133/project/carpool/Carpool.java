@@ -28,16 +28,12 @@ public class Carpool {
 		setCar(car);
 	}
 	
-	/** @return commute traveled in this carpool, or {@code null} if there is none */
-	public Commute getCommute() {
-		return commute;
-	}
 	/**
-	 * Sets the commute of this carpool.
-	 * @param commute new commute
+	 * Dispatches this carpool.
+	 * @throws IllegalStateException if this method cannot be performed during this carpool's current state
 	 */
-	public void setCommute(Commute commute) {
-		this.commute = commute;
+	public void dispatch() {
+		state.dispatch(this);
 	}
 	
 	/**
@@ -70,20 +66,39 @@ public class Carpool {
 		return !commute.hasNextStop();	// If there is a next stop, not at end yet
 	}
 	
+	/** @return	{@code true} if this carpool has a designated driver */
+	public boolean hasDriver() {
+		return car.hasDriver();
+	}
+	
+	/** @return commute traveled in this carpool, or {@code null} if there is none */
+	public Commute getCommute() {
+		return commute;
+	}
+	/**
+	 * Sets the commute of this carpool.
+	 * @param newCommute new commute to set
+	 */
+	public void setCommute(Commute newCommute) {
+		state.setCommute(this, newCommute);
+	}
+	void stateSetCommute(Commute newCommute) {
+		this.commute = newCommute;
+	}
+	
 	/** @return car of this carpool, or {@code null} if there is none */
 	public Car getCar() {
 		return car;
 	}
 	/** 
 	 * Sets the car of this carpool.
-	 * @param car new car
-	 * @throws NoDriverException if the specified car does not have a driver
+	 * @param newCar new car to set
 	 */
-	public void setCar(Car car) throws NoDriverException {
-		if (car.getDriver() == null)
-			throw new NoDriverException();	// No carpool if no driver
-		
-		this.car = car;
+	public void setCar(Car newCar) {
+		state.setCar(this, newCar);
+	}
+	void stateSetCar(Car newCar) {
+		this.car = newCar;
 	}
 	
 	void setState(CarpoolState newState)
