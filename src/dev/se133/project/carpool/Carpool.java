@@ -30,18 +30,6 @@ public class Carpool {
 		setCar(car);
 	}
 	
-//<<<<<<< HEAD
-	public Carpool(Car car)
-	{
-		setCar(car);
-	}
-	
-	/** @return commute traveled in this carpool, or {@code null} if there is none */
-	public Commute getCommute() {
-		return commute;
-	}
-//=======
-//>>>>>>> f089ea519e2ad2d60214451aa8a1a8f487acb2b4
 	/**
 	 * Dispatches this carpool.
 	 * @throws IllegalStateException if this method cannot be performed during this carpool's current state
