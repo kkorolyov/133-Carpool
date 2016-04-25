@@ -1,4 +1,6 @@
-package dev.se133.project.member.garage;
+package dev.se133.project.car.parking;
+
+import dev.se133.project.member.garage.Vehicle;
 
 public class ParkingSpot 
 {
