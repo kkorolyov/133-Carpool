@@ -7,6 +7,7 @@ import java.util.Set;
 
 import dev.se133.project.carpool.CarpoolListener;
 import dev.se133.project.member.Member;
+import dev.se133.project.member.garage.Vehicle;
 
 /**
  * Representation of the inhabitants of a car.
@@ -211,5 +212,9 @@ public class Car{
 			return false;
 		
 		return true;
+	}
+
+	public Vehicle getVehicle() {
+		return driver.getDefaultVehicle();
 	}
 }

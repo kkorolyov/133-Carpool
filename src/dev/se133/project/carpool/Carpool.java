@@ -115,7 +115,8 @@ public class Carpool {
 	
 	public Vehicle getVehicle()
 	{
-		return this.car.getDriver().getRegisteredVehicles().getDefaultVehicle();
+		return car.getVehicle();
+		//return this.car.getDriver().getRegisteredVehicles().getDefaultVehicle();
 	}
 	
 	void setState(CarpoolState newState)

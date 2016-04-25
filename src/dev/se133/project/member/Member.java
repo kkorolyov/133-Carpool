@@ -8,6 +8,7 @@ import dev.se133.project.carpool.CarpoolListener;
 import dev.se133.project.commute.Address;
 import dev.se133.project.commute.Stop;
 import dev.se133.project.member.garage.Garage;
+import dev.se133.project.member.garage.Vehicle;
 import dev.se133.project.member.preferences.CommuteSchedule;
 import dev.se133.project.member.wallet.Wallet;
 
@@ -92,6 +93,11 @@ public class Member implements Comparable<Member>, CarpoolListener {
 		this.wallet = newWallet;
 	}
 	
+	/** @return default vehicle*/
+	public Vehicle getDefaultVehicle() {
+		return registeredVehicles.getDefaultVehicle();
+	}
+
 	/** @return set of vehicles registered to this member */
 	public Garage getRegisteredVehicles() {
 		return registeredVehicles;
