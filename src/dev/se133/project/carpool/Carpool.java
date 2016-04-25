@@ -5,6 +5,7 @@ import java.util.List;
 
 import dev.se133.project.car.Car;
 import dev.se133.project.car.NoDriverException;
+import dev.se133.project.car.parking.ParkingSpot;
 import dev.se133.project.commute.Commute;
 import dev.se133.project.commute.Stop;
 import dev.se133.project.member.garage.Vehicle;
@@ -17,6 +18,7 @@ public class Carpool {
 	private Car car;
 	private CarpoolState state = new CarpoolState.Loading();
 	private List<CarpoolListener> listeners = new LinkedList<>();
+	private ParkingSpot parkingSpot;
 
 	/**
 	 * Constructs a new carpool with a set commute and car.
@@ -111,6 +113,13 @@ public class Carpool {
 	}
 	void stateSetCar(Car newCar) {
 		this.car = newCar;
+	}
+	
+	public void setParkingSpot(ParkingSpot spot) {
+		state.setParkingSpot(this, spot);
+	}
+	void stateSetParkingSpot(ParkingSpot spot) {
+		this.parkingSpot = spot;
 	}
 	
 	public Vehicle getVehicle()
