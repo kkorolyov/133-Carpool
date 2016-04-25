@@ -1,11 +1,10 @@
-package dev.se133.project.pool;
+package dev.se133.project.member.factory;
 
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
 import dev.se133.project.member.Member;
-import dev.se133.project.member.MemberState;
 import dev.se133.project.schedule.CommuteSchedule;
 
 /**

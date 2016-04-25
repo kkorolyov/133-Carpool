@@ -3,10 +3,10 @@ package dev.se133.project.member;
 import java.util.LinkedList;
 import java.util.List;
 
-import dev.se133.project.car.Car;
-import dev.se133.project.car.CarListener;
 import dev.se133.project.carpool.Carpool;
+import dev.se133.project.carpool.CarpoolListener;
 import dev.se133.project.commute.Address;
+import dev.se133.project.commute.Stop;
 import dev.se133.project.member.garage.Garage;
 import dev.se133.project.member.preferences.CommuteSchedule;
 import dev.se133.project.member.wallet.Wallet;
@@ -14,7 +14,7 @@ import dev.se133.project.member.wallet.Wallet;
 /**
  * A basis member implementation
  */
-public class Member implements Comparable<Member>, CarListener {
+public class Member implements Comparable<Member>, CarpoolListener {
 	private static final boolean SILENCE = false;	// TODO Debugging boolean
 	
 	private int id;
@@ -24,7 +24,7 @@ public class Member implements Comparable<Member>, CarListener {
 	private Wallet wallet;
 	private Garage registeredVehicles;
 	private CommuteSchedule commuteTimes;
-	private Carpool currentCarpool = null;	// Should not created with a predefined Carpool
+	private Carpool currentCarpool = null;	// Should not be created with a predefined Carpool
 	private MemberState currentState = new MemberState.Idle();	// Member should not be created during the middle of a trip
 	private List<MemberListener> listeners = new LinkedList<>();
 	
@@ -46,14 +46,6 @@ public class Member implements Comparable<Member>, CarListener {
 		setWallet(wallet);
 		setRegisteredVehicles(registeredVehicles);
 		setCommuteTimes(commuteTimes);
-	}
-	
-	/**
-	 * Returns the car most appropriate to this member, given this member's current state.
-	 * @return appropriate car
-	 */
-	public Car getCar() {
-		return currentState.getCar(this);
 	}
 	
 	/** @return this member's identification number */
@@ -117,24 +109,27 @@ public class Member implements Comparable<Member>, CarListener {
 	public void setCommuteTimes(CommuteSchedule newCommuteTimes) {
 		this.commuteTimes = newCommuteTimes;
 	}
+	void setCommuteTimesState(CommuteSchedule newCommuteTimes) {
+		this.commuteTimes = newCommuteTimes;
+	}
 	
+	/**
+	 * Returns the carpool this member is currently a part of.
+	 * If this member is not in a carpool, this method returns {@code null}.
+	 * @return current carpool, or {@code null} if no current carpool
+	 */
 	public Carpool getCurrentCarpool() {
 		return currentCarpool;
 	}
+	/** @param newCurrentCarpool new carpool to set */
 	public void setCurrentCarpool(Carpool newCurrentCarpool) {
 		this.currentCarpool = newCurrentCarpool;
 	}
 	
 	void setState(MemberState newState) {
 		this.currentState = newState;
+	}
 		
-		notifyStateChanged();	// Notify all listeners of state change
-	}
-	private void notifyStateChanged() {
-		for (MemberListener listener : listeners)
-			listener.stateChanged(currentState);	// TODO Don't pass state object
-	}
-	
 	/**
 	 * Adds a listener to this member.
 	 * @param listener listener to add
@@ -164,43 +159,18 @@ public class Member implements Comparable<Member>, CarListener {
 		return Integer.compare(id, o.getId());
 	}
 	
-	public void memberAdded(Member added) {
-		if (SILENCE)
-			return;
-		
-		acknowledge(added.getName() + " has been added to the car.");
+	@Override
+	public void dispatched(Carpool context) {
+		currentState.dispatched(this, context);
 	}
-	
-	public void memberRemoved(Member removed) {
-		if (SILENCE)
-			return;
-		
-		acknowledge(removed.getName() + " has been removed from the car.");
+
+	@Override
+	public void hitStop(Stop currentStop) {
+		// Don't care
 	}
-	
-	public void driverSet(Member driver) {
-		if (SILENCE)
-			return;
-		
-		acknowledge(driver.getName() + " has been set as driver of the car.");
-	}
-	
-	
-	public void filled(long id) {
-		if (SILENCE)
-			return;
-		
-		acknowledge("Car " + id + " has been filled");
-	}
-	
-	public void freed(long id) {
-		if (SILENCE)
-			return;
-		
-		acknowledge("Car " + id + " has a free seat");
-	}
-	
-	private void acknowledge(String message) {		
-		System.out.println(getName() + ": " + message);
+
+	@Override
+	public void hitEnd(Stop endStop) {
+		// Don't care
 	}
 }

@@ -13,7 +13,7 @@ import dev.se133.project.commute.*;
 import dev.se133.project.commute.builder.CommuteBuilder;
 import dev.se133.project.map.AddressMap;
 import dev.se133.project.member.Member;
-import dev.se133.project.pool.MemberPool;
+import dev.se133.project.member.factory.MemberPool;
 
 /**
  * Assigns and schedules carpools.

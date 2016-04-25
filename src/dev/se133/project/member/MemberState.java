@@ -1,6 +1,7 @@
 package dev.se133.project.member;
 
-import dev.se133.project.car.Car;
+import dev.se133.project.carpool.Carpool;
+import dev.se133.project.member.preferences.CommuteSchedule;
 import dev.se133.project.state.State;
 
 /**
@@ -14,11 +15,23 @@ public abstract class MemberState implements State {
 	}
 	
 	/**
-	 * Returns the car most appropriate to the current state.
-	 * @param context member this state describes
-	 * @return appropriate car
+	 * Sets a member's commuteTimes attribute
+	 * @param context member in question
+	 * @param newCommuteTimes new commute times to set
+	 * @throws IllegalStateException if this method cannot be handled by the current state
 	 */
-	public abstract Car getCar(Member context);
+	public void setCommuteTimes(Member context, CommuteSchedule newCommuteTimes) {
+		throw new IllegalStateException("Commute times may not be set in the current state: " + getStateName());
+	}
+	
+	/**
+	 * Responds in the event of a carpool dispatch.
+	 * @param context member in question
+	 * @param dispatchedCarpool dispatched carpool
+	 */
+	public void dispatched(Member context, Carpool dispatchedCarpool) {
+		throw new IllegalStateException("Member's carpool should not be dispatched in the current state: " + getStateName());
+	}
 	
 	@Override
 	public String getStateName() {
@@ -46,8 +59,19 @@ public abstract class MemberState implements State {
 			super(IDLE_STATE_NAME);
 		}
 		
-		public Car getCar(Member context) {
-			return null;	// Member is not in a carpool when in IDLE state
+		@Override
+		public void setCommuteTimes(Member context, CommuteSchedule newCommuteTimes) {
+			context.setCommuteTimesState(newCommuteTimes);
+		}
+		
+		@Override
+		public void dispatched(Member context, Carpool dispatchedCarpool) {
+			Member dispatchedCarpoolDriver = dispatchedCarpool.getCar().getDriver();
+			
+			if (dispatchedCarpoolDriver.equals(context))
+				context.setState(new Driving());
+			else if (dispatchedCarpool.getCar().contains(context))
+				context.setState(new Riding());
 		}
 	}
 	/**
@@ -63,9 +87,6 @@ public abstract class MemberState implements State {
 			super(DRIVING_STATE_NAME);
 		}
 		
-		public Car getCar(Member context) {
-			return context.getCurrentCarpool().getCar();	// TODO May want to change
-		}
 	}
 	/**
 	 * The {@code RIDING} state for a member.
@@ -76,12 +97,9 @@ public abstract class MemberState implements State {
 		/**
 		 * Constructs a new {@code RIDING} state for a member.
 		 */
-		public Riding(Member describedMember) {
+		public Riding() {
 			super(RIDING_STATE_NAME);
 		}
 		
-		public Car getCar(Member context) {
-			return context.getCurrentCarpool().getCar();	// TODO May want to change
-		}
 	}
 }

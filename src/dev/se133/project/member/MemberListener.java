@@ -5,9 +5,5 @@ package dev.se133.project.member;
  * @see Member
  */
 public interface MemberListener {
-	/**
-	 * Notifies this listener that a member's state has changed.
-	 * @param newState the observed member's new state
-	 */
-	void stateChanged(MemberState newState);
+	// TODO
 }

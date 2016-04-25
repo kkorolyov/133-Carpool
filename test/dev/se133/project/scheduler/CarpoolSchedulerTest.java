@@ -22,7 +22,7 @@ import dev.se133.project.commute.builder.GreedyCommuteBuilder;
 import dev.se133.project.map.AddressMap;
 import dev.se133.project.map.ArrayAddressMap;
 import dev.se133.project.member.*;
-import dev.se133.project.pool.MemberPool;
+import dev.se133.project.member.factory.MemberPool;
 import dev.se133.project.schedule.SortedCommuteSchedule;
 
 @SuppressWarnings("javadoc")
