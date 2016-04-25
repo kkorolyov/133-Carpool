@@ -103,6 +103,7 @@ public abstract class CarpoolState implements State {
 		@Override
 		public void dispatch(Carpool context) {
 			// TODO
+			context.notifyDispatchState();
 		}
 
 		@Override

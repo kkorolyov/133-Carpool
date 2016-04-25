@@ -37,6 +37,16 @@ public class Carpool {
 	public void dispatch() {
 		state.dispatch(this);
 	}
+	private void notifyDispatch() {
+		for (CarpoolListener listener : listeners)
+			listener.dispatched(this);
+	}
+	/**
+	 * {@link CarpoolState} accessor to private {@link #notifyDispatch()}.
+	 */
+	void notifyDispatchState() {
+		notifyDispatch();
+	}
 	
 	/**
 	 * Advances this carpool to the next stop.

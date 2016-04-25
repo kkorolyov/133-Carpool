@@ -134,6 +134,15 @@ public class Car{
 	public Member getDriver() {
 		return driver;
 	}
+	
+	/**
+	 * @param passenger passenger to check 
+	 * @return {@code true} if this car contains the specified passenger
+	 */
+	public boolean contains(Member passenger) {
+		return inhabitants.contains(passenger);
+	}
+	
 	/**
 	 * Returns a set of all current passengers in this car.
 	 * @return all current passengers

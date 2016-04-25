@@ -8,6 +8,12 @@ import dev.se133.project.commute.Stop;
  */
 public interface CarpoolListener {
 	/**
+	 * Notifies this listener that the carpool has been dispatched.
+	 * @param context the carpool that has been dispatched
+	 */
+	void dispatched(Carpool context);
+	
+	/**
 	 * Notifies this listener that the carpool has hit a stop.
 	 * @param currentStop the current stop of the carpool
 	 */
