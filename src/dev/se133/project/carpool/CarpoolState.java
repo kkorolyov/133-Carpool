@@ -134,6 +134,12 @@ public abstract class CarpoolState implements State {
 			
 			testLoading(context);
 		}
+		@Override
+		public void setParkingSpot(Carpool context, ParkingSpot spot) {
+			context.stateSetParkingSpot(spot);
+			
+			testLoading(context);
+		}
 		
 		private static void testLoading(Carpool context) {
 			if (isLoading(context))

@@ -27,9 +27,10 @@ public class Carpool {
 	 * @throws NoDriverException is the specified car does not have a driver
 	 */
 	
-	public Carpool(Commute commute, Car car) throws NoDriverException {
+	public Carpool(Commute commute, Car car, ParkingSpot spot) throws NoDriverException {
 		setCommute(commute);
 		setCar(car);
+		setParkingSpot(spot);
 	}
 	
 	/**
@@ -120,6 +121,10 @@ public class Carpool {
 	}
 	void stateSetParkingSpot(ParkingSpot spot) {
 		this.parkingSpot = spot;
+	}
+	
+	public ParkingSpot getParkingSpot() {
+		return parkingSpot;
 	}
 	
 	public Vehicle getVehicle()
