@@ -19,6 +19,7 @@ public class Car{
 	/** Default maximum number of inhabitants */
 	public static final int DEFAULT_CAPACITY = 5;
 	
+	private Vehicle vehicle;
 	private final int capacity;
 	private Member driver;	// Reference to one of the inhabitants
 	private Set<Member> inhabitants = new HashSet<>();
@@ -89,7 +90,6 @@ public class Car{
 		
 		this.driver = newDriver;
 		inhabitants.add(newDriver);
-		
 		return this.driver;
 	}
 	

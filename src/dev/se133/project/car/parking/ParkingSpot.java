@@ -1,11 +1,13 @@
 package dev.se133.project.car.parking;
 
+import dev.se133.project.commute.Time;
 import dev.se133.project.member.garage.Vehicle;
 
 public class ParkingSpot 
 {
 	private Vehicle occupiedBy;
 	private int parkingSpotNumber;
+	private TimeFrame timeFrame;
 	
 	/**
 	 * Constructor
@@ -19,6 +21,7 @@ public class ParkingSpot
 	{
 		return parkingSpotNumber;
 	}
+	
 	/**
 	 * Fills the parking spot with @param c
 	 * @return true if spot is filled
@@ -28,10 +31,19 @@ public class ParkingSpot
 	{
 		if(vacant())
 		{
-			occupiedBy = carVehicle;
+			occupiedBy = carVehicle;			
 			return true;
 		}
 		return false;
+	}
+	
+	/*
+	 * Need to implement notification for when 
+	 * vehicle is parked outside of time frame
+	 */
+	public void setTime(Time time, double duration)
+	{
+		timeFrame = new TimeFrame(time, duration);
 	}
 
 	/**
@@ -40,6 +52,7 @@ public class ParkingSpot
 	public void remove()
 	{
 		occupiedBy = null;
+		timeFrame = null;
 	}
 	
 	/**
@@ -50,6 +63,7 @@ public class ParkingSpot
 	{
 		return occupiedBy == null;
 	}
+	
 	@Override
 	public String toString()
 	{

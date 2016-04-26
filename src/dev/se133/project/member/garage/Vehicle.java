@@ -1,11 +1,14 @@
 package dev.se133.project.member.garage;
 
+import dev.se133.project.member.Member;
+
 /**
  * Describes a vehicle.
  */
 public class Vehicle {
 	private static final int minYear = 1900, maxYear = 2020;	// TODO Specify in properties
 	
+	private Member owner;
 	private Make make;
 	private String model;
 	private int year;
@@ -21,6 +24,7 @@ public class Vehicle {
 	 * @throws YearOutOfBoundsException if the specified year is out of bounds
 	 */
 	public Vehicle(Make make, String model, int year, String vin, int capacity) throws YearOutOfBoundsException {
+		this.owner = null;
 		this.make = make;
 		this.model = model;
 		setYear(year);
@@ -34,6 +38,14 @@ public class Vehicle {
 		this.year = year;
 	}
 	
+	public void setOwner(Member owner)
+	{
+		this.owner = owner;
+	}
+	public Member getOwner()
+	{
+		return owner;
+	}
 	/** @return vehicle make */
 	public Make getMake() {
 		return make;
