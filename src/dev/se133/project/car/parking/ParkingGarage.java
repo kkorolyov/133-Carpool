@@ -3,7 +3,9 @@ package dev.se133.project.car.parking;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 
+import dev.se133.project.carpool.Carpool;
 import dev.se133.project.member.garage.Vehicle;
 
 public class ParkingGarage {
@@ -11,9 +13,14 @@ public class ParkingGarage {
 	private ParkingSpot[] parkingSpots;
 	private ArrayList<ParkingSpot> availableSpots;
 	
+	private HashMap<ParkingSpot, Carpool> assignedSpots;
+	private HashMap<ParkingSpot, Carpool> filledSpots;
+	
 	public ParkingGarage()
 	{
 		availableSpots = new ArrayList<ParkingSpot>();
+		assignedSpots = new HashMap<ParkingSpot, Carpool>();
+		filledSpots = new HashMap<ParkingSpot, Carpool>();
 		parkingSpots = new ParkingSpot[NUM_OF_SPOTS];
 		for(int i = 0; i < NUM_OF_SPOTS; i++)
 		{
@@ -40,6 +47,7 @@ public class ParkingGarage {
 				System.out.print(availableSpots.get(i).getParkingSpotNumber() + " ");
 			}
 			System.out.println();
+			assignedSpots.put(v.get, value)
 			availableSpots.remove(0);
 			return 0;
 		}

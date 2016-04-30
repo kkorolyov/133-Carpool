@@ -18,7 +18,6 @@ public class Carpool {
 	private Car car;
 	private CarpoolState state = new CarpoolState.Loading();
 	private List<CarpoolListener> listeners = new LinkedList<>();
-	private ParkingSpot parkingSpot;
 
 	/**
 	 * Constructs a new carpool with a set commute and car.
@@ -27,10 +26,9 @@ public class Carpool {
 	 * @throws NoDriverException is the specified car does not have a driver
 	 */
 	
-	public Carpool(Commute commute, Car car, ParkingSpot spot) throws NoDriverException {
+	public Carpool(Commute commute, Car car) throws NoDriverException {
 		setCommute(commute);
 		setCar(car);
-		setParkingSpot(spot);
 	}
 	
 	/**
@@ -61,8 +59,9 @@ public class Carpool {
 		
 			notifyHitStop();
 				
-			if (isAtEnd())	// Last stop
+			if (isAtEnd()) {	// Last stop
 				notifyHitEnd();
+			}
 			
 			return currentStop();
 		}
@@ -118,13 +117,6 @@ public class Carpool {
 	
 	public void setParkingSpot(ParkingSpot spot) {
 		state.setParkingSpot(this, spot);
-	}
-	void stateSetParkingSpot(ParkingSpot spot) {
-		this.parkingSpot = spot;
-	}
-	
-	public ParkingSpot getParkingSpot() {
-		return parkingSpot;
 	}
 	
 	public Vehicle getVehicle()
