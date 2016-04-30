@@ -66,4 +66,12 @@ public class Garage {
 		return vehicles.remove(name);
 	}
 	
+	public String toString() {
+		String vehics = "";
+		for(Vehicle vehicle : vehicles.values()) {
+			vehics += vehicle.toString() + "\n";
+		}
+		return vehics;
+	}
+	
 }

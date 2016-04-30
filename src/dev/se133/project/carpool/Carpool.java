@@ -5,6 +5,7 @@ import java.util.List;
 
 import dev.se133.project.car.Car;
 import dev.se133.project.car.NoDriverException;
+import dev.se133.project.car.parking.ParkingSpot;
 import dev.se133.project.commute.Commute;
 import dev.se133.project.commute.Stop;
 import dev.se133.project.member.garage.Vehicle;
@@ -58,8 +59,9 @@ public class Carpool {
 		
 			notifyHitStop();
 				
-			if (isAtEnd())	// Last stop
+			if (isAtEnd()) {	// Last stop
 				notifyHitEnd();
+			}
 			
 			return currentStop();
 		}
@@ -112,6 +114,10 @@ public class Carpool {
 	
 	void stateSetCar(Car newCar) {
 		this.car = newCar;
+	}
+	
+	public void setParkingSpot(ParkingSpot spot) {
+		state.setParkingSpot(this, spot);
 	}
 	
 	public Vehicle getVehicle()

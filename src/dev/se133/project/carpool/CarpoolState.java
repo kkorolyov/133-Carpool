@@ -1,6 +1,7 @@
 package dev.se133.project.carpool;
 
 import dev.se133.project.car.Car;
+import dev.se133.project.car.parking.ParkingSpot;
 import dev.se133.project.commute.Commute;
 import dev.se133.project.state.State;
 
@@ -10,7 +11,7 @@ public abstract class CarpoolState implements State {
 	protected CarpoolState(String stateName) {
 		this.stateName = stateName;
 	}
-	
+
 	/**
 	 * Dispatches a carpool.
 	 * Behavior is dependent on the current state.
@@ -40,6 +41,15 @@ public abstract class CarpoolState implements State {
 	 */
 	public void setCar(Carpool context, Car newCar) {
 		throw new IllegalStateException("Car may not be set in this state: " + getStateName());
+	}
+	/**
+	 * Sets a carpool's parking spot
+	 * Behavior is dependent on the current state.
+	 * @param context
+	 * @param spot
+	 */
+	public void setParkingSpot(Carpool context, ParkingSpot spot) {
+		throw new IllegalStateException("May not be dispatched in this state: " + getStateName());	
 	}
 	
 	@Override
@@ -74,6 +84,12 @@ public abstract class CarpoolState implements State {
 		@Override
 		public void setCar(Carpool context, Car newCar) {
 			context.stateSetCar(newCar);
+			
+			testReady(context);
+		}
+		@Override
+		public void setParkingSpot(Carpool context, ParkingSpot spot) {
+			context.stateSetParkingSpot(spot);
 			
 			testReady(context);
 		}
@@ -118,6 +134,12 @@ public abstract class CarpoolState implements State {
 			
 			testLoading(context);
 		}
+		@Override
+		public void setParkingSpot(Carpool context, ParkingSpot spot) {
+			context.stateSetParkingSpot(spot);
+			
+			testLoading(context);
+		}
 		
 		private static void testLoading(Carpool context) {
 			if (isLoading(context))
@@ -154,4 +176,6 @@ public abstract class CarpoolState implements State {
 		}
 		
 	}
+
+	
 }
