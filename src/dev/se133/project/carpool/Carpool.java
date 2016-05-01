@@ -82,7 +82,7 @@ public class Carpool {
 	
 	/** @return	{@code true} if this carpool has a designated driver */
 	public boolean hasDriver() {
-		return car.hasDriver();
+		return (car != null && car.hasDriver());
 	}
 	
 	/** @return commute traveled in this carpool, or {@code null} if there is none */
