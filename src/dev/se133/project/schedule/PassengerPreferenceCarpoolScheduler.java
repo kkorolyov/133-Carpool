@@ -6,7 +6,7 @@ import dev.se133.project.member.Member;
 /**
  * Carpool scheduler which takes into consideration passengers' selection of drivers.
  */
-public class PassengerPreferenceCarpoolScheduler extends CarpoolScheduler {
+public class PassengerPreferenceCarpoolScheduler extends BasicCarpoolScheduler {
 
 	/**
 	 * Constructs a new scheduler.

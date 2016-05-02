@@ -179,4 +179,11 @@ public class Member implements Comparable<Member>, CarpoolListener {
 	public void hitEnd(Stop endStop) {
 		// Don't care
 	}
+	
+	@Override
+	public String toString() {
+		String toString = "ID: " + id + ", Name: " + name + ", Address: " + homeAddress + ", Driver: " + isDriver();
+		
+		return toString;
+	}
 }

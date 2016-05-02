@@ -151,4 +151,12 @@ public class Carpool {
 		for (CarpoolListener listener : listeners)
 			listener.hitEnd(commute.getCurrent());
 	}
+	
+	@Override
+	public String toString() {
+		String toString = "Car: " + car.toString() + System.lineSeparator() +
+											"Commute: " + commute.toString();
+		
+		return toString;
+	}
 }
