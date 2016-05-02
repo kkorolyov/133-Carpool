@@ -6,10 +6,12 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 import dev.se133.project.carpool.Carpool;
+import dev.se133.project.commute.Address;
 import dev.se133.project.member.garage.Vehicle;
 
 public class ParkingGarage {
 	private final int NUM_OF_SPOTS = 10;
+	private Address address;
 	private ParkingSpot[] parkingSpots;
 	private ArrayList<ParkingSpot> availableSpots;
 	
@@ -18,6 +20,7 @@ public class ParkingGarage {
 	
 	public ParkingGarage()
 	{
+		address = new Address(" Washington Sq, San Jose, CA 95192");
 		availableSpots = new ArrayList<ParkingSpot>();
 		assignedSpots = new HashMap<ParkingSpot, Carpool>();
 		filledSpots = new HashMap<ParkingSpot, Carpool>();
@@ -35,11 +38,11 @@ public class ParkingGarage {
 	 * @return 0 if successful
 	 * @return 1 for unsuccessful add
 	 */
-	public int add(Vehicle v)
+	public int add(Carpool car)
 	{
 		if(availableSpots.isEmpty())
 			return -1;
-		if(parkingSpots[availableSpots.get(0).getParkingSpotNumber()].fill(v))
+		if(parkingSpots[availableSpots.get(0).getParkingSpotNumber()].fill(car))
 		{
 			System.out.println("PARKING GARAGE - ADD(VEHICLE) - PARKINGSPOT - FILL - " + availableSpots.get(0).getParkingSpotNumber());
 			for(int i = 0; i < availableSpots.size(); i++)
@@ -47,7 +50,7 @@ public class ParkingGarage {
 				System.out.print(availableSpots.get(i).getParkingSpotNumber() + " ");
 			}
 			System.out.println();
-			assignedSpots.put(v.get, value)
+			assignedSpots.put(availableSpots.get(0), car);
 			availableSpots.remove(0);
 			return 0;
 		}
@@ -60,9 +63,10 @@ public class ParkingGarage {
 	public void remove(int parkingSpotNumber)
 	{
 		parkingSpots[parkingSpotNumber].remove();
-		if(!
-				availableSpots.contains(parkingSpots[parkingSpotNumber]))
+		if(!availableSpots.contains(parkingSpots[parkingSpotNumber]))
+		{
 			availableSpots.add(parkingSpots[parkingSpotNumber]);
+		}
 		Collections.sort(availableSpots, new Comparator<ParkingSpot>()
 				{
 					@Override
@@ -90,4 +94,5 @@ public class ParkingGarage {
 	public boolean isFull() {
 		return availableSpots.isEmpty();
 	}
+
 }

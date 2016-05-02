@@ -1,11 +1,12 @@
 package dev.se133.project.car.parking;
 
+import dev.se133.project.carpool.Carpool;
 import dev.se133.project.commute.Time;
 import dev.se133.project.member.garage.Vehicle;
 
 public class ParkingSpot 
 {
-	private Vehicle occupiedBy;
+	private Carpool occupiedBy;
 	private int parkingSpotNumber;
 	private TimeFrame timeFrame;
 	
@@ -27,11 +28,11 @@ public class ParkingSpot
 	 * @return true if spot is filled
 	 * @return false if spot is taken
 	 */
-	public boolean fill(Vehicle carVehicle)
+	public boolean fill(Carpool car)
 	{
 		if(vacant())
 		{
-			occupiedBy = carVehicle;			
+			occupiedBy = car;			
 			return true;
 		}
 		return false;
@@ -69,6 +70,6 @@ public class ParkingSpot
 	{
 		if(vacant())
 			return "_________";
-		return occupiedBy.toString();
+		return occupiedBy.getVehicle().toString();
 	}
 }

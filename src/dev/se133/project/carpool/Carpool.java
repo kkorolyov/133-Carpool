@@ -5,6 +5,7 @@ import java.util.List;
 
 import dev.se133.project.car.Car;
 import dev.se133.project.car.NoDriverException;
+import dev.se133.project.car.parking.ParkingGarage;
 import dev.se133.project.car.parking.ParkingSpot;
 import dev.se133.project.commute.Commute;
 import dev.se133.project.commute.Stop;
@@ -15,6 +16,7 @@ import dev.se133.project.member.garage.Vehicle;
  */
 public class Carpool {
 	private Commute commute;
+	private ParkingSpot parkingSpot;
 	private Car car;
 	private CarpoolState state = new CarpoolState.Loading();
 	private List<CarpoolListener> listeners = new LinkedList<>();
@@ -66,6 +68,10 @@ public class Carpool {
 			return currentStop();
 		}
 		return null;
+	}
+	public boolean hasNextStop()
+	{
+		return commute.hasNextStop();
 	}
 	/**
 	 * Returns the last hit stop of this carpool.
