@@ -23,7 +23,7 @@ public class Car{
 	private final int capacity;
 	private Member driver;	// Reference to one of the inhabitants
 	private Set<Member> inhabitants = new HashSet<>();
-	private List<CarpoolListener> listeners = new LinkedList<>();
+	private List<Member> listeners = new LinkedList<>();
 	
 	/**
 	 * Constructs a car of default capacity.
@@ -67,7 +67,12 @@ public class Car{
 		if ((driver == null) && !(inhabitant.isDriver()) && (getAvailableSeats() <= 1))	// Cannot have a car full of only passengers
 			throw new NoDriverException();
 		
-		inhabitant.memberAdded(inhabitant);
+		addListener(inhabitant);
+		for(Member listener : listeners)
+			if(!listener.equals(inhabitant))
+				listener.memberAdded(inhabitant);
+			
+			
 		
 		return inhabitants.add(inhabitant);
 	}
@@ -78,7 +83,9 @@ public class Car{
 	 */
 	public boolean removePassenger(Member inhabitant) {
 		
-		inhabitant.memberRemoved(inhabitant);
+		for(Member listener : listeners)
+			if(!listener.equals(inhabitant))
+				listener.memberRemoved(inhabitant);
 		return inhabitants.remove(inhabitant);
 	}
 	
@@ -175,7 +182,7 @@ public class Car{
 	 * Adds a listener to this car.
 	 * @param listener listener to add
 	 */
-	public void addListener(CarpoolListener listener) {
+	public void addListener(Member listener) {
 		listeners.add(listener);
 	}
 	

@@ -89,7 +89,7 @@ public abstract class CarpoolState implements State {
 		}
 		@Override
 		public void setParkingSpot(Carpool context, ParkingSpot spot) {
-			context.stateSetParkingSpot(spot);
+			context.setParkingSpot(spot);
 			
 			testReady(context);
 		}
@@ -136,7 +136,7 @@ public abstract class CarpoolState implements State {
 		}
 		@Override
 		public void setParkingSpot(Carpool context, ParkingSpot spot) {
-			context.stateSetParkingSpot(spot);
+			context.setParkingSpot(spot);
 			
 			testLoading(context);
 		}
