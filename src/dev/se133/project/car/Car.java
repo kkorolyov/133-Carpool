@@ -67,6 +67,8 @@ public class Car{
 		if ((driver == null) && !(inhabitant.isDriver()) && (getAvailableSeats() <= 1))	// Cannot have a car full of only passengers
 			throw new NoDriverException();
 		
+		inhabitant.memberAdded(inhabitant);
+		
 		return inhabitants.add(inhabitant);
 	}
 	/**
@@ -75,6 +77,8 @@ public class Car{
 	 * @return {@code true} if specified inhabitant removed, {@code false} if no such inhabitant
 	 */
 	public boolean removePassenger(Member inhabitant) {
+		
+		inhabitant.memberRemoved(inhabitant);
 		return inhabitants.remove(inhabitant);
 	}
 	
@@ -90,6 +94,7 @@ public class Car{
 		
 		this.driver = newDriver;
 		inhabitants.add(newDriver);
+		newDriver.driverSet(newDriver);
 		return this.driver;
 	}
 	

@@ -3,6 +3,7 @@ package dev.se133.project.member;
 import java.util.LinkedList;
 import java.util.List;
 
+import dev.se133.project.car.CarListener;
 import dev.se133.project.carpool.Carpool;
 import dev.se133.project.carpool.CarpoolListener;
 import dev.se133.project.commute.Address;
@@ -15,7 +16,7 @@ import dev.se133.project.member.wallet.Wallet;
 /**
  * A basis member implementation
  */
-public class Member implements Comparable<Member>, CarpoolListener {
+public class Member implements Comparable<Member>, CarpoolListener, CarListener {
 	private static final boolean SILENCE = false;	// TODO Debugging boolean
 	
 	private int id;
@@ -178,5 +179,35 @@ public class Member implements Comparable<Member>, CarpoolListener {
 	@Override
 	public void hitEnd(Stop endStop) {
 		// Don't care
+	}
+	
+	@Override
+	public void memberAdded(Member added) {
+		System.out.println(added.getName() + " was added to the car.");
+		
+	}
+
+	@Override
+	public void memberRemoved(Member removed) {
+		System.out.println(removed.getName() + " was added removed from the car.");
+		
+	}
+
+	@Override
+	public void driverSet(Member driver) {
+		System.out.println(driver.getName() + " is the driver.");
+		
+	}
+
+	@Override
+	public void filled(long id) {
+		//don't care
+		
+	}
+
+	@Override
+	public void freed(long id) {
+		// don't care
+		
 	}
 }
