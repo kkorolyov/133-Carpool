@@ -9,7 +9,7 @@ import dev.se133.project.commute.Time.Day;
  * Maintains a set of unique {@code CommutePreference} objects for each day of the week.
  * @see CommutePreference
  */
-public class CommuteSchedule {
+public class CommuteSchedule implements Comparable<CommuteSchedule> {
 	private final Map<Day, CommutePreference> preferences = new HashMap<>();
 	
 	/**
@@ -49,5 +49,20 @@ public class CommuteSchedule {
 	 */
 	public void clear() {
 		preferences.clear();
+	}
+	
+	/** @return	earliest day this schedule has a preference for */
+	public Day getEarliest() {
+		for (Day day : Day.values()) {
+			if (getPreference(day) != null)
+				return day;
+		}
+		return null;
+	}
+
+	@Override
+	public int compareTo(CommuteSchedule o) {
+		
+		return 0;
 	}
 }
