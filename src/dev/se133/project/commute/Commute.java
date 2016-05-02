@@ -153,14 +153,14 @@ public class Commute implements Comparable<Commute> {
 	
 	@Override
 	public String toString() {
-		StringBuilder toStringBuilder = new StringBuilder("Commute with " + getNumStops() + " stops\n");
+		StringBuilder toStringBuilder = new StringBuilder("Commute with " + getNumStops() + " stops:" + System.lineSeparator());
 		
 		int stopCounter = 0;
 		for (Stop stop : stops) {
 			toStringBuilder.append("\tStop " + ++stopCounter + ": " + stop);
 			
 			if (stopCounter < getNumStops())
-				toStringBuilder.append("\n");
+				toStringBuilder.append(System.lineSeparator());
 		}
 		return toStringBuilder.toString();
 	}

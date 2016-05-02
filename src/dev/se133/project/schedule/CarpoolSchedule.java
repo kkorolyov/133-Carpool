@@ -47,10 +47,11 @@ public class CarpoolSchedule implements Iterable<Carpool> {
 	
 	@Override
 	public String toString() {
-		StringBuilder toStringBuilder = new StringBuilder();
+		int counter = 0;
+		StringBuilder toStringBuilder = new StringBuilder("Schedule with " + carpools.size() + " carpools:" + System.lineSeparator());
 		
 		for (Carpool carpool : carpools) {
-			toStringBuilder.append(carpool.toString()).append(System.lineSeparator());
+			toStringBuilder.append(counter++ + ": " + carpool.toString()).append(System.lineSeparator());
 		}
 		return toStringBuilder.toString();
 	}

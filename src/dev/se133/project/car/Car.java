@@ -229,4 +229,24 @@ public class Car{
 	public Vehicle getVehicle() {
 		return driver.getDefaultVehicle();
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder toStringBuilder = new StringBuilder("Car of capacity " + capacity + ":" + System.lineSeparator());
+		
+		toStringBuilder.append("Driver: " + driver.toString()).append(System.lineSeparator());
+		
+		int numPassengers = getSize() - 1;
+		int passengerCounter = 0;
+		
+		for (Member member : inhabitants) {
+			if (!member.equals(driver)) {
+				toStringBuilder.append("Passenger " + ++passengerCounter + ": " + member.toString());
+				
+				if (passengerCounter < numPassengers)
+					toStringBuilder.append(System.lineSeparator());
+			}
+		}
+		return toStringBuilder.toString();
+	}
 }
