@@ -13,6 +13,7 @@ import dev.se133.project.commute.Time;
 import dev.se133.project.member.BasicMember;
 import dev.se133.project.member.Member;
 import dev.se133.project.member.MemberState;
+import dev.se133.project.pool.CommuteSchedulePool;
 import dev.se133.project.reward.CashReward;
 import dev.se133.project.reward.PointReward;
 import dev.se133.project.reward.RewardType;
@@ -20,14 +21,10 @@ import dev.se133.project.schedule.CommuteSchedule;
 import dev.se133.project.schedule.SortedCommuteSchedule;
 
 public class RewarderTest {
-	private static final long CASH_REWARD_COUNT = 10,
-														POINT_REWARD_COUNT = 50;
-	private static final RewardType[] REWARD_TYPES = {new CashReward(CASH_REWARD_COUNT),
-																										new PointReward(POINT_REWARD_COUNT)};
-	private static final int 	NUM_MEMBERS = 5,
-														NUM_STOPS = 3;
+	private static final long CASH_REWARD_COUNT = 10, POINT_REWARD_COUNT = 50;
+	private static final RewardType[] REWARD_TYPES = {new CashReward(CASH_REWARD_COUNT), new PointReward(POINT_REWARD_COUNT)};
+	private static final int 	NUM_MEMBERS = 5, NUM_STOPS = 3;
 	private static final int SECONDS_BETWEEN_STOPS = 60 * 5;
-	
 	private static Carpool carpool;
 	
 	private Rewarder rewarder;
@@ -104,7 +101,7 @@ public class RewarderTest {
 		for (Member member : buildMembers(numMembers)) {
 			car.addPassenger(member);
 			
-			car.setDriver();
+			car.selectDriver();
 		}		
 		return car;
 	}
@@ -113,7 +110,7 @@ public class RewarderTest {
 		
 		for (int i = 0; i < members.length; i++) {
 			Address currentAddress = new Address("MemberAddress" + i);
-			CommuteSchedule currentSchedule = new SortedCommuteSchedule();
+			CommuteSchedulePool currentSchedule = new CommuteSchedulePool();
 			MemberState currentState = i == 0 ? new MemberState.Driver() : new MemberState.Passenger();
 			
 			members[i] = new BasicMember(i, "Member " + i, currentAddress, currentSchedule, currentState);

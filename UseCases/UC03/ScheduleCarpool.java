@@ -13,8 +13,9 @@ import dev.se133.project.member.garage.YearOutOfBoundsException;
 import dev.se133.project.member.preferences.CommutePreference;
 import dev.se133.project.member.preferences.CommuteSchedule;
 import dev.se133.project.member.wallet.Wallet;
-import dev.se133.project.schedule.BasicCarpoolScheduler;
 import dev.se133.project.schedule.CarpoolSchedule;
+import dev.se133.project.schedule.ScheduleFactory;
+import dev.se133.project.schedule.SchedulingPreference;
 
 @SuppressWarnings("javadoc")
 public class ScheduleCarpool {
@@ -37,7 +38,13 @@ public class ScheduleCarpool {
 	public static void main(String[] args) throws YearOutOfBoundsException {
 		int numMembers = args.length > 0 ? Integer.parseInt(args[0]) : DEFAULT_NUM_MEMBERS;
 		
-		CarpoolSchedule schedule = new BasicCarpoolScheduler(buildMembers(numMembers), INITIAL_TIME, Time.timeAfter(INITIAL_TIME, 24 * 60 * 60), null).schedule();
+		Member[] members = buildMembers(numMembers);
+		Time 	start = INITIAL_TIME,
+					end = Time.timeAfter(INITIAL_TIME, 24 * 60 * 60);
+		SchedulingPreference preferences = null;
+		boolean driverPref = false;
+		
+		CarpoolSchedule schedule = ScheduleFactory.schedule(members, start, end, preferences, driverPref);
 		
 		System.out.println(schedule);
 	}

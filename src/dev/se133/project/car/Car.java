@@ -67,10 +67,14 @@ public class Car{
 		if ((driver == null) && !(inhabitant.isDriver()) && (getAvailableSeats() <= 1))	// Cannot have a car full of only passengers
 			throw new NoDriverException();
 		
-		addListener(inhabitant);
+		listeners.add(inhabitant);
 		for(Member listener : listeners)
-			if(!listener.equals(inhabitant))
+		{
+			if(listener.equals(inhabitant))
+			{
 				listener.memberAdded(inhabitant);
+			}
+		}
 			
 			
 		

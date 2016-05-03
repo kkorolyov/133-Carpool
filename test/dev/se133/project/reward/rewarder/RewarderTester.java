@@ -1,6 +1,4 @@
-package dev.se133.project.member.wallet;
-
-import java.util.ArrayList;
+package dev.se133.project.reward.rewarder;
 
 import dev.se133.project.car.Car;
 import dev.se133.project.carpool.Carpool;
@@ -16,14 +14,18 @@ import dev.se133.project.member.garage.Vehicle;
 import dev.se133.project.member.garage.YearOutOfBoundsException;
 import dev.se133.project.member.garage.Vehicle.Make;
 import dev.se133.project.member.preferences.CommuteSchedule;
-//import dev.se133.project.schedule.SortedCommuteSchedule;
+import dev.se133.project.member.wallet.Wallet;
+import dev.se133.project.reward.CashReward;
+import dev.se133.project.reward.PointReward;
+import dev.se133.project.reward.RewardType;
 
-public class WalletTester {
+public class RewarderTester {
+	private static final long CASH_REWARD_COUNT = 10, POINT_REWARD_COUNT = 50;
+	private static final RewardType[] REWARD_TYPES = {new CashReward(CASH_REWARD_COUNT), new PointReward(POINT_REWARD_COUNT)};
 	private static final int NUM_STOPS = 10;
 	private static final Day DAY = Day.MONDAY;
 	private static final int START_TIME = 7 * 60;
 	private static final int CAR_CAPACITY = 5;
-	
 	private static final int year = 2016;
 	private static final Month month = Month.DECEMBER;
 	private static final int second = 0;
@@ -31,19 +33,11 @@ public class WalletTester {
 	private static Commute commute;
 	private static Car car;
 	private static Carpool carpool;
-	
-	//private static SortedCommuteSchedule schedule;
 
-
-
-	public static void main(String[] args) 
+	public static void main(String[] args)
 	{
 		setup();
-		
-		System.out.println();
-
 	}
-
 	private static void setup()
 	{	
 		car = new Car(CAR_CAPACITY);
@@ -51,8 +45,6 @@ public class WalletTester {
 		
 		commute = new Commute();
 		populateCommute(car);
-		
-		//System.out.println("Car has driver: " + car.hasDriver());
 		
 		carpool = new Carpool(commute, car);
 	}
@@ -65,25 +57,13 @@ public class WalletTester {
 		{
 			currentAddress = mem.getAddress();
 			currentTime = Time.timeAfter(currentTime, (int) (Math.random()*9) + 1);
+			Stop currentStop = new Stop(currentTime, currentAddress);
 			
-			//System.out.println("adding commute stop from member \"" + mem.getName() + "\" " + commute.addStop(new Stop(currentTime, currentAddress)));
+			commute.addStop(currentStop);
 		}
-		System.out.println(commute.toString());
-		schedule.scheduleCommute(commute);
+		//System.out.println(commute.toString());
 	}
-	private static void populateCommute()
-	{
-		Address currentAddress;
-		Time currentTime = new Time();
-		for (int i = 0; i < NUM_STOPS; i++)
-		{
-			currentAddress = new Address("Stop" + i);
-			currentTime = Time.timeAfter(currentTime, i);
-			
-			commute.addStop(new Stop(currentTime, currentAddress));
-		}
-		//schedule.scheduleCommute(commute);
-	}
+
 	private static void populateCar() 
 	{
 		int id;
@@ -92,9 +72,10 @@ public class WalletTester {
 			id =i+1;
 			Member a = new Member(id, "Member " + id, i == 0 ? true : false,
 					new Address("MemberAddress " + i), new Wallet(), new Garage(), new CommuteSchedule());
+			//System.out.println(a.getName());
 			if(i == 0)
 			{
-				System.out.println("adding driver " + car.addDriver(a));
+				car.addDriver(a);
 				
 				try 
 				{
@@ -105,7 +86,9 @@ public class WalletTester {
 				}
 			}
 			else
-				System.out.println("adding passanger " + car.addPassenger(a));
+				car.addPassenger(a);
+			
+			//System.out.println(i);
 		}
 	}
 }
