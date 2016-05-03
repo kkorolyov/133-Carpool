@@ -189,7 +189,7 @@ public class Member implements Comparable<Member>, CarpoolListener, CarListener 
 >>>>>>> 1fe3c5a20cc910187e870f0dfb588e47ec915040
 */
 	public void memberAdded(Member added) {
-		System.out.println(added.getName() + " was added to the car.");
+		System.out.println(this.getName() + ": " + added.getName() + " was added to the car.");
 		
 	}
 
