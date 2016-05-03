@@ -1,6 +1,9 @@
 package dev.se133.project.reward.rewarder;
 
+import java.util.ArrayList;
+
 import dev.se133.project.car.Car;
+import dev.se133.project.car.parking.ParkingGarage;
 import dev.se133.project.carpool.Carpool;
 import dev.se133.project.commute.Address;
 import dev.se133.project.commute.Commute;
@@ -33,10 +36,17 @@ public class RewarderTester {
 	private static Commute commute;
 	private static Car car;
 	private static Carpool carpool;
+	private static RewardMachine rewardMachine;
 
 	public static void main(String[] args)
 	{
 		setup();
+		hitStop(carpool);
+		lateStop(carpool);
+		hitStop(carpool);
+		hitStop(carpool);
+		
+		
 	}
 	private static void setup()
 	{	
@@ -47,13 +57,15 @@ public class RewarderTester {
 		populateCommute(car);
 		
 		carpool = new Carpool(commute, car);
+		rewardMachine = new RewardMachine(new PointReward(1));
+		
 	}
 	private static void populateCommute(Car localCar)
 	{
 		Address currentAddress;
 		Time currentTime = new Time();
 		
-		for(Member mem : localCar.getInhabitants())
+		for(Member mem : localCar.getPassengers())
 		{
 			currentAddress = mem.getAddress();
 			currentTime = Time.timeAfter(currentTime, (int) (Math.random()*9) + 1);
@@ -61,9 +73,14 @@ public class RewarderTester {
 			
 			commute.addStop(currentStop);
 		}
-		//System.out.println(commute.toString());
+		currentAddress = ParkingGarage.getAddress();
+		System.out.println("Parking garage address : " + ParkingGarage.getAddress());
+		currentTime = Time.timeAfter(currentTime, (int) (Math.random()*9) + 1);
+		Stop destination = new Stop(currentTime, currentAddress);
+		commute.addStop(destination);
+		
+		System.out.println(commute.toString());
 	}
-
 	private static void populateCar() 
 	{
 		int id;
@@ -71,12 +88,11 @@ public class RewarderTester {
 		{
 			id =i+1;
 			Member a = new Member(id, "Member " + id, i == 0 ? true : false,
-					new Address("MemberAddress " + i), new Wallet(), new Garage(), new CommuteSchedule());
-			//System.out.println(a.getName());
+					new Address("Member Address " + id), new Wallet(), new Garage(), new CommuteSchedule());
 			if(i == 0)
 			{
 				car.addDriver(a);
-				
+
 				try 
 				{
 					a.getRegisteredVehicles().addVehicle("Car " + id, new Vehicle(Make.ABARTH, "red", 2015, "v" + i , 5));
@@ -87,8 +103,38 @@ public class RewarderTester {
 			}
 			else
 				car.addPassenger(a);
-			
-			//System.out.println(i);
 		}
+	}
+	
+	private static void hitStop(Carpool carpool)
+	{
+		System.out.println("---------Ontime stop----------");
+		carpool.nextStop();
+		reward(car.getDriver(),carpool.getPickedUp());
+		
+		rewardMachine.reward();
+	}
+	private static void lateStop(Carpool carpool)
+	{
+		System.out.println("----------Late stop----------");
+		carpool.nextStop();
+		deduct(car.getDriver());
+	}
+	private static void deduct(Member driver)
+	{
+		rewardMachine.deduct(driver, new PointReward(1));
+		System.out.println("Deducting " + driver.getName() + " : " + new PointReward(1));
+	}
+	private static void reward(Member driver, ArrayList<Member> inCar)
+	{
+		//System.out.println("Rewarding driver " + driver.getName() + " : " + new PointReward(1).toString());
+		rewardMachine.reward(driver, new PointReward(1));
+		for(Member memb : inCar)
+		{
+			System.out.println("Rewarding " + memb.getName() + " : " + new PointReward(1).toString());
+			rewardMachine.reward(memb, new PointReward(1));
+		}
+		System.out.println("------------------------------");
+		
 	}
 }

@@ -15,9 +15,18 @@ public class PointReward implements RewardType {
 	public PointReward(long points) {
 		this.pointCount = points;
 	}
-
+	@Override
+	public void deduct(Member toReward)
+	{
+		toReward.getWallet().getPoints().removeFromCount(pointCount);
+	}
 	@Override
 	public void reward(Member toReward) {
 		toReward.getWallet().getPoints().addToCount(pointCount);
+	}
+	@Override
+	public String toString()
+	{
+		return ("Point : " + pointCount);
 	}
 }

@@ -11,4 +11,5 @@ public interface RewardType {
 	 * @param toReward member to reward
 	 */
 	void reward(Member toReward);
+	void deduct(Member toDeduct);
 }

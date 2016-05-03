@@ -6,7 +6,8 @@ import dev.se133.project.reward.RewardType;
  * The base class for rewarding mechanisms.
  */
 public abstract class Rewarder {
-	private RewardType rewardType;
+	protected RewardType rewardType;
+	
 	
 	/**
 	 * Constructs a rewarder for a specified reward type.

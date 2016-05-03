@@ -11,7 +11,7 @@ import dev.se133.project.member.garage.Vehicle;
 
 public class ParkingGarage {
 	private static final int NUM_OF_SPOTS = 10;
-	private static Address address;
+	private static Address address = new Address(" Washington Sq, San Jose, CA 95192");
 	private static ParkingSpot[] parkingSpots;
 	private static ArrayList<ParkingSpot> availableSpots;
 	
@@ -20,7 +20,6 @@ public class ParkingGarage {
 	
 	public ParkingGarage()
 	{
-		address = new Address(" Washington Sq, San Jose, CA 95192");
 		availableSpots = new ArrayList<ParkingSpot>();
 		assignedSpots = new HashMap<ParkingSpot, Carpool>();
 		filledSpots = new HashMap<ParkingSpot, Carpool>();
@@ -61,7 +60,7 @@ public class ParkingGarage {
 	/**
 	 * Vehicle occupying @param parkingSpotNumber left the garage.
 	 */
-	private static void remove(int parkingSpotNumber)
+	private static boolean remove(int parkingSpotNumber)
 	{
 		parkingSpots[parkingSpotNumber].remove();
 		if(!availableSpots.contains(parkingSpots[parkingSpotNumber]))
@@ -83,7 +82,7 @@ public class ParkingGarage {
 	
 	private static boolean removeAt(int parkingSpotNumber)
 	{
-		remove(parkingSpotNumber);
+		return remove(parkingSpotNumber);
 	}
 	
 	/**
@@ -96,9 +95,9 @@ public class ParkingGarage {
 	/**
 	 * @return address of parking garage
 	 */
-	public Address getAddress()
+	public static Address getAddress()
 	{
-		return address;
+		return address;//new Address(" Washington Sq, San Jose, CA 95192");
 	}
 	
 	public static boolean requestSpot(Carpool car)

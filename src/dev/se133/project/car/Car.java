@@ -70,7 +70,7 @@ public class Car{
 		listeners.add(inhabitant);
 		for(Member listener : listeners)
 		{
-			if(listener.equals(inhabitant))
+			if(!listener.equals(inhabitant))
 			{
 				listener.memberAdded(inhabitant);
 			}
@@ -104,7 +104,11 @@ public class Car{
 			throw new IllegalArgumentException();
 		
 		this.driver = newDriver;
-		inhabitants.add(newDriver);
+		if(!listeners.contains(newDriver)){
+			inhabitants.add(newDriver);
+			listeners.add(newDriver);
+		}
+		
 		newDriver.driverSet(newDriver);
 		return this.driver;
 	}
