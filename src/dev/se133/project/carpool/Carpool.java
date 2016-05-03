@@ -39,6 +39,8 @@ public class Carpool {
 	 */
 	public void dispatch() {
 		state.dispatch(this);
+		for (CarpoolListener listener : listeners)
+			listener.dispatched(this);
 	}
 	private void notifyDispatch() {
 		for (CarpoolListener listener : listeners)
@@ -132,7 +134,7 @@ public class Carpool {
 		//return this.car.getDriver().getRegisteredVehicles().getDefaultVehicle();
 	}
 	
-	void setState(CarpoolState newState)
+	public void setState(CarpoolState newState)
 	{
 		this.state = newState;
 	}
@@ -150,5 +152,13 @@ public class Carpool {
 	private void notifyHitEnd() {
 		for (CarpoolListener listener : listeners)
 			listener.hitEnd(commute.getCurrent());
+	}
+	
+	@Override
+	public String toString() {
+		String toString = "Car: " + car.toString() + System.lineSeparator() +
+											"Commute: " + commute.toString();
+		
+		return toString;
 	}
 }

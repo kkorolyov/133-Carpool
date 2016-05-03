@@ -85,11 +85,11 @@ public class CommuteSchedule implements Comparable<CommuteSchedule> {
 		preferencesDates.clear();
 	}
 	
-	/** @return	earliest day this schedule has a preference for */
-	public Day getEarliest() {
+	/** @return	earliest time in this schedule */
+	public Time getEarliest() {
 		for (Day day : Day.values()) {
 			if (getPreference(day) != null)
-				return day;
+				return getPreference(day).getTime(CommutePreference.TO_DESTINATION);
 		}
 		return null;
 	}

@@ -23,7 +23,7 @@ public class Car{
 	private final int capacity;
 	private Member driver;	// Reference to one of the inhabitants
 	private Set<Member> inhabitants = new HashSet<>();
-	private List<CarpoolListener> listeners = new LinkedList<>();
+	private List<Member> listeners = new LinkedList<>();
 	
 	/**
 	 * Constructs a car of default capacity.
@@ -67,6 +67,13 @@ public class Car{
 		if ((driver == null) && !(inhabitant.isDriver()) && (getAvailableSeats() <= 1))	// Cannot have a car full of only passengers
 			throw new NoDriverException();
 		
+		addListener(inhabitant);
+		for(Member listener : listeners)
+			if(!listener.equals(inhabitant))
+				listener.memberAdded(inhabitant);
+			
+			
+		
 		return inhabitants.add(inhabitant);
 	}
 	/**
@@ -75,6 +82,10 @@ public class Car{
 	 * @return {@code true} if specified inhabitant removed, {@code false} if no such inhabitant
 	 */
 	public boolean removePassenger(Member inhabitant) {
+		
+		for(Member listener : listeners)
+			if(!listener.equals(inhabitant))
+				listener.memberRemoved(inhabitant);
 		return inhabitants.remove(inhabitant);
 	}
 	
@@ -90,6 +101,7 @@ public class Car{
 		
 		this.driver = newDriver;
 		inhabitants.add(newDriver);
+		newDriver.driverSet(newDriver);
 		return this.driver;
 	}
 	
@@ -170,7 +182,7 @@ public class Car{
 	 * Adds a listener to this car.
 	 * @param listener listener to add
 	 */
-	public void addListener(CarpoolListener listener) {
+	public void addListener(Member listener) {
 		listeners.add(listener);
 	}
 	
@@ -216,5 +228,25 @@ public class Car{
 
 	public Vehicle getVehicle() {
 		return driver.getDefaultVehicle();
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder toStringBuilder = new StringBuilder("Car of capacity " + capacity + ":" + System.lineSeparator());
+		
+		toStringBuilder.append("Driver: " + driver.toString()).append(System.lineSeparator());
+		
+		int numPassengers = getSize() - 1;
+		int passengerCounter = 0;
+		
+		for (Member member : inhabitants) {
+			if (!member.equals(driver)) {
+				toStringBuilder.append("Passenger " + ++passengerCounter + ": " + member.toString());
+				
+				if (passengerCounter < numPassengers)
+					toStringBuilder.append(System.lineSeparator());
+			}
+		}
+		return toStringBuilder.toString();
 	}
 }
