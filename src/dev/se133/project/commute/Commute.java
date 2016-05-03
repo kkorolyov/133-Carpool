@@ -158,6 +158,7 @@ public class Commute implements Comparable<Commute> {
 		int stopCounter = 0;
 		for (Stop stop : stops) {
 			toStringBuilder.append("\tStop " + ++stopCounter + ": " + stop);
+			//System.out.println(stop);
 			
 			if (stopCounter < getNumStops())
 				toStringBuilder.append(System.lineSeparator());

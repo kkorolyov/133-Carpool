@@ -17,7 +17,17 @@ public class CashReward implements RewardType {
 	}
 	
 	@Override
+	public void deduct(Member toReward)
+	{
+		toReward.getWallet().getCash().removeFromCount(cashCount);
+	}
+	@Override
 	public void reward(Member toReward) {
 		toReward.getWallet().getCash().addToCount(cashCount);
+	}
+	@Override
+	public String toString()
+	{
+		return "Cash : " + cashCount;
 	}
 }

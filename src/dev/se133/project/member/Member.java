@@ -22,6 +22,7 @@ public class Member implements Comparable<Member>, CarpoolListener, CarListener 
 	private int id;
 	private String name;
 	private boolean driverStatus;
+	private boolean isPickedUp;
 	private Address homeAddress;
 	private Wallet wallet;
 	private Garage registeredVehicles;
