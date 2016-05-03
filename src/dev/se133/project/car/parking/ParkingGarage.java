@@ -10,13 +10,13 @@ import dev.se133.project.commute.Address;
 import dev.se133.project.member.garage.Vehicle;
 
 public class ParkingGarage {
-	private final int NUM_OF_SPOTS = 10;
-	private Address address;
-	private ParkingSpot[] parkingSpots;
-	private ArrayList<ParkingSpot> availableSpots;
+	private static final int NUM_OF_SPOTS = 10;
+	private static Address address;
+	private static ParkingSpot[] parkingSpots;
+	private static ArrayList<ParkingSpot> availableSpots;
 	
-	private HashMap<ParkingSpot, Carpool> assignedSpots;
-	private HashMap<ParkingSpot, Carpool> filledSpots;
+	private static HashMap<ParkingSpot, Carpool> assignedSpots;
+	private static HashMap<ParkingSpot, Carpool> filledSpots;
 	
 	public ParkingGarage()
 	{
@@ -31,17 +31,18 @@ public class ParkingGarage {
 			availableSpots.add(parkingSpots[i]);
 		}
 	}
+
 	/**
 	 * 
-	 * @param v vehicle to add
+	 * @param Carpool car to add
 	 * @return -1 if parking garage is full
 	 * @return 0 if successful
 	 * @return 1 for unsuccessful add
 	 */
-	public int add(Carpool car)
+	private static boolean add(Carpool car)
 	{
 		if(availableSpots.isEmpty())
-			return -1;
+			return false;
 		if(parkingSpots[availableSpots.get(0).getParkingSpotNumber()].fill(car))
 		{
 			System.out.println("PARKING GARAGE - ADD(VEHICLE) - PARKINGSPOT - FILL - " + availableSpots.get(0).getParkingSpotNumber());
@@ -52,15 +53,15 @@ public class ParkingGarage {
 			System.out.println();
 			assignedSpots.put(availableSpots.get(0), car);
 			availableSpots.remove(0);
-			return 0;
+			return true;
 		}
-		return 1;
+		return false;
 	}
 	
 	/**
 	 * Vehicle occupying @param parkingSpotNumber left the garage.
 	 */
-	public void remove(int parkingSpotNumber)
+	private static void remove(int parkingSpotNumber)
 	{
 		parkingSpots[parkingSpotNumber].remove();
 		if(!availableSpots.contains(parkingSpots[parkingSpotNumber]))
@@ -75,6 +76,34 @@ public class ParkingGarage {
 						return one.getParkingSpotNumber() - (two.getParkingSpotNumber());
 					}
 				});
+		if(!parkingSpots[parkingSpotNumber].isOccupied())
+			return true;
+		return false;
+	}
+	
+	private static boolean removeAt(int parkingSpotNumber)
+	{
+		remove(parkingSpotNumber);
+	}
+	
+	/**
+	 * @return true if full
+	 */
+	private static boolean isFull() {
+		return availableSpots.isEmpty();
+	}
+	
+	/**
+	 * @return address of parking garage
+	 */
+	public Address getAddress()
+	{
+		return address;
+	}
+	
+	public static boolean requestSpot(Carpool car)
+	{
+		return add(car);
 	}
 	
 	@Override
@@ -91,8 +120,4 @@ public class ParkingGarage {
 		return parkingLot;
 		
 	}
-	public boolean isFull() {
-		return availableSpots.isEmpty();
-	}
-
 }

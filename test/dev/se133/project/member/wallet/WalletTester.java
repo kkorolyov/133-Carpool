@@ -16,7 +16,7 @@ import dev.se133.project.member.garage.Vehicle;
 import dev.se133.project.member.garage.YearOutOfBoundsException;
 import dev.se133.project.member.garage.Vehicle.Make;
 import dev.se133.project.member.preferences.CommuteSchedule;
-import dev.se133.project.schedule.SortedCommuteSchedule;
+//import dev.se133.project.schedule.SortedCommuteSchedule;
 
 public class WalletTester {
 	private static final int NUM_STOPS = 10;
@@ -32,7 +32,7 @@ public class WalletTester {
 	private static Car car;
 	private static Carpool carpool;
 	
-	private static SortedCommuteSchedule schedule;
+	//private static SortedCommuteSchedule schedule;
 
 
 
@@ -55,7 +55,7 @@ public class WalletTester {
 		commute = new Commute();
 		populateCommute(car);
 		
-		System.out.println("Car has driver: " + car.hasDriver());
+		//System.out.println("Car has driver: " + car.hasDriver());
 		
 		carpool = new Carpool(commute, car);
 	}

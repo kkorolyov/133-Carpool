@@ -72,4 +72,10 @@ public class ParkingSpot
 			return "_________";
 		return occupiedBy.getVehicle().toString();
 	}
+	/**
+	 * @return true if parking spot is occupied
+	 */
+	public boolean isOccupied() {
+		return occupiedBy != null;
+	}
 }
