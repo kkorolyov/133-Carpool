@@ -104,8 +104,11 @@ public class Car{
 			throw new IllegalArgumentException();
 		
 		this.driver = newDriver;
-		inhabitants.add(newDriver);
-		listeners.add(newDriver);
+		if(!listeners.contains(newDriver)){
+			inhabitants.add(newDriver);
+			listeners.add(newDriver);
+		}
+		
 		newDriver.driverSet(newDriver);
 		return this.driver;
 	}
