@@ -1,8 +1,11 @@
 package dev.se133.project.member.preferences;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import dev.se133.project.commute.Time;
 import dev.se133.project.commute.Time.Day;
 
 /**
@@ -11,6 +14,7 @@ import dev.se133.project.commute.Time.Day;
  */
 public class CommuteSchedule implements Comparable<CommuteSchedule> {
 	private final Map<Day, CommutePreference> preferences = new HashMap<>();
+	private final Map<Time, CommutePreference> preferencesDates = new HashMap<>();
 	
 	/**
 	 * Constructs an empty schedule.
@@ -27,6 +31,14 @@ public class CommuteSchedule implements Comparable<CommuteSchedule> {
 	public CommutePreference getPreference(Day dayOf) {
 		return preferences.get(dayOf);
 	}
+	
+	/**
+	 * returns all of the commute preferences associated with member
+	 * @return
+	 */
+	public Map<Time, CommutePreference> getPreferences() {
+		return preferencesDates;
+	}
 	/**
 	 * Adds a commute preference to this schedule.
 	 * If the day of the new preference coincides with the day of a preference stored prior, that old preference will be overwritten by this new preference.
@@ -34,6 +46,27 @@ public class CommuteSchedule implements Comparable<CommuteSchedule> {
 	 */
 	public void addPreference(CommutePreference toAdd) {
 		preferences.put(toAdd.getDay(), toAdd);
+		preferencesDates.put(new Time(), toAdd);
+	}
+	
+	/**
+	 * Adds a commute preference to this schedule with a specified number of weekly repeats.
+	 * @param toAdd the commute preference to be added
+	 * @param numOfWeeks the number of weeks the commute preference will be repeated
+	 */
+	public void addPreferenceRepeatedWeekly(CommutePreference toAdd, int numOfWeeks) {
+		preferences.put(toAdd.getDay(), toAdd);
+		Time today = new Time();
+		Time nextWeek = Time.timeAfter(today, 604800);
+		preferencesDates.put(today, toAdd);
+		
+		for(int i = 0; i < numOfWeeks; i++) {
+			//System.out.println(today.toString() + " " + nextWeek.toString());
+			preferencesDates.put(nextWeek, toAdd);
+			nextWeek = Time.timeAfter(nextWeek, 604800);
+			
+		}
+		
 	}
 	/**
 	 * Removes the stored commute preference set for the specified day.
@@ -49,6 +82,7 @@ public class CommuteSchedule implements Comparable<CommuteSchedule> {
 	 */
 	public void clear() {
 		preferences.clear();
+		preferencesDates.clear();
 	}
 	
 	/** @return	earliest day this schedule has a preference for */

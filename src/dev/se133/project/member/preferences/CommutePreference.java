@@ -93,4 +93,14 @@ public class CommutePreference {
 		
 		this.atSource = newAtSource;
 	}
+	
+	@Override
+	public String toString() {
+		String toReturn = "";
+		toReturn += "Departure time from source: " + toDestination.toString() + System.lineSeparator();
+		toReturn += "Arrival time at destination: " + atDestination.toString() + System.lineSeparator();
+		toReturn += "Departure time from destination: " + toSource.toString() + System.lineSeparator();
+		toReturn += "Arrival time at source: " + atSource.toString() + System.lineSeparator();
+		return toReturn;
+	}
 }
