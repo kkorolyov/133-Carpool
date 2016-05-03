@@ -182,7 +182,7 @@ public class Member implements Comparable<Member>, CarpoolListener, CarListener 
 	}
 	
 	@Override
-<<<<<<< HEAD
+//<<<<<<< HEAD
 	public void memberAdded(Member added) {
 		System.out.println(added.getName() + " was added to the car.");
 		
@@ -209,12 +209,12 @@ public class Member implements Comparable<Member>, CarpoolListener, CarListener 
 	@Override
 	public void freed(long id) {
 		// don't care
-		
-=======
+	}
+//=======
 	public String toString() {
 		String toString = "ID: " + id + ", Name: " + name + ", Address: " + homeAddress + ", Driver: " + isDriver();
 		
 		return toString;
->>>>>>> origin/master
+//>>>>>>> origin/master
 	}
 }

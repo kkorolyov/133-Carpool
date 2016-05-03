@@ -69,10 +69,10 @@ public class WalletTester {
 			currentAddress = mem.getAddress();
 			currentTime = Time.timeAfter(currentTime, (int) (Math.random()*9) + 1);
 			
-			System.out.println("adding commute stop from member \"" + mem.getName() + "\" " + commute.addStop(new Stop(currentTime, currentAddress)));
+			//System.out.println("adding commute stop from member \"" + mem.getName() + "\" " + commute.addStop(new Stop(currentTime, currentAddress)));
 		}
 		System.out.println(commute.toString());
-		//schedule.scheduleCommute(commute);
+		schedule.scheduleCommute(commute);
 	}
 	private static void populateCommute()
 	{
@@ -85,7 +85,7 @@ public class WalletTester {
 			
 			commute.addStop(new Stop(currentTime, currentAddress));
 		}
-		schedule.scheduleCommute(commute);
+		//schedule.scheduleCommute(commute);
 	}
 	private static void populateCar() 
 	{
