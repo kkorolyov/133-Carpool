@@ -12,11 +12,13 @@ import dev.se133.project.member.garage.Vehicle;
 public class ParkingGarage {
 	private static final int NUM_OF_SPOTS = 10;
 	private static Address address = new Address(" Washington Sq, San Jose, CA 95192");
-	private static ParkingSpot[] parkingSpots;
-	private static ArrayList<ParkingSpot> availableSpots;
+	private static ParkingSpot[] parkingSpots = new ParkingSpot[NUM_OF_SPOTS];
+	private static ArrayList<ParkingSpot> availableSpots = new ArrayList<ParkingSpot>();
 	
-	private static HashMap<ParkingSpot, Carpool> assignedSpots;
-	private static HashMap<ParkingSpot, Carpool> filledSpots;
+	private static HashMap<ParkingSpot, Carpool> assignedSpots = new HashMap<ParkingSpot, Carpool>();
+	private static HashMap<ParkingSpot, Carpool> filledSpots = new HashMap<ParkingSpot, Carpool>();
+	
+	private static int setup = 0;
 	
 	public ParkingGarage()
 	{
@@ -34,14 +36,14 @@ public class ParkingGarage {
 	/**
 	 * 
 	 * @param Carpool car to add
-	 * @return -1 if parking garage is full
-	 * @return 0 if successful
-	 * @return 1 for unsuccessful add
+	 * @return null if parking garage is full
+	 * @return ParkingSpot if successful
+	 * @return null for unsuccessful add
 	 */
-	private static boolean add(Carpool car)
+	private static ParkingSpot add(Carpool car)
 	{
 		if(availableSpots.isEmpty())
-			return false;
+			return null;
 		if(parkingSpots[availableSpots.get(0).getParkingSpotNumber()].fill(car))
 		{
 			System.out.println("PARKING GARAGE - ADD(VEHICLE) - PARKINGSPOT - FILL - " + availableSpots.get(0).getParkingSpotNumber());
@@ -51,10 +53,9 @@ public class ParkingGarage {
 			}
 			System.out.println();
 			assignedSpots.put(availableSpots.get(0), car);
-			availableSpots.remove(0);
-			return true;
+			return availableSpots.remove(0);
 		}
-		return false;
+		return null;
 	}
 	
 	/**
@@ -97,12 +98,31 @@ public class ParkingGarage {
 	 */
 	public static Address getAddress()
 	{
+		if(setup == 0)
+		{
+			for(int i = 0; i < NUM_OF_SPOTS; i++)
+			{
+				parkingSpots[i] = new ParkingSpot(i);
+				availableSpots.add(parkingSpots[i]);
+			}
+			setup++;
+		}
 		return address;//new Address(" Washington Sq, San Jose, CA 95192");
 	}
 	
-	public static boolean requestSpot(Carpool car)
+	public static ParkingSpot requestSpot(Carpool car)
 	{
 		return add(car);
+	}
+	public static boolean park(int parkingSpotNumber, Carpool car)
+	{
+		if(filledSpots.get(parkingSpots[parkingSpotNumber]) == null)
+		{
+			filledSpots.put(parkingSpots[parkingSpotNumber],car);
+			System.out.println("Parked in : " + filledSpots.get(car));
+			return true;
+		}
+		return false;
 	}
 	
 	@Override

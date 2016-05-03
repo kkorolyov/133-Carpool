@@ -33,8 +33,13 @@ public class Carpool {
 	public Carpool(Commute commute, Car car) throws NoDriverException {
 		setCommute(commute);
 		setCar(car);
+		parkingSpot = ParkingGarage.requestSpot(this);
 	}
 	
+	public ParkingSpot getParkingSpot()
+	{
+		return parkingSpot;
+	}
 	/**
 	 * Dispatches this carpool.
 	 * @throws IllegalStateException if this method cannot be performed during this carpool's current state

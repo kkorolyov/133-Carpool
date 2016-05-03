@@ -41,10 +41,15 @@ public class RewarderTester {
 	public static void main(String[] args)
 	{
 		setup();
-		hitStop(carpool);
-		lateStop(carpool);
-		hitStop(carpool);
-		hitStop(carpool);
+		while(carpool.hasNextStop())
+		{
+			if((int) Math.random() * 9 < 5)
+			{
+				hitStop(carpool);
+			}
+			lateHit(carpool);
+		}
+		
 		
 		
 	}
@@ -74,12 +79,12 @@ public class RewarderTester {
 			commute.addStop(currentStop);
 		}
 		currentAddress = ParkingGarage.getAddress();
-		System.out.println("Parking garage address : " + ParkingGarage.getAddress());
+		//System.out.println("Parking garage address : " + ParkingGarage.getAddress());
 		currentTime = Time.timeAfter(currentTime, (int) (Math.random()*9) + 1);
 		Stop destination = new Stop(currentTime, currentAddress);
 		commute.addStop(destination);
 		
-		System.out.println(commute.toString());
+		//System.out.println(commute.toString());
 	}
 	private static void populateCar() 
 	{
@@ -109,16 +114,30 @@ public class RewarderTester {
 	private static void hitStop(Carpool carpool)
 	{
 		System.out.println("---------Ontime stop----------");
-		carpool.nextStop();
-		reward(car.getDriver(),carpool.getPickedUp());
-		
-		rewardMachine.reward();
+		Stop currentStop = carpool.nextStop();
+		if(currentStop.getAddress() != ParkingGarage.getAddress())
+		{
+			carpool.nextStop();
+			reward(car.getDriver(),carpool.getPickedUp());
+
+			rewardMachine.reward();
+		}
+		else
+		{
+			int parkingNumber = (int) Math.random()*9;
+			if(parkingNumber < 9)
+				ParkingGarage.park(carpool.getParkingSpot().getParkingSpotNumber(), carpool);
+			ParkingGarage.park(parkingNumber, carpool);
+			
+		}
+		System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
 	}
-	private static void lateStop(Carpool carpool)
+	private static void lateHit(Carpool carpool)
 	{
 		System.out.println("----------Late stop----------");
 		carpool.nextStop();
 		deduct(car.getDriver());
+		System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
 	}
 	private static void deduct(Member driver)
 	{
@@ -127,14 +146,12 @@ public class RewarderTester {
 	}
 	private static void reward(Member driver, ArrayList<Member> inCar)
 	{
-		//System.out.println("Rewarding driver " + driver.getName() + " : " + new PointReward(1).toString());
 		rewardMachine.reward(driver, new PointReward(1));
 		for(Member memb : inCar)
 		{
 			System.out.println("Rewarding " + memb.getName() + " : " + new PointReward(1).toString());
 			rewardMachine.reward(memb, new PointReward(1));
 		}
-		System.out.println("------------------------------");
-		
 	}
+	
 }
