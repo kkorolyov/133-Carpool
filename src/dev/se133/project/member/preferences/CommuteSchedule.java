@@ -1,7 +1,5 @@
 package dev.se133.project.member.preferences;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,17 +52,12 @@ public class CommuteSchedule implements Comparable<CommuteSchedule> {
 	 * @param toAdd the commute preference to be added
 	 * @param numOfWeeks the number of weeks the commute preference will be repeated
 	 */
-	public void addPreferenceRepeatedWeekly(CommutePreference toAdd, int numOfWeeks) {
-		preferences.put(toAdd.getDay(), toAdd);
-		Time today = new Time();
-		Time nextWeek = Time.timeAfter(today, 604800);
-		preferencesDates.put(today, toAdd);
+	public void addPreferenceRepeated(CommutePreference toAdd, Time time, int numOfWeeks) {
+		Time nextWeek;
 		
 		for(int i = 0; i < numOfWeeks; i++) {
-			//System.out.println(today.toString() + " " + nextWeek.toString());
+			nextWeek = Time.timeAfter(time, i * 604800);
 			preferencesDates.put(nextWeek, toAdd);
-			nextWeek = Time.timeAfter(nextWeek, 604800);
-			
 		}
 		
 	}

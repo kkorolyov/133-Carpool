@@ -1,10 +1,11 @@
 package UC01.UC02;
 
-import java.util.GregorianCalendar;
 import java.util.Map;
 
 import dev.se133.project.commute.Address;
 import dev.se133.project.commute.Time;
+import dev.se133.project.commute.Time.Day;
+import dev.se133.project.commute.Time.Month;
 import dev.se133.project.member.*;
 import dev.se133.project.member.garage.Garage;
 import dev.se133.project.member.garage.Vehicle;
@@ -43,9 +44,30 @@ public class MaintainMemberMemberSchedule {
 		preferredArrivalTime = Time.timeAfter(preferredLeavingTime, 3600);
 		returnLeavingTime = Time.timeAfter(preferredArrivalTime, 3600);
 		returnArrivalTime = Time.timeAfter(returnLeavingTime, 3600);
-		bobSchedule.addPreferenceRepeatedWeekly(new CommutePreference(preferredLeavingTime, preferredArrivalTime, returnLeavingTime, returnArrivalTime), 5);
+		bobSchedule.addPreferenceRepeated(new CommutePreference(preferredLeavingTime, preferredArrivalTime, returnLeavingTime, returnArrivalTime), preferredLeavingTime, 5);
 		
 		Map<Time, CommutePreference> preferences = bobSchedule.getPreferences();
+		for(Time time : preferences.keySet()) {
+			System.out.println(preferences.get(time));//.getTime(CommutePreference.TO_DESTINATION));
+		}
+		
+		bobSchedule.clear();
+		
+		System.out.println("Creating and adding a Monday-Friday schedule, to be repeated weekly, commute for Bob");
+
+		Time mondayTime = new Time(2016, Month.MAY, Day.MONDAY, 8, 0, 0, 9);
+		Time tuesdayTime = Time.timeAfter(mondayTime, 86400);
+		Time wednesdayTime = Time.timeAfter(tuesdayTime, 86400);
+		Time thursdayTime = Time.timeAfter(wednesdayTime, 86400);
+		Time fridayTime = Time.timeAfter(thursdayTime, 86400);
+		preferredArrivalTime = Time.timeAfter(preferredLeavingTime, 3600);
+		returnLeavingTime = Time.timeAfter(preferredArrivalTime, 3600);
+		returnArrivalTime = Time.timeAfter(returnLeavingTime, 3600);
+		bobSchedule.addPreferenceRepeated(new CommutePreference(mondayTime, Time.timeAfter(mondayTime, 3600), Time.timeAfter(mondayTime, 32400), Time.timeAfter(mondayTime, 36000)), mondayTime, 5);
+		bobSchedule.addPreferenceRepeated(new CommutePreference(tuesdayTime, Time.timeAfter(tuesdayTime, 3600), Time.timeAfter(tuesdayTime, 32400), Time.timeAfter(tuesdayTime, 36000)), tuesdayTime, 5);
+		bobSchedule.addPreferenceRepeated(new CommutePreference(wednesdayTime, Time.timeAfter(wednesdayTime, 3600), Time.timeAfter(wednesdayTime, 32400), Time.timeAfter(wednesdayTime, 36000)), wednesdayTime, 5);
+		bobSchedule.addPreferenceRepeated(new CommutePreference(thursdayTime, Time.timeAfter(thursdayTime, 3600), Time.timeAfter(thursdayTime, 32400), Time.timeAfter(thursdayTime, 36000)), thursdayTime, 5);
+		bobSchedule.addPreferenceRepeated(new CommutePreference(fridayTime, Time.timeAfter(fridayTime, 3600), Time.timeAfter(fridayTime, 32400), Time.timeAfter(fridayTime, 36000)), fridayTime, 5);
 		for(Time time : preferences.keySet()) {
 			System.out.println(preferences.get(time));//.getTime(CommutePreference.TO_DESTINATION));
 		}

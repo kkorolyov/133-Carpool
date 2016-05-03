@@ -23,8 +23,9 @@ public class Time implements Comparable<Time> {
 		int initialHour = initialTime.getHour();
 		int initialMinute = initialTime.getMinute();
 		int initialSecond = initialTime.getSecond();
+		int date = initialTime.getDate();
 		
-		Time newTime = new Time(initialYear, initialMonth, initialDay, initialHour, initialMinute, initialSecond);
+		Time newTime = new Time(initialYear, initialMonth, initialDay, initialHour, initialMinute, initialSecond, date);
 		
 		newTime.calendar.add(Calendar.SECOND, secondsAfter);
 		
@@ -46,7 +47,7 @@ public class Time implements Comparable<Time> {
 	 * @param minute minute from 0-59
 	 * @param second second from 0-59
 	 */
-	public Time(int year, Month month, Day day, int hour, int minute, int second) {
+	public Time(int year, Month month, Day day, int hour, int minute, int second, int date) {
 		this();
 		
 		setYear(year);
@@ -55,6 +56,15 @@ public class Time implements Comparable<Time> {
 		setHour(hour);
 		setMinute(minute);
 		setSecond(second);
+		setDate(date);
+	}
+	
+	public void setDate(int date) {
+		calendar.set(Calendar.DATE, date);
+	}
+	
+	public int getDate() {
+		return calendar.get(Calendar.DATE);
 	}
 	
 	/** @return year */
@@ -184,6 +194,7 @@ public class Time implements Comparable<Time> {
 	public String toString() {
 		String toString = String.valueOf(getYear()) + TO_STRING_DELIMETER
 				+ getMonth() + TO_STRING_DELIMETER
+				+ getDate() + TO_STRING_DELIMETER
 				+ getDay() + TO_STRING_DELIMETER
 				+ String.valueOf(getHour())+ TO_STRING_DELIMETER
 				+ String.valueOf(getMinute()) + TO_STRING_DELIMETER
