@@ -150,7 +150,7 @@ public class BasicCarpoolScheduler implements CarpoolScheduler {
 			
 			if (currentStartTime.compareTo(start) >= 0) {	// Only load members within the time range
 				if (members.get(currentStartTime) == null)
-					members.put(currentStartTime, new LinkedList<>());
+					members.put(currentStartTime, new LinkedList<Member>());
 			
 				members.get(currentStartTime).add(member);
 			}

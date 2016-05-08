@@ -5,7 +5,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import dev.se133.project.member.Member;
-import dev.se133.project.schedule.CommuteSchedule;
+import dev.se133.project.member.preferences.CommuteSchedule;
 
 /**
  * Central collection of all know members.
@@ -24,7 +24,7 @@ public class MemberPool {
 		addMember(map, member);
 	}
 	private static void addMember(Map<CommuteSchedule, Member> map, Member member) {
-		map.put(member.getPreferredCommutes(), member);
+		map.put(member.getCommuteTimes(), member);
 	}
 	
 	/** @return copy of all drivers in pool, sorted by commute start time */
