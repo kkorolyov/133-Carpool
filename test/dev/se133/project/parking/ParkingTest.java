@@ -11,7 +11,7 @@ import dev.se133.project.member.garage.Garage;
 import dev.se133.project.member.garage.Vehicle;
 import dev.se133.project.member.garage.Vehicle.Make;
 import dev.se133.project.member.garage.YearOutOfBoundsException;
-import dev.se133.project.member.preferences.CommuteSchedule;
+import dev.se133.project.member.preferences.CommuteScheduleOLD;
 import dev.se133.project.member.wallet.Wallet;
 
 public class ParkingTest {
@@ -73,7 +73,7 @@ public class ParkingTest {
 					id = j*10 + i;
 				
 				Member a = new Member(id, "Member" + id, i == 0 ? true : false,
-						new Address("MemberAddress" + i), new Wallet(), new Garage(), new CommuteSchedule());
+						new Address("MemberAddress" + i), new Wallet(), new Garage(), new CommuteScheduleOLD());
 				if( i == 0)
 				{
 					car.addDriver(a);

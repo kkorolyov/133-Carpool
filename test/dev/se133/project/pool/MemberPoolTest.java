@@ -35,7 +35,7 @@ public class MemberPoolTest {
 		String name = "Member0";
 		Address address = new Address("Address0");
 		
-		CommuteSchedule preferredCommutes = new SortedCommuteSchedule();
+		CommuteScheduleOLD preferredCommutes = new SortedCommuteSchedule();
 		preferredCommutes.scheduleCommute(makeCommute(5));
 		
 		MemberState state = new MemberState.Driver();

@@ -12,7 +12,7 @@ import dev.se133.project.member.garage.Vehicle;
 import dev.se133.project.member.garage.Vehicle.Make;
 import dev.se133.project.member.garage.YearOutOfBoundsException;
 import dev.se133.project.member.preferences.CommutePreference;
-import dev.se133.project.member.preferences.CommuteSchedule;
+import dev.se133.project.member.preferences.CommuteScheduleOLD;
 import dev.se133.project.member.wallet.Wallet;
 
 public class MaintainMemberMemberSchedule {
@@ -22,11 +22,11 @@ public class MaintainMemberMemberSchedule {
 		System.out.println("Creating 20 members including 5 drivers with vehicles.");
 		for(int i = 0; i < 20; i ++) {
 			if(i == 19 || i % 5 == 0) {
-				members[i] = new Member(0, "member " + i, true, new Address("address " + i), new Wallet(), new Garage(), new CommuteSchedule());
+				members[i] = new Member(0, "member " + i, true, new Address("address " + i), new Wallet(), new Garage(), new CommuteScheduleOLD());
 				members[i].getRegisteredVehicles().addVehicle("vehicle " + i, new Vehicle(Make.FORD, "Fiesta", 1998, "1234abcd", 5));
 			}
 			else {
-				members[i] = new Member(0, "member " + i, false, new Address("address " + i), new Wallet(), null, new CommuteSchedule());
+				members[i] = new Member(0, "member " + i, false, new Address("address " + i), new Wallet(), null, new CommuteScheduleOLD());
 				Time mondayTime = new Time(2016, Month.MAY, Day.MONDAY, 8, 0, 0, 9);
 				Time tuesdayTime = Time.timeAfter(mondayTime, 86400);
 				Time wednesdayTime = Time.timeAfter(tuesdayTime, 86400);

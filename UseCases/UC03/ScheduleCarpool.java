@@ -11,7 +11,7 @@ import dev.se133.project.member.garage.Vehicle;
 import dev.se133.project.member.garage.Vehicle.Make;
 import dev.se133.project.member.garage.YearOutOfBoundsException;
 import dev.se133.project.member.preferences.CommutePreference;
-import dev.se133.project.member.preferences.CommuteSchedule;
+import dev.se133.project.member.preferences.CommuteScheduleOLD;
 import dev.se133.project.member.wallet.Wallet;
 import dev.se133.project.schedule.CarpoolSchedule;
 import dev.se133.project.schedule.ScheduleFactory;
@@ -56,7 +56,7 @@ public class ScheduleCarpool {
 			Address currentAddress = new Address("MemberAddress" + i);
 			Wallet currentWallet = new Wallet();
 			Garage currentRegisteredVehicles = buildGarage(currentDriverStatus);
-			CommuteSchedule currentCommuteTimes = buildCommuteTimes();
+			CommuteScheduleOLD currentCommuteTimes = buildCommuteTimes();
 			
 			Member currentMember = new Member(i, "Member" + i, currentDriverStatus, currentAddress, currentWallet, currentRegisteredVehicles, currentCommuteTimes);
 			
@@ -89,8 +89,8 @@ public class ScheduleCarpool {
 		return randomInterval(MIN_CAPACITY, MAX_CAPACITY);
 	}
 	
-	private static CommuteSchedule buildCommuteTimes() {
-		CommuteSchedule schedule = new CommuteSchedule();
+	private static CommuteScheduleOLD buildCommuteTimes() {
+		CommuteScheduleOLD schedule = new CommuteScheduleOLD();
 		Day day = randomDay();
 		
 		Time[] prefTimes = new Time[4];

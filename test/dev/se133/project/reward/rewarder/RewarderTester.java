@@ -16,7 +16,7 @@ import dev.se133.project.member.garage.Garage;
 import dev.se133.project.member.garage.Vehicle;
 import dev.se133.project.member.garage.YearOutOfBoundsException;
 import dev.se133.project.member.garage.Vehicle.Make;
-import dev.se133.project.member.preferences.CommuteSchedule;
+import dev.se133.project.member.preferences.CommuteScheduleOLD;
 import dev.se133.project.member.wallet.Wallet;
 import dev.se133.project.reward.CashReward;
 import dev.se133.project.reward.PointReward;
@@ -93,7 +93,7 @@ public class RewarderTester {
 		{
 			id =i+1;
 			Member a = new Member(id, "Member " + id, i == 0 ? true : false,
-					new Address("Member Address " + id), new Wallet(), new Garage(), new CommuteSchedule());
+					new Address("Member Address " + id), new Wallet(), new Garage(), new CommuteScheduleOLD());
 			if(i == 0)
 			{
 				car.addDriver(a);

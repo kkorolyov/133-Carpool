@@ -1,110 +1,59 @@
 package dev.se133.project.member.preferences;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
+import dev.se133.project.commute.Stop;
 import dev.se133.project.commute.Time;
-import dev.se133.project.commute.Time.Day;
 
 /**
- * Maintains a set of unique {@code CommutePreference} objects for each day of the week.
- * @see CommutePreference
+ * Sorted set of {@code Stop} objects.
  */
-public class CommuteSchedule implements Comparable<CommuteSchedule> {
-	private final Map<Day, CommutePreference> preferences = new HashMap<>();
-	private final Map<Time, CommutePreference> preferencesDates = new HashMap<>();
-	private ArrayList<Time> preferenceTimes = new ArrayList<Time>();
+public class CommuteSchedule {
+	private Set<Stop> schedule = new TreeSet<>();
 	
 	/**
-	 * Constructs an empty schedule.
+	 * Returns all stops between a range of times.
+	 * @param start start of time range
+	 * @param end end of time range
+	 * @return all stops within time range
 	 */
-	public CommuteSchedule() {
-		// No-arg constructor
-	}
-	
-	/**
-	 * Returns the unique commuting preference for a specified day of the week.
-	 * @param dayOf day of preference to retrieve
-	 * @return commute preference for the specified day of the week, or {@code null} if no set preference for that day
-	 */
-	public CommutePreference getPreference(Day dayOf) {
-		return preferences.get(dayOf);
-	}
-	
-	/**
-	 * returns all of the commute preferences associated with member
-	 * @return
-	 */
-	public Map<Time, CommutePreference> getPreferences() {
-		return preferencesDates;
-	}
-	/**
-	 * Adds a commute preference to this schedule.
-	 * If the day of the new preference coincides with the day of a preference stored prior, that old preference will be overwritten by this new preference.
-	 * @param toAdd new preference to add
-	 */
-	public void addPreference(CommutePreference toAdd) {
-		preferences.put(toAdd.getDay(), toAdd);
-		preferenceTimes.add(new Time());
-		preferencesDates.put(preferenceTimes.get(preferenceTimes.size()-1), toAdd);
+	public Set<Stop> getStops(Time start, Time end) {
+		Set<Stop> toReturn = new TreeSet<>();
 		
-	}
-	
-	/**
-	 * Adds a commute preference to this schedule with a specified number of weekly repeats.
-	 * @param toAdd the commute preference to be added
-	 * @param numOfWeeks the number of weeks the commute preference will be repeated
-	 */
-	public void addPreferenceRepeated(CommutePreference toAdd, Time time, int numOfWeeks) {
-		Time nextWeek;
-		
-		for(int i = 0; i < numOfWeeks; i++) {
-			nextWeek = Time.timeAfter(time, i * 604800);
-			preferencesDates.put(nextWeek, toAdd);
-			preferenceTimes.add(nextWeek);
+		for (Stop stop : schedule) {
+			if (isBetween(stop, start, end))
+				toReturn.add(stop);
 		}
-		
+		return toReturn;
 	}
-	/**
-	 * Removes the stored commute preference set for the specified day.
-	 * @param dayOf day of preference to remove
-	 * @return removed preference, or {@code null} if no such preference
-	 */
-	public CommutePreference removePreference(Day dayOf) {
-		return preferences.remove(dayOf);
+	private static boolean isBetween(Stop stop, Time start, Time end) {
+		Time stopTime = stop.getTime();
+		
+		return (stopTime.compareTo(start) >= 0 && stopTime.compareTo(end) <= 0);
 	}
 	
 	/**
-	 * Clears all stored preferences.
+	 * Adds a stop to this schedule.
+	 * @param toAdd stop to add
+	 * @return {@code true} if this schedule did not already contain the specified stop
+	 */
+	public boolean add(Stop toAdd) {
+		return schedule.add(toAdd);
+	}
+	/**
+	 * Removes a stop from this schedule.
+	 * @param toRemove stop to remove
+	 * @return {@code true} if this schedule contained the specified stop
+	 */
+	public boolean remove(Stop toRemove) {
+		return schedule.remove(toRemove);
+	}
+	
+	/**
+	 * Clears this schedule.
 	 */
 	public void clear() {
-		preferences.clear();
-		preferencesDates.clear();
-		preferenceTimes.clear();
-	}
-	
-	/** @return	earliest time in this schedule */
-	public Time getEarliest() {
-		for (Day day : Day.values()) {
-			if (getPreference(day) != null)
-				return getPreference(day).getTime(CommutePreference.TO_DESTINATION);
-		}
-		return null;
-	}
-	
-	public Time getNextTime(Time startTime) {
-		for (int  i = 0; i < preferenceTimes.size(); i++) {
-			if (startTime.equals(preferenceTimes.get(i)))
-				return preferenceTimes.get(i+1);
-		}
-		return null;
-	}
-
-	@Override
-	public int compareTo(CommuteSchedule o) {
-		
-		return 0;
+		schedule.clear();
 	}
 }

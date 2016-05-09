@@ -10,7 +10,7 @@ import dev.se133.project.commute.Address;
 import dev.se133.project.commute.Stop;
 import dev.se133.project.member.garage.Garage;
 import dev.se133.project.member.garage.Vehicle;
-import dev.se133.project.member.preferences.CommuteSchedule;
+import dev.se133.project.member.preferences.CommuteScheduleOLD;
 import dev.se133.project.member.wallet.Wallet;
 
 /**
@@ -26,7 +26,7 @@ public class Member implements Comparable<Member>, CarpoolListener, CarListener 
 	private Address homeAddress;
 	private Wallet wallet;
 	private Garage registeredVehicles;
-	private CommuteSchedule commuteTimes;
+	private CommuteScheduleOLD commuteTimes;
 	private Carpool currentCarpool = null;	// Should not be created with a predefined Carpool
 	private MemberState currentState = new MemberState.Idle();	// Member should not be created during the middle of a trip
 	private List<MemberListener> listeners = new LinkedList<>();
@@ -41,7 +41,7 @@ public class Member implements Comparable<Member>, CarpoolListener, CarListener 
 	 * @param registeredVehicles set of vehicles registered to this member
 	 * @param commuteTimes preferences to use when scheduling this member for carpools
 	 */
-	public Member(int id, String name, boolean driverStatus, Address homeAddress, Wallet wallet, Garage registeredVehicles, CommuteSchedule commuteTimes) {
+	public Member(int id, String name, boolean driverStatus, Address homeAddress, Wallet wallet, Garage registeredVehicles, CommuteScheduleOLD commuteTimes) {
 		setId(id);
 		setName(name);
 		setDriverStatus(driverStatus);
@@ -110,14 +110,14 @@ public class Member implements Comparable<Member>, CarpoolListener, CarListener 
 	}
 
 	/** @return schedule of this member's preferred commuting times */
-	public CommuteSchedule getCommuteTimes() {
+	public CommuteScheduleOLD getCommuteTimes() {
 		return commuteTimes;
 	}
 	/** @param newCommuteTimes new schedule of preferred commuting times to set */
-	public void setCommuteTimes(CommuteSchedule newCommuteTimes) {
+	public void setCommuteTimes(CommuteScheduleOLD newCommuteTimes) {
 		this.commuteTimes = newCommuteTimes;
 	}
-	void setCommuteTimesState(CommuteSchedule newCommuteTimes) {
+	void setCommuteTimesState(CommuteScheduleOLD newCommuteTimes) {
 		this.commuteTimes = newCommuteTimes;
 	}
 	

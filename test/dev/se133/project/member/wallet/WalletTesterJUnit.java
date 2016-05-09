@@ -20,7 +20,7 @@ import dev.se133.project.member.Member;
 import dev.se133.project.member.garage.Vehicle;
 import dev.se133.project.member.garage.YearOutOfBoundsException;
 import dev.se133.project.member.garage.Vehicle.Make;
-import dev.se133.project.member.preferences.CommuteSchedule;
+import dev.se133.project.member.preferences.CommuteScheduleOLD;
 
 public class WalletTesterJUnit {
 	private static final int NUM_STOPS = 10;
@@ -59,7 +59,7 @@ public class WalletTesterJUnit {
 		{
 			id =i+1;
 			Member a = new Member(id, "Member " + id, i == 1 ? true : false,
-					new Address("MemberAddress " + i), new Wallet(), new Garage(), new CommuteSchedule());
+					new Address("MemberAddress " + i), new Wallet(), new Garage(), new CommuteScheduleOLD());
 			if(i == 0)
 			{
 				car.addDriver(a);

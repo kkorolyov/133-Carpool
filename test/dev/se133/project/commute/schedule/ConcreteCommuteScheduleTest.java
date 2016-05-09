@@ -112,7 +112,7 @@ public class ConcreteCommuteScheduleTest {
 		fail("Not yet implemented");
 	}
 
-	private static void populateSchedule(CommuteSchedule schedule) {
+	private static void populateSchedule(CommuteScheduleOLD schedule) {
 		Address depart = new Address("Depart Address"), arrive = new Address("Arrive Address");
 				
 		for (Day day : Day.values()) {
