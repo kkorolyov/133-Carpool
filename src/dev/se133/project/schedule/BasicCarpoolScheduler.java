@@ -40,9 +40,39 @@ public class BasicCarpoolScheduler implements CarpoolScheduler {
 	public CarpoolSchedule schedule() {
 		CarpoolSchedule schedule = new CarpoolSchedule();
 		
+		Time[] sortedTimes = getSortedTimes();
 		
+		for (Time time : sortedTimes) {
+			List<Member> currentMembers = members.get(time);
+			Car currentCar = null;
+			Member currentDriver = null;
+			
+			if ((currentDriver = getDriver(currentMembers)) != null) {	// Current list has at least 1 driver
+				currentCar = new Car(currentDriver.getRegisteredVehicles().getLargestVehicle().getCapacity(), currentDriver);
+				
+				currentMembers.remove(currentDriver);
+			}
+			Set<Member> currentPassengers = extractPassengers(currentMembers);
+		}
 		
 		return schedule;
+	}
+	private static Member getDriver(List<Member> memberList) {		
+		for (Member member : memberList) {
+			if (member.isDriver())
+				return member;
+		}
+		return null;
+	}
+	private static Set<Member> extractPassengers(List<Member> memberList) {
+		Set<Member> passengers = new HashSet<>();
+		
+		for (Member member : memberList) {
+			if (!member.isDriver())
+				passengers.add(member);
+		}
+		
+		return passengers;
 	}
 	private static void scheduleCarpool(CarpoolSchedule schedule, Car newCar, Day day) {
 		Commute newCommute = buildCommute(newCar, day);
