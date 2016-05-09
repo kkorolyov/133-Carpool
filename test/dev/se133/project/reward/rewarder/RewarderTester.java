@@ -3,7 +3,6 @@ package dev.se133.project.reward.rewarder;
 import java.util.ArrayList;
 
 import dev.se133.project.car.Car;
-import dev.se133.project.car.parking.ParkingGarage;
 import dev.se133.project.carpool.Carpool;
 import dev.se133.project.commute.Address;
 import dev.se133.project.commute.Commute;
@@ -18,6 +17,7 @@ import dev.se133.project.member.garage.YearOutOfBoundsException;
 import dev.se133.project.member.garage.Vehicle.Make;
 import dev.se133.project.member.preferences.CommuteScheduleOLD;
 import dev.se133.project.member.wallet.Wallet;
+import dev.se133.project.parking.ParkingGarage;
 import dev.se133.project.reward.CashReward;
 import dev.se133.project.reward.PointReward;
 import dev.se133.project.reward.RewardType;

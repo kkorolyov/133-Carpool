@@ -1,8 +1,8 @@
 package dev.se133.project.carpool;
 
 import dev.se133.project.car.Car;
-import dev.se133.project.car.parking.ParkingSpot;
 import dev.se133.project.commute.Commute;
+import dev.se133.project.parking.ParkingSpot;
 import dev.se133.project.state.State;
 
 public abstract class CarpoolState implements State {

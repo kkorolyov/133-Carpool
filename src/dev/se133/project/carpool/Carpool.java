@@ -6,12 +6,12 @@ import java.util.List;
 
 import dev.se133.project.car.Car;
 import dev.se133.project.car.NoDriverException;
-import dev.se133.project.car.parking.ParkingGarage;
-import dev.se133.project.car.parking.ParkingSpot;
 import dev.se133.project.commute.Commute;
 import dev.se133.project.commute.Stop;
 import dev.se133.project.member.Member;
 import dev.se133.project.member.garage.Vehicle;
+import dev.se133.project.parking.ParkingGarage;
+import dev.se133.project.parking.ParkingSpot;
 
 /**
  * A one-way trip consisting of a commute and a driver and passengers.
@@ -30,7 +30,9 @@ public class Carpool {
 	 * @param car car traveling in this carpool
 	 * @throws NoDriverException is the specified car does not have a driver
 	 */
-	public Carpool(Commute commute, Car car) throws NoDriverException {
+	public 
+	Carpool
+	(Commute commute, Car car) throws NoDriverException {
 		setCommute(commute);
 		setCar(car);
 		parkingSpot = ParkingGarage.requestSpot(this);

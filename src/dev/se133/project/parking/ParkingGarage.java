@@ -1,4 +1,4 @@
-package dev.se133.project.car.parking;
+package dev.se133.project.parking;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,6 +32,16 @@ public class ParkingGarage {
 			availableSpots.add(parkingSpots[i]);
 		}
 	}
+	
+	/**
+	 * calls add upon request
+	 * @param car
+	 * @return
+	 */
+	public static ParkingSpot requestSpot(Carpool car)
+	{
+		return add(car);
+	}
 
 	/**
 	 * 
@@ -46,6 +56,7 @@ public class ParkingGarage {
 			return null;
 		if(parkingSpots[availableSpots.get(0).getParkingSpotNumber()].fill(car))
 		{
+			ParkingSpot toReturn;
 			System.out.println("PARKING GARAGE - ADD(VEHICLE) - PARKINGSPOT - FILL - " + availableSpots.get(0).getParkingSpotNumber());
 			for(int i = 0; i < availableSpots.size(); i++)
 			{
@@ -54,7 +65,11 @@ public class ParkingGarage {
 			System.out.println();
 			assignedSpots.put(availableSpots.get(0), car);
 			availableSpots.get(0).setTime(car);
-			return availableSpots.remove(0);
+			if((toReturn = availableSpots.remove(0)) != null) {
+				toReturn.setTime(car);
+			}
+			
+			return toReturn;
 		}
 		return null;
 	}
@@ -111,10 +126,6 @@ public class ParkingGarage {
 		return address;//new Address(" Washington Sq, San Jose, CA 95192");
 	}
 	
-	public static ParkingSpot requestSpot(Carpool car)
-	{
-		return add(car);
-	}
 	public static boolean park(int parkingSpotNumber, Carpool car)
 	{
 		if(filledSpots.get(parkingSpots[parkingSpotNumber]) == null)

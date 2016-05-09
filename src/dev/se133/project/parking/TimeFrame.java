@@ -1,4 +1,4 @@
-package dev.se133.project.car.parking;
+package dev.se133.project.parking;
 
 import dev.se133.project.commute.Time;
 

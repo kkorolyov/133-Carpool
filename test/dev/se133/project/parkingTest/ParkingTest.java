@@ -1,9 +1,8 @@
-package dev.se133.project.parking;
+package dev.se133.project.parkingTest;
 
 import java.util.ArrayList;
 
 import dev.se133.project.car.Car;
-import dev.se133.project.car.parking.*;
 import dev.se133.project.carpool.Carpool;
 import dev.se133.project.commute.Address;
 import dev.se133.project.member.Member;
@@ -13,6 +12,7 @@ import dev.se133.project.member.garage.Vehicle.Make;
 import dev.se133.project.member.garage.YearOutOfBoundsException;
 import dev.se133.project.member.preferences.CommuteScheduleOLD;
 import dev.se133.project.member.wallet.Wallet;
+import dev.se133.project.parking.*;
 
 public class ParkingTest {
 	
