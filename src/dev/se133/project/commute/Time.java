@@ -190,6 +190,20 @@ public class Time implements Comparable<Time> {
 		return true;
 	}
 	
+	/**
+	 * get the difference in seconds between two times
+	 * @param startTime
+	 * @param endTime
+	 * @return
+	 */
+	public static int getDifference(Time startTime, Time endTime) {
+		int startTimeInSeconds = 0, endTimeInSeconds = 0;
+		startTimeInSeconds = startTime.getHour() * 360 + startTime.getMinute() * 60 + startTime.getSecond();
+		endTimeInSeconds = endTime.getHour() * 360 + endTime.getMinute() * 60 + endTime.getSecond();
+		
+		return endTimeInSeconds - startTimeInSeconds;
+	}
+	
 	@Override
 	public String toString() {
 		String toString = String.valueOf(getYear()) + TO_STRING_DELIMETER

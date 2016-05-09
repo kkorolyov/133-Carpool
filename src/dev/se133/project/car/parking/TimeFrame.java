@@ -7,11 +7,12 @@ public class TimeFrame
 {
 	Time startTime;
 	Time endTime;
-	public TimeFrame(Time time, double durInHours)
+	public TimeFrame(Time startTime, Time endTime)
 	{
-		startTime = time;
-		int durInSeconds = (int) (durInHours*60*60);
-		endTime = time.timeAfter(startTime, durInSeconds);
+		this.startTime = startTime;
+		this.endTime = endTime;
+		int durInSeconds = Time.getDifference(startTime, endTime);
+		endTime = Time.timeAfter(startTime, durInSeconds);
 	}
 	
 	boolean inTime(Time currentTime)

@@ -1,8 +1,9 @@
 package dev.se133.project.car.parking;
 
+
 import dev.se133.project.carpool.Carpool;
 import dev.se133.project.commute.Time;
-import dev.se133.project.member.garage.Vehicle;
+import dev.se133.project.member.*;
 
 public class ParkingSpot 
 {
@@ -17,6 +18,7 @@ public class ParkingSpot
 	{
 		occupiedBy = null;	
 		parkingSpotNumber = psn;
+		
 	}
 	public int getParkingSpotNumber()
 	{
@@ -42,9 +44,12 @@ public class ParkingSpot
 	 * Need to implement notification for when 
 	 * vehicle is parked outside of time frame
 	 */
-	public void setTime(Time time, double duration)
+	public void setTime(Carpool carpool)
 	{
-		timeFrame = new TimeFrame(time, duration);
+		Time startTime = carpool.getCommute().getEnd().getTime();
+		Member driver = carpool.getCar().getDriver();
+		Time endTime = driver.getCommuteTimes().getNextTime(startTime);
+		timeFrame = new TimeFrame(startTime, endTime);
 	}
 
 	/**

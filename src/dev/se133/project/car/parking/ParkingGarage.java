@@ -53,6 +53,7 @@ public class ParkingGarage {
 			}
 			System.out.println();
 			assignedSpots.put(availableSpots.get(0), car);
+			availableSpots.get(0).setTime(car);
 			return availableSpots.remove(0);
 		}
 		return null;

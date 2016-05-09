@@ -1,7 +1,9 @@
 package dev.se133.project.member.preferences;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import dev.se133.project.commute.Time;
 import dev.se133.project.commute.Time.Day;
@@ -13,6 +15,7 @@ import dev.se133.project.commute.Time.Day;
 public class CommuteSchedule implements Comparable<CommuteSchedule> {
 	private final Map<Day, CommutePreference> preferences = new HashMap<>();
 	private final Map<Time, CommutePreference> preferencesDates = new HashMap<>();
+	private ArrayList<Time> preferenceTimes = new ArrayList<Time>();
 	
 	/**
 	 * Constructs an empty schedule.
@@ -44,7 +47,9 @@ public class CommuteSchedule implements Comparable<CommuteSchedule> {
 	 */
 	public void addPreference(CommutePreference toAdd) {
 		preferences.put(toAdd.getDay(), toAdd);
-		preferencesDates.put(new Time(), toAdd);
+		preferenceTimes.add(new Time());
+		preferencesDates.put(preferenceTimes.get(preferenceTimes.size()-1), toAdd);
+		
 	}
 	
 	/**
@@ -58,6 +63,7 @@ public class CommuteSchedule implements Comparable<CommuteSchedule> {
 		for(int i = 0; i < numOfWeeks; i++) {
 			nextWeek = Time.timeAfter(time, i * 604800);
 			preferencesDates.put(nextWeek, toAdd);
+			preferenceTimes.add(nextWeek);
 		}
 		
 	}
@@ -76,6 +82,7 @@ public class CommuteSchedule implements Comparable<CommuteSchedule> {
 	public void clear() {
 		preferences.clear();
 		preferencesDates.clear();
+		preferenceTimes.clear();
 	}
 	
 	/** @return	earliest time in this schedule */
@@ -83,6 +90,14 @@ public class CommuteSchedule implements Comparable<CommuteSchedule> {
 		for (Day day : Day.values()) {
 			if (getPreference(day) != null)
 				return getPreference(day).getTime(CommutePreference.TO_DESTINATION);
+		}
+		return null;
+	}
+	
+	public Time getNextTime(Time startTime) {
+		for (int  i = 0; i < preferenceTimes.size(); i++) {
+			if (startTime.equals(preferenceTimes.get(i)))
+				return preferenceTimes.get(i+1);
 		}
 		return null;
 	}
