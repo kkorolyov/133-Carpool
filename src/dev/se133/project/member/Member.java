@@ -10,7 +10,7 @@ import dev.se133.project.commute.Address;
 import dev.se133.project.commute.Stop;
 import dev.se133.project.member.garage.Garage;
 import dev.se133.project.member.garage.Vehicle;
-import dev.se133.project.member.preferences.CommuteScheduleOLD;
+import dev.se133.project.member.preferences.CommuteSchedule;
 import dev.se133.project.member.wallet.Wallet;
 
 /**
@@ -22,11 +22,10 @@ public class Member implements Comparable<Member>, CarpoolListener, CarListener 
 	private int id;
 	private String name;
 	private boolean driverStatus;
-	private boolean isPickedUp;
 	private Address homeAddress;
 	private Wallet wallet;
 	private Garage registeredVehicles;
-	private CommuteScheduleOLD commuteTimes;
+	private CommuteSchedule commuteTimes;
 	private Carpool currentCarpool = null;	// Should not be created with a predefined Carpool
 	private MemberState currentState = new MemberState.Idle();	// Member should not be created during the middle of a trip
 	private List<MemberListener> listeners = new LinkedList<>();
@@ -41,7 +40,7 @@ public class Member implements Comparable<Member>, CarpoolListener, CarListener 
 	 * @param registeredVehicles set of vehicles registered to this member
 	 * @param commuteTimes preferences to use when scheduling this member for carpools
 	 */
-	public Member(int id, String name, boolean driverStatus, Address homeAddress, Wallet wallet, Garage registeredVehicles, CommuteScheduleOLD commuteTimes) {
+	public Member(int id, String name, boolean driverStatus, Address homeAddress, Wallet wallet, Garage registeredVehicles, CommuteSchedule commuteTimes) {
 		setId(id);
 		setName(name);
 		setDriverStatus(driverStatus);
@@ -110,14 +109,11 @@ public class Member implements Comparable<Member>, CarpoolListener, CarListener 
 	}
 
 	/** @return schedule of this member's preferred commuting times */
-	public CommuteScheduleOLD getCommuteTimes() {
+	public CommuteSchedule getCommuteTimes() {
 		return commuteTimes;
 	}
 	/** @param newCommuteTimes new schedule of preferred commuting times to set */
-	public void setCommuteTimes(CommuteScheduleOLD newCommuteTimes) {
-		this.commuteTimes = newCommuteTimes;
-	}
-	void setCommuteTimesState(CommuteScheduleOLD newCommuteTimes) {
+	public void setCommuteTimes(CommuteSchedule newCommuteTimes) {
 		this.commuteTimes = newCommuteTimes;
 	}
 	
@@ -183,11 +179,6 @@ public class Member implements Comparable<Member>, CarpoolListener, CarListener 
 	}
 	
 	@Override
-	/*
-<<<<<<< HEAD
-=======
->>>>>>> 1fe3c5a20cc910187e870f0dfb588e47ec915040
-*/
 	public void memberAdded(Member added) {
 		System.out.println(this.getName() + ": " + added.getName() + " was added to the car.");
 		
@@ -215,20 +206,10 @@ public class Member implements Comparable<Member>, CarpoolListener, CarListener 
 	public void freed(long id) {
 		// don't care
 	}
-	/*
-<<<<<<< HEAD
-=======
-	
->>>>>>> 1fe3c5a20cc910187e870f0dfb588e47ec915040
-*/
+
 	public String toString() {
 		String toString = "ID: " + id + ", Name: " + name + ", Address: " + homeAddress + ", Driver: " + isDriver();
 		
 		return toString;
-		/*
-<<<<<<< HEAD
-=======
->>>>>>> 1fe3c5a20cc910187e870f0dfb588e47ec915040
-*/
 	}
 }

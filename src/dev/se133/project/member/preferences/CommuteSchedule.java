@@ -3,6 +3,7 @@ package dev.se133.project.member.preferences;
 import java.util.Set;
 import java.util.TreeSet;
 
+import dev.se133.project.commute.Address;
 import dev.se133.project.commute.Stop;
 import dev.se133.project.commute.Time;
 
@@ -19,10 +20,20 @@ public class CommuteSchedule {
 	 * @return all stops within time range
 	 */
 	public Set<Stop> getStops(Time start, Time end) {
+		return getStops(start, end, null);
+	}
+	/**
+	 * Returns all stops between a range of times and at the specified destination address.
+	 * @param start start of time range
+	 * @param end end of time range
+	 * @param destination destination to filter by, if {@code null}, will be ignored
+	 * @return all stops within time range and at specified destination address.
+	 */
+	public Set<Stop> getStops(Time start, Time end, Address destination) {
 		Set<Stop> toReturn = new TreeSet<>();
 		
 		for (Stop stop : schedule) {
-			if (isBetween(stop, start, end))
+			if (isBetween(stop, start, end) && occursAt(stop, destination))
 				toReturn.add(stop);
 		}
 		return toReturn;
@@ -31,6 +42,11 @@ public class CommuteSchedule {
 		Time stopTime = stop.getTime();
 		
 		return (stopTime.compareTo(start) >= 0 && stopTime.compareTo(end) <= 0);
+	}
+	private static boolean occursAt(Stop stop, Address destination) {
+		Address stopAddress = stop.getAddress();
+		
+		return (destination == null || stopAddress.equals(destination));
 	}
 	
 	/**
