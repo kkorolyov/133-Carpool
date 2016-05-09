@@ -11,6 +11,7 @@ import dev.se133.project.commute.Time;
  * Sorted set of {@code Stop} objects.
  */
 public class CommuteSchedule {
+	private final int SECONDS_IN_WEEK = 7 * 24 * 60 * 60;;
 	private Set<Stop> schedule = new TreeSet<>();
 	
 	/**
@@ -49,6 +50,26 @@ public class CommuteSchedule {
 		return (destination == null || stopAddress.equals(destination));
 	}
 	
+	/**
+	 * Adds a weekly-repeated stop.
+	 * @param baseStop first iteration of stop to add
+	 * @param extraWeek number of weeks to repeat stop, if {@code 0} only the base stop is added 
+	 * @return number of new stops added
+	 */
+	public int addWeekly(Stop baseStop, int extraWeek) {
+		int stopsAdded = 1;
+		
+		for (int i = 0; i <= extraWeek; i++) {
+			Time currentTime = Time.timeAfter(baseStop.getTime(), i * SECONDS_IN_WEEK);
+			Address currentAddress = baseStop.getAddress();
+			
+			Stop currentStop = new Stop(currentTime, currentAddress);
+			
+			if(add(currentStop))
+				stopsAdded++;
+		}
+		return stopsAdded;
+	}
 	/**
 	 * Adds a stop to this schedule.
 	 * @param toAdd stop to add
