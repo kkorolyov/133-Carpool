@@ -93,4 +93,19 @@ public class CommuteSchedule {
 	public void clear() {
 		schedule.clear();
 	}
+	
+	/** @return number of stops in this schedule */
+	public int size() {
+		return schedule.size();
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder toStringBuilder = new StringBuilder("CommuteSchedule with " + size() + " Stops" + System.lineSeparator());
+		
+		for (Stop stop : schedule)
+			toStringBuilder.append(stop.toString()).append(System.lineSeparator());
+		
+		return toStringBuilder.toString();
+	}
 }

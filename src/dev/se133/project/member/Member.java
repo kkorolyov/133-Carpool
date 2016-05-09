@@ -114,6 +114,9 @@ public class Member implements Comparable<Member>, CarpoolListener, CarListener 
 	}
 	/** @param newCommuteTimes new schedule of preferred commuting times to set */
 	public void setCommuteTimes(CommuteSchedule newCommuteTimes) {
+		currentState.setCommuteTimes(this, newCommuteTimes);
+	}
+	void setCommuteTimesState(CommuteSchedule newCommuteTimes) {
 		this.commuteTimes = newCommuteTimes;
 	}
 	

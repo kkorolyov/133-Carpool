@@ -1,7 +1,7 @@
 package dev.se133.project.member;
 
 import dev.se133.project.carpool.Carpool;
-import dev.se133.project.member.preferences.CommuteScheduleOLD;
+import dev.se133.project.member.preferences.CommuteSchedule;
 import dev.se133.project.state.State;
 
 /**
@@ -20,7 +20,7 @@ public abstract class MemberState implements State {
 	 * @param newCommuteTimes new commute times to set
 	 * @throws IllegalStateException if this method cannot be handled by the current state
 	 */
-	public void setCommuteTimes(Member context, CommuteScheduleOLD newCommuteTimes) {
+	public void setCommuteTimes(Member context, CommuteSchedule newCommuteTimes) {
 		throw new IllegalStateException("Commute times may not be set in the current state: " + getStateName());
 	}
 	
@@ -28,6 +28,7 @@ public abstract class MemberState implements State {
 	 * Responds in the event of a carpool dispatch.
 	 * @param context member in question
 	 * @param dispatchedCarpool dispatched carpool
+	 * @throws IllegalStateException if this method cannot be handled by the current state
 	 */
 	public void dispatched(Member context, Carpool dispatchedCarpool) {
 		throw new IllegalStateException("Member's carpool should not be dispatched in the current state: " + getStateName());
@@ -60,7 +61,7 @@ public abstract class MemberState implements State {
 		}
 		
 		@Override
-		public void setCommuteTimes(Member context, CommuteScheduleOLD newCommuteTimes) {
+		public void setCommuteTimes(Member context, CommuteSchedule newCommuteTimes) {
 			context.setCommuteTimesState(newCommuteTimes);
 		}
 		
