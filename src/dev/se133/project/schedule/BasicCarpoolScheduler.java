@@ -192,7 +192,7 @@ public class BasicCarpoolScheduler implements CarpoolScheduler {
 			
 			for (Stop stop : stopsInRange) {
 				if (members.get(stop) == null)
-					members.put(stop.getTime(), new LinkedList<>());
+					members.put(stop.getTime(), new LinkedList<Member>());
 				
 				members.get(stop.getTime()).add(member);
 			}

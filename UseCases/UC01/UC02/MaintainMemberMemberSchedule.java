@@ -20,7 +20,7 @@ public class MaintainMemberMemberSchedule {
 		Member[] members = new Member[20];
 		System.out.println("Creating 20 members including 5 drivers with vehicles.");
 		for(int i = 0; i < 20; i ++) {
-			if(i == 19 || i % 5 == 0) {
+			if(i % 4 == 0) {
 				members[i] = new Member(0, "member " + i, true, new Address("address " + i), new Wallet(), new Garage(), new CommuteSchedule());
 				members[i].getRegisteredVehicles().addVehicle("vehicle " + i, new Vehicle(Make.FORD, "Fiesta", 1998, "1234abcd", 5));
 			}
