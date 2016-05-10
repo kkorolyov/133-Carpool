@@ -15,7 +15,7 @@ import dev.se133.project.member.garage.Garage;
 import dev.se133.project.member.garage.Vehicle;
 import dev.se133.project.member.garage.YearOutOfBoundsException;
 import dev.se133.project.member.garage.Vehicle.Make;
-import dev.se133.project.member.preferences.CommuteScheduleOLD;
+import dev.se133.project.member.preferences.CommuteSchedule;
 import dev.se133.project.member.wallet.Wallet;
 import dev.se133.project.parking.ParkingGarage;
 import dev.se133.project.reward.CashReward;
@@ -37,6 +37,8 @@ public class RewarderTester {
 	private static Car car;
 	private static Carpool carpool;
 	private static RewardMachine rewardMachine;
+	private static CarpoolRewarder carReward;
+	private static DriverRewarder driverReward;
 
 	public static void main(String[] args)
 	{
@@ -60,6 +62,7 @@ public class RewarderTester {
 		
 		commute = new Commute();
 		populateCommute(car);
+		System.out.println(commute);
 		
 		carpool = new Carpool(commute, car);
 		rewardMachine = new RewardMachine(new PointReward(1));
@@ -93,7 +96,7 @@ public class RewarderTester {
 		{
 			id =i+1;
 			Member a = new Member(id, "Member " + id, i == 0 ? true : false,
-					new Address("Member Address " + id), new Wallet(), new Garage(), new CommuteScheduleOLD());
+					new Address("Member Address " + id), new Wallet(), new Garage(), new CommuteSchedule());
 			if(i == 0)
 			{
 				car.addDriver(a);
@@ -118,9 +121,8 @@ public class RewarderTester {
 		if(currentStop.getAddress() != ParkingGarage.getAddress())
 		{
 			carpool.nextStop();
-			reward(car.getDriver(),carpool.getPickedUp());
-
-			rewardMachine.reward();
+			rewardCashCarpool(carpool);
+			rewardPointCarpool(carpool);
 		}
 		else
 		{
@@ -136,22 +138,50 @@ public class RewarderTester {
 	{
 		System.out.println("----------Late stop----------");
 		carpool.nextStop();
-		deduct(car.getDriver());
+		deductCashDriver(carpool);
+		deductPointDriver(carpool);
 		System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
 	}
-	private static void deduct(Member driver)
+	
+	private static void rewardPointCarpool(Carpool carpoolToReward)
 	{
-		rewardMachine.deduct(driver, new PointReward(1));
-		System.out.println("Deducting " + driver.getName() + " : " + new PointReward(1));
+		carReward = new CarpoolRewarder(carpoolToReward, new PointReward(1));
+		carReward.reward();
 	}
-	private static void reward(Member driver, ArrayList<Member> inCar)
+	private static void rewardCashCarpool(Carpool carpoolToReward)
 	{
-		rewardMachine.reward(driver, new PointReward(1));
-		for(Member memb : inCar)
-		{
-			System.out.println("Rewarding " + memb.getName() + " : " + new PointReward(1).toString());
-			rewardMachine.reward(memb, new PointReward(1));
-		}
+		carReward = new CarpoolRewarder(carpoolToReward, new CashReward(1));
+		carReward.reward();
+	}
+	private static void rewardPointDriver(Carpool driverToReward)
+	{
+		driverReward = new DriverRewarder(driverToReward, new PointReward(1));
+		driverReward.reward();
+	}
+	private static void rewardCashDriver(Carpool driverToReward)
+	{
+		driverReward = new DriverRewarder(driverToReward, new CashReward(1));
+		driverReward.reward();
+	}
+	private static void deductPointCarpool(Carpool carpoolToReward)
+	{
+		carReward = new CarpoolRewarder(carpoolToReward, new PointReward(-1));
+		carReward.reward();
+	}
+	private static void deductCashCarpool(Carpool carpoolToReward)
+	{
+		carReward = new CarpoolRewarder(carpoolToReward, new PointReward(-1));
+		carReward.reward();
+	}
+	private static void deductPointDriver(Carpool driverToReward)
+	{
+		driverReward = new DriverRewarder(driverToReward, new PointReward(-1));
+		driverReward.reward();
+	}
+	private static void deductCashDriver(Carpool driverToReward)
+	{
+		driverReward = new DriverRewarder(driverToReward, new PointReward(-1));
+		driverReward.reward();
 	}
 	
 }

@@ -16,20 +16,23 @@ public class RewardMachine extends Rewarder
 	public RewardMachine(RewardType rewardType) {
 		super(rewardType);
 	}
+	
 	/**
 	 * Rewards @param memberToReward with @param rewardType
-	 */
+	 */	
 	public void reward(Member memberToReward, RewardType rewardType)
 	{
 		this.rewardType = rewardType;
 		this.memberToReward = memberToReward;
 		reward();
 	}
+	
 	public void deduct(Member memberToReward, RewardType rewardType)
 	{
 		if(memberToReward != null)
 			getRewardType().deduct(memberToReward);
 	}
+	
 	@Override
 	public void reward() 
 	{
