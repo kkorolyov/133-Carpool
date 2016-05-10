@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import dev.se133.project.carpool.CarpoolListener;
 import dev.se133.project.member.Member;
 import dev.se133.project.member.garage.Vehicle;
 
@@ -31,7 +30,15 @@ public class Car{
 	public Car() {
 		this(DEFAULT_CAPACITY);
 	}
-	
+	/**
+	 * Constructs a car using a specified member's vehicle.
+	 * If the member is a driver, they are set as the driver of this car.
+	 * @param driver member to use as driver
+	 */
+	public Car(Member driver) {
+		this(driver.getRegisteredVehicles().getLargestVehicle().getCapacity(), driver);
+		this.vehicle = driver.getRegisteredVehicles().getLargestVehicle();
+	}
 	/**
 	 * Constructs a car of a specified capacity.
 	 * @param capacity maximum number of inhabitants
@@ -234,8 +241,9 @@ public class Car{
 		return true;
 	}
 
+	/** @return the vehicle used by this car */
 	public Vehicle getVehicle() {
-		return driver.getDefaultVehicle();
+		return vehicle;
 	}
 	
 	@Override

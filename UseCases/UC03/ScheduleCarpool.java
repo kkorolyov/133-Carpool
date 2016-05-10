@@ -3,6 +3,7 @@ package UC03;
 import java.util.Random;
 
 import dev.se133.project.commute.Address;
+import dev.se133.project.commute.Stop;
 import dev.se133.project.commute.Time;
 import dev.se133.project.commute.Time.Day;
 import dev.se133.project.member.Member;
@@ -10,8 +11,7 @@ import dev.se133.project.member.garage.Garage;
 import dev.se133.project.member.garage.Vehicle;
 import dev.se133.project.member.garage.Vehicle.Make;
 import dev.se133.project.member.garage.YearOutOfBoundsException;
-import dev.se133.project.member.preferences.CommutePreference;
-import dev.se133.project.member.preferences.CommuteScheduleOLD;
+import dev.se133.project.member.preferences.CommuteSchedule;
 import dev.se133.project.member.wallet.Wallet;
 import dev.se133.project.schedule.CarpoolSchedule;
 import dev.se133.project.schedule.ScheduleFactory;
@@ -19,19 +19,20 @@ import dev.se133.project.schedule.SchedulingPreference;
 
 @SuppressWarnings("javadoc")
 public class ScheduleCarpool {
-	public static double DRIVER_PROBABILITY = .3;
-	public static int YEAR_START = 1980,
-										YEAR_END = 2016;
-	public static int MAX_VIN = 999999999;
-	public static int MIN_CAPACITY = 2,
-										MAX_CAPACITY = 8;
-	public static int MIN_DAY = 1,
-										MAX_DAY = 7;
-	public static Day COMMUTE_DAY = Day.MONDAY;
-	public static Time INITIAL_TIME = new Time();
-	public static int MIN_DELAY = 1 * 60,
-										MAX_DELAY = 10 * 60;
-	public static int DEFAULT_NUM_MEMBERS = 10;
+	public static final Address DESTINATION = new Address("Final DestinationLand");
+	public static final double DRIVER_PROBABILITY = .3;
+	public static final int YEAR_START = 1980,
+													YEAR_END = 2016;
+	public static final int MAX_VIN = 999999999;
+	public static final int MIN_CAPACITY = 2,
+													MAX_CAPACITY = 8;
+	public static final int MIN_DAY = 1,
+													MAX_DAY = 7;
+	public static final Day COMMUTE_DAY = Day.MONDAY;
+	public static final Time INITIAL_TIME = new Time();
+	public static final int MIN_DELAY = 1 * 60,
+													MAX_DELAY = 10 * 60;
+	public static final int DEFAULT_NUM_MEMBERS = 10;
 	
 	public static Random rand = new Random();
 
@@ -44,7 +45,7 @@ public class ScheduleCarpool {
 		SchedulingPreference preferences = null;
 		boolean driverPref = false;
 		
-		CarpoolSchedule schedule = ScheduleFactory.schedule(members, start, end, preferences, driverPref);
+		CarpoolSchedule schedule = ScheduleFactory.schedule(members, start, end, DESTINATION, preferences, driverPref);
 		
 		System.out.println(schedule);
 	}
@@ -56,7 +57,7 @@ public class ScheduleCarpool {
 			Address currentAddress = new Address("MemberAddress" + i);
 			Wallet currentWallet = new Wallet();
 			Garage currentRegisteredVehicles = buildGarage(currentDriverStatus);
-			CommuteScheduleOLD currentCommuteTimes = buildCommuteTimes();
+			CommuteSchedule currentCommuteTimes = buildCommuteTimes();
 			
 			Member currentMember = new Member(i, "Member" + i, currentDriverStatus, currentAddress, currentWallet, currentRegisteredVehicles, currentCommuteTimes);
 			
@@ -89,21 +90,13 @@ public class ScheduleCarpool {
 		return randomInterval(MIN_CAPACITY, MAX_CAPACITY);
 	}
 	
-	private static CommuteScheduleOLD buildCommuteTimes() {
-		CommuteScheduleOLD schedule = new CommuteScheduleOLD();
-		Day day = randomDay();
-		
-		Time[] prefTimes = new Time[4];
-		Time lastTime = INITIAL_TIME;
-		for (int i = 0; i < prefTimes.length; i++) {
-			int randomDelay = randomInterval(MIN_DELAY, MAX_DELAY);
-			lastTime = Time.timeAfter(lastTime, randomDelay);
+	private static CommuteSchedule buildCommuteTimes() {
+		CommuteSchedule schedule = new CommuteSchedule();
 			
-			prefTimes[i] = lastTime;
-		}
-		CommutePreference preference = new CommutePreference(prefTimes[0], prefTimes[1], prefTimes[2], prefTimes[3]);
+		Time time = Time.timeAfter(INITIAL_TIME, randomInterval(1, 10) * 60);
+		Stop stop = new Stop(time, DESTINATION);
 		
-		schedule.addPreference(preference);
+		schedule.add(stop);
 		
 		return schedule;
 	}

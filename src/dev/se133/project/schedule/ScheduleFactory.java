@@ -1,5 +1,6 @@
 package dev.se133.project.schedule;
 
+import dev.se133.project.commute.Address;
 import dev.se133.project.commute.Time;
 import dev.se133.project.member.Member;
 
@@ -17,12 +18,12 @@ public class ScheduleFactory {
 	 * @param driverPref if {@code true} preferences are treated as "driver choose passengers", else, preferences are treated as "passenger choose driver"
 	 * @return appropriate carpool schedule
 	 */
-	public static CarpoolSchedule schedule(Member[] members, Time start, Time end, SchedulingPreference preferences, boolean driverPref) {
-		return selectScheduler(members, start, end, preferences, driverPref).schedule();
+	public static CarpoolSchedule schedule(Member[] members, Time start, Time end, Address destination, SchedulingPreference preferences, boolean driverPref) {
+		return selectScheduler(members, start, end, destination, preferences, driverPref).schedule();
 	}
-	private static CarpoolScheduler selectScheduler(Member[] members, Time start, Time end, SchedulingPreference preferences, boolean driverPref) {
+	private static CarpoolScheduler selectScheduler(Member[] members, Time start, Time end, Address destination, SchedulingPreference preferences, boolean driverPref) {
 		if (preferences == null)
-			return new BasicCarpoolScheduler(members, start, end, preferences);
+			return new BasicCarpoolScheduler(members, start, end, destination, preferences);
 		
 		else if (driverPref)
 				return new DriverPreferenceCarpoolScheduler(members, start, end, preferences);
