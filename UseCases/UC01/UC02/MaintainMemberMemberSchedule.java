@@ -14,7 +14,8 @@ import dev.se133.project.member.preferences.CommuteSchedule;
 import dev.se133.project.member.wallet.Wallet;
 
 public class MaintainMemberMemberSchedule {
-	private static final Address DESTINATION = new Address("SJSU");
+	private static final Address SJSU = new Address("SJSU");
+	private static final Address HOME = new Address("HOME");
 
 	public static void main(String[] args) throws YearOutOfBoundsException {
 		Member[] members = new Member[20];
@@ -31,11 +32,16 @@ public class MaintainMemberMemberSchedule {
 				Time wednesdayTime = Time.timeAfter(tuesdayTime, 86400);
 				Time thursdayTime = Time.timeAfter(wednesdayTime, 86400);
 				Time fridayTime = Time.timeAfter(thursdayTime, 86400);
-				members[i].getCommuteTimes().addWeekly(new Stop(Time.timeAfter(mondayTime, 32400), DESTINATION), 5);
-				members[i].getCommuteTimes().addWeekly(new Stop(Time.timeAfter(tuesdayTime, 32400), DESTINATION), 5);
-				members[i].getCommuteTimes().addWeekly(new Stop(Time.timeAfter(wednesdayTime, 32400), DESTINATION), 5);
-				members[i].getCommuteTimes().addWeekly(new Stop(Time.timeAfter(thursdayTime, 32400), DESTINATION), 5);
-				members[i].getCommuteTimes().addWeekly(new Stop(Time.timeAfter(fridayTime, 32400), DESTINATION), 5);
+				members[i].getCommuteTimes().addWeekly(new Stop(mondayTime, SJSU), 5);
+				members[i].getCommuteTimes().addWeekly(new Stop(Time.timeAfter(mondayTime, 32400), HOME), 5);
+				members[i].getCommuteTimes().addWeekly(new Stop(tuesdayTime, SJSU), 5);
+				members[i].getCommuteTimes().addWeekly(new Stop(Time.timeAfter(tuesdayTime, 32400), HOME), 5);
+				members[i].getCommuteTimes().addWeekly(new Stop(wednesdayTime, SJSU), 5);
+				members[i].getCommuteTimes().addWeekly(new Stop(Time.timeAfter(wednesdayTime, 32400), HOME), 5);
+				members[i].getCommuteTimes().addWeekly(new Stop(thursdayTime, SJSU), 5);
+				members[i].getCommuteTimes().addWeekly(new Stop(Time.timeAfter(thursdayTime, 32400), HOME), 5);
+				members[i].getCommuteTimes().addWeekly(new Stop(fridayTime, SJSU), 5);
+				members[i].getCommuteTimes().addWeekly(new Stop(Time.timeAfter(fridayTime, 32400), HOME), 5);
 			}
 		}
 		for (Member member : members) {			
@@ -52,11 +58,16 @@ public class MaintainMemberMemberSchedule {
 			Time wednesdayTime = Time.timeAfter(tuesdayTime, 86400);
 			Time thursdayTime = Time.timeAfter(wednesdayTime, 86400);
 			Time fridayTime = Time.timeAfter(thursdayTime, 86400);
-			members[i].getCommuteTimes().addWeekly(new Stop(Time.timeAfter(mondayTime, 32400), DESTINATION), 5);
-			members[i].getCommuteTimes().addWeekly(new Stop(Time.timeAfter(tuesdayTime, 32400), DESTINATION), 5);
-			members[i].getCommuteTimes().addWeekly(new Stop(Time.timeAfter(wednesdayTime, 32400), DESTINATION), 5);
-			members[i].getCommuteTimes().addWeekly(new Stop(Time.timeAfter(thursdayTime, 32400), DESTINATION), 5);
-			members[i].getCommuteTimes().addWeekly(new Stop(Time.timeAfter(fridayTime, 32400), DESTINATION), 5);
+			members[i].getCommuteTimes().addWeekly(new Stop(mondayTime, SJSU), 5);
+			members[i].getCommuteTimes().addWeekly(new Stop(Time.timeAfter(mondayTime, 32400), HOME), 5);
+			members[i].getCommuteTimes().addWeekly(new Stop(tuesdayTime, SJSU), 5);
+			members[i].getCommuteTimes().addWeekly(new Stop(Time.timeAfter(tuesdayTime, 32400), HOME), 5);
+			members[i].getCommuteTimes().addWeekly(new Stop(wednesdayTime, SJSU), 5);
+			members[i].getCommuteTimes().addWeekly(new Stop(Time.timeAfter(wednesdayTime, 32400), HOME), 5);
+			members[i].getCommuteTimes().addWeekly(new Stop(thursdayTime, SJSU), 5);
+			members[i].getCommuteTimes().addWeekly(new Stop(Time.timeAfter(thursdayTime, 32400), HOME), 5);
+			members[i].getCommuteTimes().addWeekly(new Stop(fridayTime, SJSU), 5);
+			members[i].getCommuteTimes().addWeekly(new Stop(Time.timeAfter(fridayTime, 32400), HOME), 5);
 		}
 		for (Member member : members) {			
 			System.out.println("Schedule for " + member.getName());
