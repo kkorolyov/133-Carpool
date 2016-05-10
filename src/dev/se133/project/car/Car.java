@@ -248,7 +248,7 @@ public class Car{
 	
 	@Override
 	public String toString() {
-		StringBuilder toStringBuilder = new StringBuilder("Car of capacity " + capacity + ":" + System.lineSeparator());
+		StringBuilder toStringBuilder = new StringBuilder("Car of capacity " + capacity + " with " + getSize() + " inhabitants:" + System.lineSeparator());
 		
 		toStringBuilder.append("Driver: " + driver.toString()).append(System.lineSeparator());
 		

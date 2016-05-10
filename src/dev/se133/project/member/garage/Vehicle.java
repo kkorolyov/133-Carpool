@@ -69,7 +69,7 @@ public class Vehicle {
 	@Override
 	public String toString()
 	{
-		return "Make: " + getMake() + "\nModel: " + getModel() + "\nYear: " + getYear() + "\nVIN: " + getVin();
+		return "Make: " + getMake() + "\nModel: " + getModel() + "\nYear: " + getYear() + "\nVIN: " + getVin() + "\ncapacity: " + getCapacity();
 	}
 	
 	/**
