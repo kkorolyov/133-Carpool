@@ -5,13 +5,13 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import dev.se133.project.member.Member;
-import dev.se133.project.member.preferences.CommuteScheduleOLD;
+import dev.se133.project.member.preferences.CommuteSchedule;
 
 /**
  * Central collection of all know members.
  */
 public class MemberPool {
-	private Map<CommuteScheduleOLD, Member> 	drivers = new TreeMap<>(),	// Members sorted by commute start
+	private Map<CommuteSchedule, Member> 	drivers = new TreeMap<>(),	// Members sorted by commute start
 																				passengers = new TreeMap<>();
 	
 	/**
@@ -19,11 +19,11 @@ public class MemberPool {
 	 * @param member member to add
 	 */
 	public void addMember(Member member) {
-		Map<CommuteScheduleOLD, Member> map = (member.getState() instanceof MemberState.Driver) ? drivers : passengers;	// Get correct map
+		Map<CommuteSchedule, Member> map = (member.getState() instanceof MemberState.Driver) ? drivers : passengers;	// Get correct map
 		
 		addMember(map, member);
 	}
-	private static void addMember(Map<CommuteScheduleOLD, Member> map, Member member) {
+	private static void addMember(Map<CommuteSchedule, Member> map, Member member) {
 		map.put(member.getCommuteTimes(), member);
 	}
 	
@@ -35,7 +35,7 @@ public class MemberPool {
 	public TreeSet<Member> getPassengers() {
 		return getMembers(passengers);
 	}
-	private static TreeSet<Member> getMembers(Map<CommuteScheduleOLD, Member> map) {
+	private static TreeSet<Member> getMembers(Map<CommuteSchedule, Member> map) {
 		return new TreeSet<Member>(map.values());
 	}
 }

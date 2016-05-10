@@ -8,7 +8,6 @@ import dev.se133.project.reward.RewardType;
 public abstract class Rewarder {
 	protected RewardType rewardType;
 	
-	
 	/**
 	 * Constructs a rewarder for a specified reward type.
 	 * @param rewardType type of reward to reward
