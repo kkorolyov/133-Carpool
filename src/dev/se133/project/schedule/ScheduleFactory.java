@@ -26,9 +26,9 @@ public class ScheduleFactory {
 			return new BasicCarpoolScheduler(members, start, end, destination, preferences);
 		
 		else if (driverPref)
-				return new DriverPreferenceCarpoolScheduler(members, start, end, preferences);
+				return new DriverPreferenceCarpoolScheduler(members, start, end, destination, preferences);
 		
 		else
-				return new PassengerPreferenceCarpoolScheduler(members, start, end, preferences);
+				return new PassengerPreferenceCarpoolScheduler(members, start, end, destination, preferences);
 	}
 }
