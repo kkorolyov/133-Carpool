@@ -48,8 +48,6 @@ public class Carpool {
 	 */
 	public void dispatch() {
 		state.dispatch(this);
-		for (CarpoolListener listener : listeners)
-			listener.dispatched(this);
 	}
 	private void notifyDispatch() {
 		for (CarpoolListener listener : listeners)
