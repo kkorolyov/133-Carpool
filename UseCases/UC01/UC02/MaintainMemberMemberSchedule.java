@@ -15,7 +15,6 @@ import dev.se133.project.member.wallet.Wallet;
 
 public class MaintainMemberMemberSchedule {
 	private static final Address SJSU = new Address("SJSU");
-	private static final Address HOME = new Address("HOME");
 
 	public static void main(String[] args) throws YearOutOfBoundsException {
 		Member[] members = new Member[20];
