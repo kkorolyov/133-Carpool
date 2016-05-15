@@ -48,8 +48,11 @@ public class ParkingSpot
 	{
 		Time startTime = carpool.getCommute().getEnd().getTime();
 		Member driver = carpool.getCar().getDriver();
-		Time endTime = driver.getCommuteTimes().getNextTime(startTime);
+		Time endTime = calculateEndTime(startTime);	// Stub
 		timeFrame = new TimeFrame(startTime, endTime);
+	}
+	private static Time calculateEndTime(Time startTime) {
+		return Time.timeAfter(startTime, 60 * 60);
 	}
 
 	/**
