@@ -17,7 +17,7 @@ import dev.se133.project.member.wallet.Wallet;
  * A basis member implementation
  */
 public class Member implements Comparable<Member>, CarpoolListener, CarListener {
-	private static final boolean SILENCE = false;	// TODO Debugging boolean
+	private static final boolean SILENCE = true;	// TODO Debugging boolean
 	
 	private int id;
 	private String name;
@@ -183,19 +183,22 @@ public class Member implements Comparable<Member>, CarpoolListener, CarListener 
 	
 	@Override
 	public void memberAdded(Member added) {
-		System.out.println(this.getName() + ": " + added.getName() + " was added to the car.");
+		if (!SILENCE)
+			System.out.println(this.getName() + ": " + added.getName() + " was added to the car.");
 		
 	}
 
 	@Override
 	public void memberRemoved(Member removed) {
-		System.out.println(removed.getName() + " was added removed from the car.");
+		if (!SILENCE)
+			System.out.println(removed.getName() + " was added removed from the car.");
 		
 	}
 
 	@Override
 	public void driverSet(Member driver) {
-		System.out.println(driver.getName() + " is the driver.");
+		if (!SILENCE)
+			System.out.println(driver.getName() + " is the driver.");
 		
 	}
 

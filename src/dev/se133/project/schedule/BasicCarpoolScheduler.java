@@ -152,8 +152,13 @@ public class BasicCarpoolScheduler implements CarpoolScheduler {
 		Time stopTime = destinationTime;
 		
 		while (memberIterator.hasNext()) {
+			Member nextMember = memberIterator.next();
+			
+			if (nextMember.equals(car.getDriver()))
+				continue;
+			
 			stopTime = Time.timeAfter(stopTime, PRESET_TRAVEL_TIME);
-			Address stopAddress = memberIterator.next().getAddress();
+			Address stopAddress = nextMember.getAddress();
 			
 			commute.addStop(new Stop(stopTime, stopAddress));
 		}

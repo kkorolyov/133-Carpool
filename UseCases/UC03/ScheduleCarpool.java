@@ -20,7 +20,7 @@ import dev.se133.project.schedule.SchedulingPreference;
 @SuppressWarnings("javadoc")
 public class ScheduleCarpool {
 	public static final Address DESTINATION = new Address("Final DestinationLand");
-	public static final double DRIVER_PROBABILITY = .3;
+	public static final double DRIVER_PROBABILITY = .25;
 	public static final int YEAR_START = 1980,
 													YEAR_END = 2016;
 	public static final int MAX_VIN = 999999999;
@@ -32,7 +32,7 @@ public class ScheduleCarpool {
 	public static final Time INITIAL_TIME = new Time();
 	public static final int MIN_DELAY = 1 * 60,
 													MAX_DELAY = 10 * 60;
-	public static final int DEFAULT_NUM_MEMBERS = 10;
+	public static final int DEFAULT_NUM_MEMBERS = 20;
 	
 	public static Random rand = new Random();
 
@@ -47,6 +47,18 @@ public class ScheduleCarpool {
 		
 		CarpoolSchedule schedule = ScheduleFactory.schedule(members, start, end, DESTINATION, preferences, driverPref);
 		
+		System.out.println(	members.length + " members" + System.lineSeparator()
+											+ numDrivers(members) + " drivers" + System.lineSeparator()
+											+ numPassengers(members) + " passengers" + System.lineSeparator());
+		for (Member member : members) {
+			System.out.println((member.isDriver() ? "DRIVER" : "PASSENGER") + ' ' + member.getName());
+
+			if (member.isDriver()) {
+				System.out.println(	"Largest car: " + System.lineSeparator()
+													+ member.getRegisteredVehicles().getLargestVehicle());
+			}
+			System.out.println(member.getCommuteTimes());
+		}
 		System.out.println(schedule);
 	}
 	private static Member[] buildMembers(int numMembers) throws YearOutOfBoundsException {
@@ -108,5 +120,27 @@ public class ScheduleCarpool {
 		int diff = end - start;
 		
 		return rand.nextInt(diff) + start;
+	}
+	
+	private static int numDrivers(Member[] members) {
+		return(num(members, true));
+	}
+	private static int numPassengers(Member[] members) {
+		return(num(members, false));
+	}
+	private static int num(Member[] members, boolean driver) {
+		int num = 0;
+		
+		for (Member member : members) {
+			if (driver) {
+				if (member.isDriver())
+					num++;
+			}
+			else {
+				if (!member.isDriver())
+					num++;
+			}
+		}
+		return num;
 	}
 }
