@@ -17,6 +17,7 @@ import dev.se133.project.member.garage.Vehicle.Make;
 import dev.se133.project.member.garage.YearOutOfBoundsException;
 import dev.se133.project.member.preferences.CommuteSchedule;
 import dev.se133.project.member.wallet.Wallet;
+import dev.se133.project.schedule.CarpoolSchedule;
 import dev.se133.project.schedule.ScheduleFactory;
 import dev.se133.project.schedule.SchedulingPreference;
 
@@ -30,7 +31,8 @@ public class mainProgram {
 	private Time thursdayTime = Time.timeAfter(wednesdayTime, 86400);
 	private Time fridayTime = Time.timeAfter(thursdayTime, 86400);
 	private Time[] weekdays = new Time[5];
-	private Scanner userInput = new Scanner(System.in);;
+	private Scanner userInput = new Scanner(System.in);
+	private CarpoolSchedule schedgy;
 
 	public static void main(String[] args) throws YearOutOfBoundsException {
 		new mainProgram();
@@ -51,7 +53,7 @@ public class mainProgram {
 			if(choice.equals("1")) {
 				System.out.println("Enter name");
 				memberFields[0] = userInput.next();
-				System.out.println("Driver? true/false");
+				System.out.println("Driver? y/n");
 				memberFields[1] = userInput.next();
 				System.out.println("Enter address");
 				memberFields[2] = userInput.next();
@@ -81,14 +83,14 @@ public class mainProgram {
 
 	
 	public void createMember(String[] memberFields) {
-		if(memberFields[1].equals("true"))
+		if(memberFields[1].equals("y"))
 			members.add(new Member(members.size(), memberFields[0], true, new Address(memberFields[2]), new Wallet(), new Garage(), new CommuteSchedule()));
 		else
 			members.add(new Member(members.size(), memberFields[0], false, new Address(memberFields[2]), new Wallet(), new Garage(), new CommuteSchedule()));
 	}
 	
 	public void viewSchedules() {
-		
+		System.out.println(schedgy);
 	}
 	
 	public void login(String userName) throws YearOutOfBoundsException {
@@ -103,6 +105,7 @@ public class mainProgram {
 	public void userMenu(Member member) throws YearOutOfBoundsException {
 		String input;
 		int numWeeks, day, returnHour;
+		//userInput.next();
 		while(true) {
 			System.out.println("Display account info: 1");
 			System.out.println("Display vehicle info: 2");
@@ -150,8 +153,9 @@ public class mainProgram {
 	public void createSchedule() {
 		int numHours;
 		Time rightNow;
+		Member[] memberArray = members.toArray(new Member[1]);
 		System.out.print("choose time frame: between now and any number of hours->");
 		numHours = userInput.nextInt();
-		ScheduleFactory.schedule((Member[]) members.toArray(), rightNow = new Time(), Time.timeAfter(rightNow, 60 * 60 * numHours), sjsu, new SchedulingPreference(), false);
+		schedgy = ScheduleFactory.schedule(memberArray, rightNow = new Time(), Time.timeAfter(rightNow, 60 * 60 * numHours), sjsu, new SchedulingPreference(), false);
 	}
 }
