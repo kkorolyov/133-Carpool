@@ -17,6 +17,8 @@ import dev.se133.project.member.garage.Vehicle.Make;
 import dev.se133.project.member.garage.YearOutOfBoundsException;
 import dev.se133.project.member.preferences.CommuteSchedule;
 import dev.se133.project.member.wallet.Wallet;
+import dev.se133.project.schedule.ScheduleFactory;
+import dev.se133.project.schedule.SchedulingPreference;
 
 public class mainProgram {
 	private final Address sjsu = new Address("SJSU");
@@ -28,12 +30,12 @@ public class mainProgram {
 	private Time thursdayTime = Time.timeAfter(wednesdayTime, 86400);
 	private Time fridayTime = Time.timeAfter(thursdayTime, 86400);
 	private Time[] weekdays = new Time[5];
+	private Scanner userInput = new Scanner(System.in);;
 
 	public static void main(String[] args) throws YearOutOfBoundsException {
 		new mainProgram();
 	}
 	public mainProgram() throws YearOutOfBoundsException {
-		Scanner userInput = new Scanner(System.in);
 		String choice, memberFields[] = new String[20];
 		String userName;
 		weekdays[0] = mondayTime;
@@ -43,10 +45,10 @@ public class mainProgram {
 		weekdays[4] = fridayTime;
 		
 		while(true) {
-			System.out.println("<c>reate a member \n<v>iew schedules \n<l>og in");
+			System.out.println("create a member: 1 \nview schedules: 2 \ncreate schedule: 3\nlog in: 4 \nquit: 0");
 			
 			choice = userInput.next();
-			if(choice.equals("c")) {
+			if(choice.equals("1")) {
 				System.out.println("Enter name");
 				memberFields[0] = userInput.next();
 				System.out.println("Driver? true/false");
@@ -56,14 +58,22 @@ public class mainProgram {
 				createMember(memberFields);
 			}
 				
-			if(choice.equals("v")) {
+			if(choice.equals("2")) {
 				viewSchedules();
 			}
+			
+			if(choice.equals("3")) {
+				createSchedule();
+			}
 					
-			if(choice.equals("l")) {
+			if(choice.equals("4")) {
 				System.out.println("Enter member name");
 				userName = userInput.next();
 				login(userName);
+			}
+			
+			if(choice.equals("0")) {
+				System.exit(1);;
 			}
 		}
 		
@@ -91,7 +101,6 @@ public class mainProgram {
 	}
 	
 	public void userMenu(Member member) throws YearOutOfBoundsException {
-		Scanner userInput = new Scanner(System.in);
 		String input;
 		int numWeeks, day, returnHour;
 		while(true) {
@@ -101,6 +110,8 @@ public class mainProgram {
 			
 			System.out.println("Add vehicle: 4");
 			System.out.println("Add commute: 5");
+			System.out.println("logout: 0");
+			
 			
 			input = userInput.nextLine();
 			if(input.equals("1")) {
@@ -128,8 +139,19 @@ public class mainProgram {
 				member.getCommuteTimes().addWeekly(new Stop(weekdays[day-1], sjsu), numWeeks);
 				member.getCommuteTimes().addWeekly(new Stop(Time.timeAfter(weekdays[day-1], returnHour * 3600), member.getAddress()), numWeeks);
 			}
+			if(input.equals("0")) {
+				return;
+			}
 			
 		}
 		
+	}
+	
+	public void createSchedule() {
+		int numHours;
+		Time rightNow;
+		System.out.print("choose time frame: between now and any number of hours->");
+		numHours = userInput.nextInt();
+		ScheduleFactory.schedule((Member[]) members.toArray(), rightNow = new Time(), Time.timeAfter(rightNow, 60 * 60 * numHours), sjsu, new SchedulingPreference(), false);
 	}
 }
